@@ -4,12 +4,10 @@ import Hero from "./components/Hero.tsx";
 
 function App() {
   return (
-    <>
-      <main>
-        <Header />
-        <Hero />
-      </main>
-    </>
+    <main>
+      <Header />
+      <Hero />
+    </main>
   );
 }
 
