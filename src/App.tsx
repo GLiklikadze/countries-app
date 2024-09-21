@@ -5,8 +5,8 @@ import Hero from "./components/Hero.tsx";
 function App() {
   return (
     <>
-      <Header />
       <main>
+        <Header />
         <Hero />
       </main>
     </>
