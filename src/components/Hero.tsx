@@ -1,6 +1,17 @@
 import trainIMG from "../assets/train-bridge.jpg";
 import countryData from "../data/country-data.tsx";
 
+interface CountryInterface {
+  id: number;
+  countryName: string;
+  flagURL: string;
+  population: number;
+  capitalCity: string;
+  area: string;
+  topAttractions: string[];
+  currency: string;
+}
+
 function Hero() {
   return (
     <section className="hero-section">
@@ -20,7 +31,7 @@ function Hero() {
       </div>
 
       <div className="country-info">
-        {countryData.map((country) => (
+        {countryData.map((country: CountryInterface) => (
           <div className="card" key={country.id}>
             <h1>{country.countryName}</h1>
             <img src={country.flagURL} alt={`${country.countryName}-flag`} />

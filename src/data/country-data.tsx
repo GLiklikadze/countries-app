@@ -9,7 +9,7 @@ const countryData = [
     area: "41,290", // in square kilometers
     currency: "Swiss Franc",
     timezone: "Central European Time (CET)",
-    topAttractions: ["The Matterhorn", "Lake Geneva"],
+    topAttractions: ["Matterhorn", "Lake Geneva"],
   },
   {
     id: 2,

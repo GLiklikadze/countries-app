@@ -97,7 +97,7 @@
 }
 .country-info {
   position: absolute;
-  top: 250px;
+  top: 280px;
   left: 50px;
   display: flex;
   flex-direction: row;
