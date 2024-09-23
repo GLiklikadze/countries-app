@@ -12,3 +12,17 @@ export interface CountryInterface {
 export interface CardProps {
   country: CountryInterface;
 }
+
+export interface CardHeaderProps {
+  countryName: string;
+  flagURL: string;
+}
+export interface CardContentProps {
+  population: number;
+  capitalCity: string;
+  area: string;
+}
+export interface CardFooterProps {
+  topAttractions: string[];
+  currency: string;
+}

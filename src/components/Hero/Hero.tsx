@@ -1,18 +1,19 @@
-import trainIMG from "../assets/train-bridge.jpg";
-import countryData from "../data/country-data.tsx";
-import Card from "./Card.tsx";
-import { CountryInterface } from "../types/types.ts";
+import trainIMG from "../../assets/train-bridge.jpg";
+import countryData from "../../data/country-data.tsx";
+import Card from "../Card/Card.tsx";
+import { CountryInterface } from "../../types/types.ts";
+import styles from "./Hero.module.css";
 
 function Hero() {
   return (
-    <section className="hero-section">
+    <section className={styles.hero_section}>
       <img
         src={trainIMG}
-        className="hero-background-img"
+        className={styles.hero_background_img}
         alt="swiss-train-bridge"
       />
-      <div className="hero-section-info">
-        <h2 className="hero-section-heading">
+      <div className={styles.hero_section_info}>
+        <h2 className={styles.hero_section_heading}>
           Discover the World’s Hidden Gems
         </h2>
         <p>
@@ -21,7 +22,7 @@ function Hero() {
         </p>
       </div>
 
-      <div className="country-info">
+      <div className={styles.country_info}>
         {countryData.map((country: CountryInterface) => (
           <Card country={country} key={country.id} />
         ))}

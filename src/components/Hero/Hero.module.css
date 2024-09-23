@@ -1,0 +1,34 @@
+.hero_section {
+  height: 90vh;
+  position: absolute;
+  width: 100%;
+}
+.hero_section_info {
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  font-family: "Exo 2", sans-serif;
+}
+.hero_section_info h2 {
+  font-size: 36px;
+  font-weight: 500;
+}
+.hero_section_info p {
+  margin-top: 70px;
+}
+.hero_background_img {
+  position: relative;
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+.country_info {
+  position: absolute;
+  top: 280px;
+  left: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  flex-wrap: wrap;
+  font-family: "Exo 2", sans-serif;
+}
