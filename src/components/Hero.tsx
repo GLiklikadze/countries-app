@@ -1,16 +1,7 @@
 import trainIMG from "../assets/train-bridge.jpg";
 import countryData from "../data/country-data.tsx";
-
-interface CountryInterface {
-  id: number;
-  countryName: string;
-  flagURL: string;
-  population: number;
-  capitalCity: string;
-  area: string;
-  topAttractions: string[];
-  currency: string;
-}
+import Card from "./Card.tsx";
+import { CountryInterface } from "../types/types.ts";
 
 function Hero() {
   return (
@@ -32,20 +23,7 @@ function Hero() {
 
       <div className="country-info">
         {countryData.map((country: CountryInterface) => (
-          <div className="card" key={country.id}>
-            <h1>{country.countryName}</h1>
-            <img src={country.flagURL} alt={`${country.countryName}-flag`} />
-            <p>Population: {country.population}</p>
-            <p>Capital City: {country.capitalCity}</p>
-            <p>Area: {country.area} km²</p>
-            <p>
-              Top Attractions:&nbsp;
-              {country.topAttractions.map((item, id) => (
-                <span key={id}>{`${item},`}</span>
-              ))}
-            </p>
-            <p>Currency: {country.currency}</p>
-          </div>
+          <Card country={country} key={country.id} />
         ))}
       </div>
     </section>
