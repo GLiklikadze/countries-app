@@ -1,7 +1,7 @@
 import europeLogo from "../../assets/euro-logo-2.png";
 import styles from "./Header.module.css";
 
-function Header() {
+const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.header_title_container}>
@@ -22,6 +22,6 @@ function Header() {
       </nav>
     </header>
   );
-}
+};
 
 export default Header;

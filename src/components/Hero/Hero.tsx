@@ -4,7 +4,7 @@ import Card from "../Card/Card.tsx";
 import { CountryInterface } from "../../types/types.ts";
 import styles from "./Hero.module.css";
 
-function Hero() {
+const Hero: React.FC = () => {
   return (
     <section className={styles.hero_section}>
       <img
@@ -29,6 +29,6 @@ function Hero() {
       </div>
     </section>
   );
-}
+};
 
 export default Hero;
