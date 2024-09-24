@@ -4,14 +4,17 @@ const CardFooter: React.FC<CardFooterProps> = ({
   topAttractions,
   currency,
 }) => {
+  const topAttractionsList = (
+    <p>
+      Top Attractions:&nbsp;
+      {topAttractions.map((item, id) => (
+        <span key={id}>{`${item},`}</span>
+      ))}
+    </p>
+  );
   return (
     <>
-      <p>
-        Top Attractions:&nbsp;
-        {topAttractions.map((item, id) => (
-          <span key={id}>{`${item},`}</span>
-        ))}
-      </p>
+      {topAttractionsList}
       <p>Currency: {currency}</p>
     </>
   );

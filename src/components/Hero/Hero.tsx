@@ -5,6 +5,13 @@ import { CountryInterface } from "../../types/types.ts";
 import styles from "./Hero.module.css";
 
 const Hero: React.FC = () => {
+  const cardList = (
+    <>
+      {countryData.map((country: CountryInterface) => (
+        <Card country={country} key={country.id} />
+      ))}
+    </>
+  );
   return (
     <section className={styles.hero_section}>
       <img
@@ -21,12 +28,7 @@ const Hero: React.FC = () => {
           experiences. Your next adventure starts here.
         </p>
       </div>
-
-      <div className={styles.country_info}>
-        {countryData.map((country: CountryInterface) => (
-          <Card country={country} key={country.id} />
-        ))}
-      </div>
+      <div className={styles.country_info}>{cardList}</div>
     </section>
   );
 };
