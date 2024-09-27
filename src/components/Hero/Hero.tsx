@@ -1,17 +1,8 @@
 import trainIMG from "../../assets/train-bridge.jpg";
-import countryData from "../../data/country-data.tsx";
-import Card from "../Card/Card.tsx";
-import { CountryInterface } from "../../types/types.ts";
 import styles from "./Hero.module.css";
+import { PropsWithChildren } from "react";
 
-const Hero: React.FC = () => {
-  const cardList = (
-    <>
-      {countryData.map((country: CountryInterface) => (
-        <Card country={country} key={country.id} />
-      ))}
-    </>
-  );
+const Hero: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <section className={styles.hero_section}>
       <img
@@ -28,7 +19,7 @@ const Hero: React.FC = () => {
           experiences. Your next adventure starts here.
         </p>
       </div>
-      <div className={styles.country_info}>{cardList}</div>
+      <div className={styles.country_info}>{children}</div>
     </section>
   );
 };
