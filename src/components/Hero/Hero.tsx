@@ -1,5 +1,5 @@
-import trainIMG from "../../assets/train-bridge.jpg";
-import styles from "./Hero.module.css";
+import trainIMG from "@/assets/train-bridge.jpg";
+import styles from "@/components/Hero/Hero.module.css";
 import { PropsWithChildren } from "react";
 
 const Hero: React.FC<PropsWithChildren> = ({ children }) => {

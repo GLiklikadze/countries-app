@@ -1,5 +1,5 @@
-import { CardHeaderProps } from "../../types/types";
-import styles from "./CardHeader.module.css";
+import { CardHeaderProps } from "@/types/types";
+import styles from "@/components/CardHeader/CardHeader.module.css";
 
 const CardHeader: React.FC<CardHeaderProps> = ({ countryName, flagURL }) => {
   return (

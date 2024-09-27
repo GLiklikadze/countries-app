@@ -1,12 +1,12 @@
-import "./App.css";
-import Card from "./components/Card/Card.tsx";
-import CardContent from "./components/CardContent/CardContent.tsx";
-import CardFooter from "./components/CardFooter/CardFooter.tsx";
-import CardHeader from "./components/CardHeader/CardHeader.tsx";
-import CardList from "./components/CardList/CardList.tsx";
-import Hero from "./components/Hero/Hero.tsx";
-import Layout from "./components/Layout/Layout.tsx";
-import countryData from "./data/country-data.tsx";
+import "@/App.css";
+import { Card } from "@/components/Card";
+import CardContent from "@/components/CardContent/CardContent.tsx";
+import CardFooter from "@/components/CardFooter/CardFooter";
+import CardHeader from "@/components/CardHeader/CardHeader.tsx";
+import CardList from "@/components/CardList/CardList.tsx";
+import Hero from "@/components/Hero/Hero.tsx";
+import Layout from "@/components/Layout/Layout.tsx";
+import countryData from "@/data/country-data.tsx";
 
 function App() {
   return (
