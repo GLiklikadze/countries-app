@@ -1,4 +1,4 @@
-import { CardContentProps } from "../../types/types";
+import { CardContentProps } from "@/types/types";
 
 const CardContent: React.FC<CardContentProps> = ({
   population,

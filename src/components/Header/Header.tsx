@@ -1,5 +1,5 @@
-import europeLogo from "../../assets/euro-logo-2.png";
-import styles from "./Header.module.css";
+import europeLogo from "@/assets/euro-logo-2.png";
+import styles from "@/components/Header/Header.module.css";
 
 const Header: React.FC = () => {
   return (

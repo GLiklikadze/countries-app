@@ -1,4 +1,4 @@
-import { CardFooterProps } from "../../types/types";
+import { CardFooterProps } from "@/types/types";
 
 const CardFooter: React.FC<CardFooterProps> = ({
   topAttractions,
