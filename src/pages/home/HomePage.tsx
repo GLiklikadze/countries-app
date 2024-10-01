@@ -1,35 +1,40 @@
 import countryData from "@/data/country-data";
-import { Card } from "./components/Card";
-import CardHeader from "./components/CardHeader/CardHeader";
-import CardContent from "./components/CardContent/CardContent";
-import CardFooter from "./components/CardFooter/CardFooter";
-import CardList from "./components/CardList/CardList";
-import Hero from "./components/Hero/Hero";
+import { lazy } from "react";
+
+const LazyCard = lazy(() => import("./components/Card/Card"));
+const LazyCardHeader = lazy(() => import("./components/CardHeader/CardHeader"));
+const LazyCardContent = lazy(
+  () => import("./components/CardContent/CardContent")
+);
+const LazyCardFooter = lazy(() => import("./components/CardFooter/CardFooter"));
+
+const LazyCardList = lazy(() => import("./components/CardList/CardList"));
+const LazyHero = lazy(() => import("./components/Hero/Hero"));
 
 const HomePage = () => {
   return (
     <>
-      <Hero>
-        <CardList>
+      <LazyHero>
+        <LazyCardList>
           {countryData.map((country) => (
-            <Card key={country.id}>
-              <CardHeader
+            <LazyCard key={country.id}>
+              <LazyCardHeader
                 countryName={country.countryName}
                 flagURL={country.flagURL}
               />
-              <CardContent
+              <LazyCardContent
                 population={country.population}
                 capitalCity={country.capitalCity}
                 area={country.area}
               />
-              <CardFooter
+              <LazyCardFooter
                 topAttractions={country.topAttractions}
                 currency={country.currency}
               />
-            </Card>
+            </LazyCard>
           ))}
-        </CardList>
-      </Hero>
+        </LazyCardList>
+      </LazyHero>
     </>
   );
 };
