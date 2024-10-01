@@ -22,13 +22,3 @@
   object-fit: cover;
   opacity: 0.5;
 }
-.country_info {
-  position: absolute;
-  top: 280px;
-  left: 50px;
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  flex-wrap: wrap;
-  font-family: "Exo 2", sans-serif;
-}

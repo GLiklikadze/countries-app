@@ -1,5 +1,5 @@
 import trainIMG from "@/assets/train-bridge.jpg";
-import styles from "@/components/Hero/Hero.module.css";
+import styles from "./Hero.module.css";
 import { PropsWithChildren } from "react";
 
 const Hero: React.FC<PropsWithChildren> = ({ children }) => {
@@ -19,7 +19,7 @@ const Hero: React.FC<PropsWithChildren> = ({ children }) => {
           experiences. Your next adventure starts here.
         </p>
       </div>
-      <div className={styles.country_info}>{children}</div>
+      {children}
     </section>
   );
 };
