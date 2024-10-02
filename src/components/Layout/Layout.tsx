@@ -1,11 +1,14 @@
-import { PropsWithChildren } from "react";
 import Header from "@/components/Header/Header";
+import { Outlet } from "react-router-dom";
+import PageContainer from "../page-container/PageContainer";
 
-const Layout: React.FC<PropsWithChildren> = ({ children }) => {
+const Layout: React.FC = () => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <PageContainer>
+        <Outlet />
+      </PageContainer>
     </>
   );
 };

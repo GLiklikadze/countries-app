@@ -1,40 +1,35 @@
 import "@/App.css";
-import { Card } from "@/components/Card";
-import CardContent from "@/components/CardContent/CardContent.tsx";
-import CardFooter from "@/components/CardFooter/CardFooter";
-import CardHeader from "@/components/CardHeader/CardHeader.tsx";
-import CardList from "@/components/CardList/CardList.tsx";
-import Hero from "@/components/Hero/Hero.tsx";
+import HomePage from "./pages/home/HomePage";
 import Layout from "@/components/Layout/Layout.tsx";
-import countryData from "@/data/country-data.tsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import About from "./pages/about/About";
+import ErrorPage from "./pages/error/ErrorPage";
+import Planning from "./pages/planning/Planning";
+import Experience from "./pages/experience/Experience";
+import Destinations from "./pages/destinations/Destinations";
+import { Suspense } from "react";
 
 function App() {
   return (
-    <>
-      <Layout>
-        <Hero>
-          <CardList>
-            {countryData.map((country) => (
-              <Card key={country.id}>
-                <CardHeader
-                  countryName={country.countryName}
-                  flagURL={country.flagURL}
-                />
-                <CardContent
-                  population={country.population}
-                  capitalCity={country.capitalCity}
-                  area={country.area}
-                />
-                <CardFooter
-                  topAttractions={country.topAttractions}
-                  currency={country.currency}
-                />
-              </Card>
-            ))}
-          </CardList>
-        </Hero>
-      </Layout>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<div>fallback component</div>}>
+                <HomePage />
+              </Suspense>
+            }
+          />
+          <Route path="destinations" element={<Destinations />} />
+          <Route path="experiences" element={<Experience />} />
+          <Route path="planning" element={<Planning />} />
+          <Route path="about" element={<About />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
