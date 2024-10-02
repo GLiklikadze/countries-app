@@ -7,13 +7,21 @@ import ErrorPage from "./pages/error/ErrorPage";
 import Planning from "./pages/planning/Planning";
 import Experience from "./pages/experience/Experience";
 import Destinations from "./pages/destinations/Destinations";
+import { Suspense } from "react";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<div>fallback component</div>}>
+                <HomePage />
+              </Suspense>
+            }
+          />
           <Route path="destinations" element={<Destinations />} />
           <Route path="experiences" element={<Experience />} />
           <Route path="planning" element={<Planning />} />
