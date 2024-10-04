@@ -1,13 +1,14 @@
 import "@/App.css";
-import HomePage from "./pages/home/HomePage";
 import Layout from "@/components/Layout/Layout.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/about/About";
 import ErrorPage from "./pages/error/ErrorPage";
-import Planning from "./pages/planning/Planning";
 import Experience from "./pages/experience/Experience";
 import Destinations from "./pages/destinations/Destinations";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
+
+const LazyHomePage = lazy(() => import("./pages/home/HomePage"));
+const LazyContactPage = lazy(() => import("./pages/contact/Contact"));
 
 function App() {
   return (
@@ -17,14 +18,21 @@ function App() {
           <Route
             path="/"
             element={
-              <Suspense fallback={<div>fallback component</div>}>
-                <HomePage />
+              <Suspense fallback={<div>Loading</div>}>
+                <LazyHomePage />
               </Suspense>
             }
           />
           <Route path="destinations" element={<Destinations />} />
           <Route path="experiences" element={<Experience />} />
-          <Route path="planning" element={<Planning />} />
+          <Route
+            path="contact"
+            element={
+              <Suspense fallback={<div>Loading ...</div>}>
+                <LazyContactPage />
+              </Suspense>
+            }
+          />
           <Route path="about" element={<About />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
