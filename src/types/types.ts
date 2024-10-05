@@ -7,9 +7,10 @@ export interface CountryInterface {
   area: string;
   topAttractions: string[];
   currency: string;
+  imgUrl: string[];
 }
 
-export interface CardProps {
+export interface CountryArray {
   country: CountryInterface;
 }
 

@@ -4,10 +4,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/about/About";
 import ErrorPage from "./pages/error/ErrorPage";
 import Experience from "./pages/experience/Experience";
-import Destinations from "./pages/destinations/Destinations";
+import Hero from "./components/Hero/Hero";
 import { lazy, Suspense } from "react";
+import CountryDetailsPage from "./pages/destinations/views/country-details/CountryDetailsPage";
 
-const LazyHomePage = lazy(() => import("./pages/home/HomePage"));
+const LazyDestinationsPage = lazy(
+  () => import("./pages/destinations/DestinationsPage")
+);
 const LazyContactPage = lazy(() => import("./pages/contact/Contact"));
 
 function App() {
@@ -15,15 +18,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
+          <Route path="/" element={<Hero />} />
           <Route
-            path="/"
+            path="destinations"
             element={
               <Suspense fallback={<div>Loading</div>}>
-                <LazyHomePage />
+                <LazyDestinationsPage />
               </Suspense>
             }
           />
-          <Route path="destinations" element={<Destinations />} />
+          <Route path="destinations/:id" element={<CountryDetailsPage />} />
           <Route path="experiences" element={<Experience />} />
           <Route
             path="contact"

@@ -1,16 +1,18 @@
 import styles from "./Contact.module.css";
 
 const Contact: React.FC = () => {
-  const handleContactSubmit = (event) => {
+  const handleContactSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+
     const formData = {
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
-      email: event.target.email.value,
-      message: event.target.message.value,
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      message: form.message.value,
     };
     console.log(formData);
-    event.target.reset();
+    form.reset();
   };
   return (
     <main className={styles["contact_page_container"]}>
