@@ -4,7 +4,7 @@ import CardHeader from "../../components/CardHeader/CardHeader";
 import CardContent from "../../components/CardContent/CardContent";
 import CardFooter from "../../components/CardFooter/CardFooter";
 import { CountryInterface } from "@/types/types";
-import styles from "./CountruDetailsPage.module.css";
+import styles from "./CountryDetailsPage.module.css";
 import PhotoGallery from "./components/PhotoGallery";
 
 const CountryDetailsPage = () => {
