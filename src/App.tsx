@@ -1,30 +1,42 @@
 import "@/App.css";
-import HomePage from "./pages/home/HomePage";
 import Layout from "@/components/Layout/Layout.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/about/About";
 import ErrorPage from "./pages/error/ErrorPage";
-import Planning from "./pages/planning/Planning";
 import Experience from "./pages/experience/Experience";
-import Destinations from "./pages/destinations/Destinations";
-import { Suspense } from "react";
+import Hero from "./components/Hero/Hero";
+import { lazy, Suspense } from "react";
+import CountryDetailsPage from "./pages/destinations/views/country-details/CountryDetailsPage";
+
+const LazyDestinationsPage = lazy(
+  () => import("./pages/destinations/DestinationsPage")
+);
+const LazyContactPage = lazy(() => import("./pages/contact/Contact"));
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
+          <Route path="/" element={<Hero />} />
           <Route
-            path="/"
+            path="destinations"
             element={
-              <Suspense fallback={<div>fallback component</div>}>
-                <HomePage />
+              <Suspense fallback={<div>Loading</div>}>
+                <LazyDestinationsPage />
               </Suspense>
             }
           />
-          <Route path="destinations" element={<Destinations />} />
+          <Route path="destinations/:id" element={<CountryDetailsPage />} />
           <Route path="experiences" element={<Experience />} />
-          <Route path="planning" element={<Planning />} />
+          <Route
+            path="contact"
+            element={
+              <Suspense fallback={<div>Loading ...</div>}>
+                <LazyContactPage />
+              </Suspense>
+            }
+          />
           <Route path="about" element={<About />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
