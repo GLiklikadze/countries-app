@@ -36,7 +36,6 @@ const DestinationsPage = () => {
           <FontAwesomeIcon icon={faArrowDownShortWide} />
         </button>
 
-        <span>Sort By Likes</span>
         <CardList>
           {countryData.map((country) => (
             <Link to={`/destinations/${country.id}`} key={country.id}>
