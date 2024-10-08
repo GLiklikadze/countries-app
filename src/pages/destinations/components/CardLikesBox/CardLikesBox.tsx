@@ -15,7 +15,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   setCountryData,
   countryId,
 }) => {
-  const handleLikeClick = (event) => {
+  const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
     setCountryData((prevCountryData: CountryInterface[]) =>
