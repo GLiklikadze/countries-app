@@ -18,16 +18,14 @@ const DestinationsPage = () => {
   const [isSorted, setIsSorted] = useState(false);
 
   const handleSortClick = () => {
-    if (isSorted) {
-      setCountryData(country_data);
-    } else {
-      setCountryData((prevCountryData) =>
-        [...prevCountryData].sort((a, b) => a.likes - b.likes)
-      );
-    }
+    setCountryData((prevCountryData) => {
+      if (isSorted) {
+        return country_data;
+      }
+      return [...prevCountryData].sort((a, b) => a.likes - b.likes);
+    });
     setIsSorted((prevIsSorted) => !prevIsSorted);
   };
-  console.log(isSorted);
   return (
     <>
       <Hero>
