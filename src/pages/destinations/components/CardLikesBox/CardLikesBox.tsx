@@ -1,5 +1,4 @@
 import { CountryInterface } from "@/types/types";
-import likeSvg from "@/assets/thumbs-up-regular.svg";
 import styles from "./CardLikesBox.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons/faThumbsUp";
