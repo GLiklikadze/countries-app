@@ -10,28 +10,35 @@ import { useState } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowDownShortWide,
+  faArrowUpWideShort,
+} from "@fortawesome/free-solid-svg-icons";
 
 const DestinationsPage = () => {
   const [countryData, setCountryData] =
     useState<CountryInterface[]>(country_data);
-  const [isSorted, setIsSorted] = useState(false);
+  const [toggleSort, setToggleSort] = useState(false);
 
   const handleSortClick = () => {
     setCountryData((prevCountryData) => {
-      if (isSorted) {
-        return country_data;
+      if (toggleSort) {
+        return [...prevCountryData].sort((a, b) => b.likes - a.likes);
       }
       return [...prevCountryData].sort((a, b) => a.likes - b.likes);
     });
-    setIsSorted((prevIsSorted) => !prevIsSorted);
+    setToggleSort((prevIsSorted) => !prevIsSorted);
   };
   return (
     <>
       <Hero>
         <button onClick={handleSortClick}>
           <span>Sort</span>
-          <FontAwesomeIcon icon={faArrowDownShortWide} />
+          {toggleSort ? (
+            <FontAwesomeIcon icon={faArrowDownShortWide} />
+          ) : (
+            <FontAwesomeIcon icon={faArrowUpWideShort} />
+          )}
         </button>
 
         <CardList>
