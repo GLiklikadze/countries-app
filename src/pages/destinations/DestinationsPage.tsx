@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CountryInterface } from "@/types/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
 
 const DestinationsPage = () => {
   const [countryData, setCountryData] =
@@ -29,8 +31,13 @@ const DestinationsPage = () => {
   return (
     <>
       <Hero>
+        <button onClick={handleSortClick}>
+          <span>Sort</span>
+          <FontAwesomeIcon icon={faArrowDownShortWide} />
+        </button>
+
+        <span>Sort By Likes</span>
         <CardList>
-          <button onClick={handleSortClick}>Sort</button>
           {countryData.map((country) => (
             <Link to={`/destinations/${country.id}`} key={country.id}>
               <Card key={country.id}>

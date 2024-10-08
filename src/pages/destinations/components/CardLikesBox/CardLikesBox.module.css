@@ -1,0 +1,24 @@
+.likes_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+  font-size: 18px;
+  height: 30px;
+  padding: 10px 5px;
+}
+
+.like_count {
+  color: rgb(238, 200, 10);
+  font-weight: 700;
+}
+.likes_container button {
+  background-color: transparent;
+  height: 50%;
+  padding: 5px 15px;
+  border: 0.5px solid white;
+}
+.likes_container button:hover {
+  border: 2px solid white;
+}

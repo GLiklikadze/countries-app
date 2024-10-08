@@ -9,7 +9,6 @@ import PhotoGallery from "./components/PhotoGallery";
 
 const CountryDetailsPage = () => {
   const { id } = useParams();
-
   return (
     <div className={styles.country_details_container}>
       {country_data
