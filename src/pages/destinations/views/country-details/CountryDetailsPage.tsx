@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import countryData from "@/data/country-data";
+import country_data from "@/data/country-data";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import CardContent from "../../components/CardContent/CardContent";
 import CardFooter from "../../components/CardFooter/CardFooter";
@@ -12,7 +12,7 @@ const CountryDetailsPage = () => {
 
   return (
     <div className={styles.country_details_container}>
-      {countryData
+      {country_data
         .filter((country: CountryInterface) => country.id === Number(id))
         .map((country: CountryInterface) => (
           <div className={styles.card_details_container} key={country.id}>

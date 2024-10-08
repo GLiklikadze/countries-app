@@ -1,4 +1,4 @@
-const countryData = [
+const country_data = [
   {
     id: 1,
     flagURL:
@@ -16,6 +16,7 @@ const countryData = [
       "/src/assets/swiss-photos/swiss-photo-3.jpg",
       "/src/assets/swiss-photos/swiss-photo-4.jpg",
     ],
+    likes: 19,
   },
   {
     id: 2,
@@ -35,6 +36,7 @@ const countryData = [
       "/src/assets/austria-photos/austria-photo-3.jpg",
       "/src/assets/austria-photos/austria-photo-4.jpg",
     ],
+    likes: 7,
   },
   {
     id: 3,
@@ -53,6 +55,7 @@ const countryData = [
       "/src/assets/hungary-photos/hungary-photo-3.jpg",
       "/src/assets/hungary-photos/hungary-photo-4.jpg",
     ],
+    likes: 10,
   },
   {
     id: 4,
@@ -71,7 +74,8 @@ const countryData = [
       "/src/assets/italy-photos/italy-photo-3.jpg",
       "/src/assets/italy-photos/italy-photo-4.jpg",
     ],
+    likes: 13,
   },
 ];
 
-export default countryData;
+export default country_data;
