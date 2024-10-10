@@ -5,7 +5,7 @@ const PhotoGallery: React.FC<CountryArray> = ({ country }) => {
     <div className={styles.photos_container}>
       {country.imgUrl.map((url) => (
         <div key={url}>
-          <img src={new URL(url, import.meta.url).href} alt="country-photo" />
+          <img src={url} alt="country-photo" />
         </div>
       ))}
     </div>

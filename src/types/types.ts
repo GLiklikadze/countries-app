@@ -8,6 +8,7 @@ export interface CountryInterface {
   topAttractions: string[];
   currency: string;
   imgUrl: string[];
+  likes: number;
 }
 
 export interface CountryArray {
