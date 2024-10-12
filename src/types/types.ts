@@ -11,8 +11,9 @@ export interface CountryInterface {
   likes: number;
 }
 
-export interface CountryArray {
-  country: CountryInterface;
+export interface CardReducerInitialState {
+  country_data: CountryInterface[];
+  toggleSort: boolean;
 }
 
 export interface CardHeaderProps {

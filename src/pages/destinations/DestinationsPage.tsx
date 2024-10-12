@@ -6,43 +6,65 @@ import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useReducer } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDownShortWide,
   faArrowUpWideShort,
+  // faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { cardReducer } from "./reducer/reducer";
 
-const DestinationsPage = () => {
-  const [countryData, setCountryData] =
-    useState<CountryInterface[]>(country_data);
-  const [toggleSort, setToggleSort] = useState(false);
+const initialState = {
+  country_data: country_data,
+  toggleSort: false,
+};
 
-  const handleSortClick = () => {
-    setCountryData((prevCountryData) => {
-      if (toggleSort) {
-        return [...prevCountryData].sort((a, b) => b.likes - a.likes);
-      }
-      return [...prevCountryData].sort((a, b) => a.likes - b.likes);
-    });
-    setToggleSort((prevIsSorted) => !prevIsSorted);
+const DestinationsPage: React.FC = () => {
+  const [countryData, dispatch] = useReducer(cardReducer, initialState);
+
+  const handleCardSortClick = () => {
+    dispatch({ type: "sort" });
   };
+
+  const handleCardDelete = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dispatch({ type: "delete", payload: { id } });
+  };
+
+  const handleLikeClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dispatch({
+      type: "like",
+      payload: {
+        id,
+      },
+    });
+  };
+
   return (
     <>
       <Hero>
-        <button onClick={handleSortClick}>
+        <button onClick={handleCardSortClick}>
           <span>Sort</span>
-          {toggleSort ? (
+          {countryData.toggleSort ? (
             <FontAwesomeIcon icon={faArrowDownShortWide} />
           ) : (
             <FontAwesomeIcon icon={faArrowUpWideShort} />
           )}
         </button>
-
         <CardList>
-          {countryData.map((country) => (
+          {countryData.country_data.map((country: CountryInterface) => (
             <Link to={`/destinations/${country.id}`} key={country.id}>
               <Card key={country.id}>
                 <CardHeader
@@ -60,10 +82,13 @@ const DestinationsPage = () => {
                 />
                 <CardLikesBox
                   likes={country.likes}
-                  setCountryData={setCountryData}
+                  // setCountryData={setCountryData}
                   countryId={country.id}
+                  handleLikeClick={handleLikeClick}
+                  handleCardDelete={handleCardDelete}
                 />
               </Card>
+              {countryData.deletedCards && countryData.deletedCards}
             </Link>
           ))}
         </CardList>
