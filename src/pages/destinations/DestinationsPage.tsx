@@ -6,7 +6,7 @@ import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
 import { Link } from "react-router-dom";
-import { useReducer } from "react";
+import { FormEvent, useReducer } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,7 @@ import {
   // faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { cardReducer } from "./reducer/reducer";
+import CreateCardForm from "./components/CreateCardForm/CreateCardForm";
 
 const initialState = {
   country_data: country_data,
@@ -51,6 +52,13 @@ const DestinationsPage: React.FC = () => {
       },
     });
   };
+  const handleCreateCard = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formDataObject = Object.fromEntries(formData.entries());
+    console.log(formDataObject);
+    dispatch({ type: "create", payload: { formDataObject } });
+  };
 
   return (
     <>
@@ -63,10 +71,11 @@ const DestinationsPage: React.FC = () => {
             <FontAwesomeIcon icon={faArrowUpWideShort} />
           )}
         </button>
+        <CreateCardForm onSubmit={handleCreateCard} />
         <CardList>
           {countryData.country_data.map((country: CountryInterface) => (
             <Link to={`/destinations/${country.id}`} key={country.id}>
-              <Card key={country.id}>
+              <Card key={country.id} isDeleted={country.isDeleted}>
                 <CardHeader
                   countryName={country.countryName}
                   flagURL={country.flagURL}
@@ -82,13 +91,12 @@ const DestinationsPage: React.FC = () => {
                 />
                 <CardLikesBox
                   likes={country.likes}
-                  // setCountryData={setCountryData}
                   countryId={country.id}
                   handleLikeClick={handleLikeClick}
                   handleCardDelete={handleCardDelete}
+                  isDeleted={country.isDeleted}
                 />
               </Card>
-              {countryData.deletedCards && countryData.deletedCards}
             </Link>
           ))}
         </CardList>

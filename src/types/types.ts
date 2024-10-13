@@ -9,6 +9,7 @@ export interface CountryInterface {
   currency: string;
   imgUrl: string[];
   likes: number;
+  isDeleted: false;
 }
 
 export interface CardReducerInitialState {

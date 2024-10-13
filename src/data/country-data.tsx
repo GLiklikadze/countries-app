@@ -1,12 +1,12 @@
 const country_data = [
   {
-    id: 1,
+    id: 0,
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/switzerland-flag-png-large.png",
     countryName: "Switzerland",
     population: 8_697_000, // as of 2023
     capitalCity: "Bern",
-    area: "41,290", // in square kilometers
+    area: "41290", // in square kilometers
     currency: "Swiss Franc",
     timezone: "Central European Time (CET)",
     topAttractions: ["Matterhorn", "Lake Geneva"],
@@ -17,16 +17,17 @@ const country_data = [
       "/src/assets/swiss-photos/swiss-photo-4.jpg",
     ],
     likes: 19,
+    isDeleted: false,
   },
   {
-    id: 2,
+    id: 1,
     countryName: "Austria",
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/flag-jpg-xl-10-2048x1365.jpg",
 
     population: 9_027_999, // as of 2023
     capitalCity: "Vienna",
-    area: "83,879", // in square kilometers
+    area: "83879", // in square kilometers
     currency: "Euro",
     timezone: "Central European Time (CET)",
     topAttractions: ["Hallstatt", "The Hofburg"],
@@ -37,15 +38,16 @@ const country_data = [
       "/src/assets/austria-photos/austria-photo-4.jpg",
     ],
     likes: 7,
+    isDeleted: false,
   },
   {
-    id: 3,
+    id: 2,
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/hungary-flag-png-large.png",
     countryName: "Hungary",
     population: 9_630_000, // as of 2023
     capitalCity: "Budapest",
-    area: "93,030", // in square kilometers
+    area: "93030", // in square kilometers
     currency: "Forint",
     timezone: "Central European Time (CET)",
     topAttractions: ["Buda Castle", "Parliament"],
@@ -56,15 +58,16 @@ const country_data = [
       "/src/assets/hungary-photos/hungary-photo-4.jpg",
     ],
     likes: 10,
+    isDeleted: false,
   },
   {
-    id: 4,
+    id: 3,
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
     countryName: "Italy",
     population: 58_900_000, // as of 2023
     capitalCity: "Rome",
-    area: "301,340", // in square kilometers
+    area: "301340", // in square kilometers
     currency: "Euro",
     timezone: "Central European Time (CET)",
     topAttractions: ["Colosseum", "Venice Canals"],
@@ -75,6 +78,7 @@ const country_data = [
       "/src/assets/italy-photos/italy-photo-4.jpg",
     ],
     likes: 13,
+    isDeleted: false,
   },
 ];
 

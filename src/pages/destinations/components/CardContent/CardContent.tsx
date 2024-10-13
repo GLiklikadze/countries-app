@@ -7,9 +7,9 @@ const CardContent: React.FC<CardContentProps> = ({
 }) => {
   return (
     <>
-      <p>Population: {population}</p>
+      <p>Population: {Number(population).toLocaleString()}</p>
       <p>Capital City: {capitalCity}</p>
-      <p>Area: {area} km²</p>
+      <p>Area: {Number(area).toLocaleString()} km²</p>
     </>
   );
 };

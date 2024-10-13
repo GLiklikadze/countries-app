@@ -1,7 +1,7 @@
 import styles from "./CardLikesBox.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons/faThumbsUp";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark, faRotate } from "@fortawesome/free-solid-svg-icons";
 
 interface CardLikesBoxProps {
   likes: number;
@@ -22,6 +22,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   countryId,
   handleLikeClick,
   handleCardDelete,
+  isDeleted,
 }) => {
   return (
     <div className={styles.likes_container}>
@@ -31,7 +32,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
             handleLikeClick(event, countryId);
           }}
         >
-          <FontAwesomeIcon icon={faThumbsUp} />
+          <FontAwesomeIcon icon={faThumbsUp} size="lg" />
         </button>
         <span>
           Likes: <span className={styles.like_count}>{likes}</span>
@@ -41,7 +42,19 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
             handleCardDelete(event, countryId);
           }}
         >
-          <FontAwesomeIcon icon={faCircleXmark} style={{ color: "red" }} />
+          {!isDeleted ? (
+            <FontAwesomeIcon
+              icon={faCircleXmark}
+              style={{ color: "red" }}
+              size="lg"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faRotate}
+              size="lg"
+              style={{ color: "green" }}
+            />
+          )}
         </button>
       </span>
     </div>
@@ -49,16 +62,3 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
 };
 
 export default CardLikesBox;
-
-// const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-//   event.preventDefault();
-//   event.stopPropagation();
-//   setCountryData((prevCountryData: CountryInterface[]) =>
-//     prevCountryData.map((item: CountryInterface) => {
-//       if (item.id === countryId) {
-//         return { ...item, likes: item.likes + 1 };
-//       }
-//       return item;
-//     })
-//   );
-// };

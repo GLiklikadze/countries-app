@@ -24,8 +24,7 @@
 }
 .hero_section > button {
   position: absolute;
-  position: absolute;
-  top: 200px;
+  top: 290px;
   left: 50px;
   display: flex;
   gap: 10px;
