@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
+import { CardProps } from "@/types/types";
 import styles from "./Card.module.css";
 
-export const Card: React.FC<PropsWithChildren> = ({ children, isDeleted }) => {
+export const Card: React.FC<CardProps> = ({ children, isDeleted }) => {
   return (
     <>
       <div

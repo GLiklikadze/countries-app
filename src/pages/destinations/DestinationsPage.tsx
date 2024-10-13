@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDownShortWide,
   faArrowUpWideShort,
-  // faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { cardReducer } from "./reducer/reducer";
 import CreateCardForm from "./components/CreateCardForm/CreateCardForm";
@@ -52,29 +51,36 @@ const DestinationsPage: React.FC = () => {
       },
     });
   };
+
   const handleCreateCard = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formDataObject = Object.fromEntries(formData.entries());
     console.log(formDataObject);
     dispatch({ type: "create", payload: { formDataObject } });
+    event.currentTarget.reset();
   };
 
+  const sortButtonIconToggle = countryData.toggleSort ? (
+    <FontAwesomeIcon icon={faArrowDownShortWide} />
+  ) : (
+    <FontAwesomeIcon icon={faArrowUpWideShort} />
+  );
   return (
     <>
       <Hero>
         <button onClick={handleCardSortClick}>
           <span>Sort</span>
-          {countryData.toggleSort ? (
-            <FontAwesomeIcon icon={faArrowDownShortWide} />
-          ) : (
-            <FontAwesomeIcon icon={faArrowUpWideShort} />
-          )}
+          {sortButtonIconToggle}
         </button>
         <CreateCardForm onSubmit={handleCreateCard} />
         <CardList>
           {countryData.country_data.map((country: CountryInterface) => (
-            <Link to={`/destinations/${country.id}`} key={country.id}>
+            <Link
+              to={`/destinations/${country.id}`}
+              key={country.id}
+              state={{ countryData }}
+            >
               <Card key={country.id} isDeleted={country.isDeleted}>
                 <CardHeader
                   countryName={country.countryName}

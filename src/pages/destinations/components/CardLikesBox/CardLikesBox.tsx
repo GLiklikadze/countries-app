@@ -2,20 +2,7 @@ import styles from "./CardLikesBox.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons/faThumbsUp";
 import { faCircleXmark, faRotate } from "@fortawesome/free-solid-svg-icons";
-
-interface CardLikesBoxProps {
-  likes: number;
-  countryId: number;
-  handleLikeClick: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    id: number
-  ) => void;
-
-  handleCardDelete: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    id: number
-  ) => void;
-}
+import { CardLikesBoxProps } from "@/types/types";
 
 const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   likes,
@@ -24,6 +11,11 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   handleCardDelete,
   isDeleted,
 }) => {
+  const deleteRetriveToggleButtonIcon = !isDeleted ? (
+    <FontAwesomeIcon icon={faCircleXmark} style={{ color: "red" }} size="lg" />
+  ) : (
+    <FontAwesomeIcon icon={faRotate} size="lg" style={{ color: "green" }} />
+  );
   return (
     <div className={styles.likes_container}>
       <span>
@@ -42,19 +34,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
             handleCardDelete(event, countryId);
           }}
         >
-          {!isDeleted ? (
-            <FontAwesomeIcon
-              icon={faCircleXmark}
-              style={{ color: "red" }}
-              size="lg"
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faRotate}
-              size="lg"
-              style={{ color: "green" }}
-            />
-          )}
+          {deleteRetriveToggleButtonIcon}
         </button>
       </span>
     </div>

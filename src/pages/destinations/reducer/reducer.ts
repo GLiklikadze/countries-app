@@ -19,12 +19,8 @@ export const cardReducer = (
     const sortedCards = [...filterDeletedCards].sort((a, b) => {
       return countryData.toggleSort ? b.likes - a.likes : a.likes - b.likes;
     });
-    // const sortDeletedCards = [...sortedCards].sort((a, b) =>
-    //   a.isDeleted === b.isDeleted ? 0 : a.isDeleted ? 1 : -1
-    // );
     return {
       ...countryData,
-      // country_data: [...sortDeletedCards],
       country_data: [...sortedCards, ...deletedCards],
       toggleSort: !countryData.toggleSort,
     };
@@ -49,19 +45,21 @@ export const cardReducer = (
     };
   }
   if (action.type === "create") {
+    const uniqueId = Math.floor(Date.now() + Math.random() * 1000);
     const newCard = {
       ...action.payload.formDataObject,
-      // flagURL:
-      //   "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
       topAttractions: [],
       imgUrl: [],
       likes: 0,
-      id: `${Date.now()}-${Math.random()}`,
+      id: uniqueId,
     };
+    const updatedCards = [...countryData.country_data, newCard];
+    const activeCards = updatedCards.filter((card) => !card.isDeleted);
+    const deletedCards = updatedCards.filter((card) => card.isDeleted);
 
     return {
       ...countryData,
-      country_data: [...countryData.country_data, newCard],
+      country_data: [...activeCards, ...deletedCards],
     };
   }
   if (action.type === "delete") {
@@ -77,10 +75,9 @@ export const cardReducer = (
       });
     };
     const newCountryData = handleCardDelete(countryData, action.payload.id!);
-    const sortDeletedCards = [...newCountryData].sort((a, b) =>
-      a.isDeleted === b.isDeleted ? 0 : a.isDeleted ? 1 : -1
-    );
-    return { ...countryData, country_data: sortDeletedCards };
+    const activeCards = newCountryData.filter((card) => !card.isDeleted);
+    const deletedCards = newCountryData.filter((card) => card.isDeleted);
+    return { ...countryData, country_data: [...activeCards, ...deletedCards] };
   }
   return countryData;
 };

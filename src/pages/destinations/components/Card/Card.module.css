@@ -15,10 +15,10 @@
 .card_deleted {
   background-color: rgba(184, 94, 94, 0.8);
 }
-.card:hover {
-  /* background-color: rgba(25, 126, 144, 0.679); */
-  /* color: rgba(255, 255, 255, 0.74); */
-}
+/* .card:hover {
+  background-color: rgba(25, 126, 144, 0.679);
+  color: rgba(255, 255, 255, 0.74);
+} */
 .card p {
   padding-block: 5px;
   font-weight: 600;
