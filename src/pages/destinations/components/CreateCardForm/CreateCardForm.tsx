@@ -69,7 +69,9 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           </div>
         </div>
       </div>
-      <button type="submit">Create Destination</button>
+      <button type="submit" title="Create New Destination">
+        Create Destination
+      </button>
     </form>
   );
 };

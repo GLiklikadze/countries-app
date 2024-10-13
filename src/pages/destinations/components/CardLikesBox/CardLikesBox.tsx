@@ -23,6 +23,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
           onClick={(event) => {
             handleLikeClick(event, countryId);
           }}
+          title="Like"
         >
           <FontAwesomeIcon icon={faThumbsUp} size="lg" />
         </button>
@@ -33,6 +34,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
           onClick={(event) => {
             handleCardDelete(event, countryId);
           }}
+          title={!isDeleted ? "Delete Card" : "Retrive Card"}
         >
           {deleteRetriveToggleButtonIcon}
         </button>
