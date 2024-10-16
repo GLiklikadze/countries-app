@@ -8,7 +8,7 @@ import CardFooter from "./components/CardFooter/CardFooter";
 import { Link } from "react-router-dom";
 import { FormEvent, useReducer } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
-import { CountryInterface } from "@/types/types";
+import { CardFormStateObj, CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDownShortWide,
@@ -52,13 +52,13 @@ const DestinationsPage: React.FC = () => {
     });
   };
 
-  const handleCreateCard = (event: FormEvent<HTMLFormElement>) => {
+  const handleCreateCard = (
+    event: FormEvent<HTMLFormElement>,
+    formDataObject: CardFormStateObj
+  ) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formDataObject = Object.fromEntries(formData.entries());
     console.log(formDataObject);
     dispatch({ type: "create", payload: { formDataObject } });
-    event.currentTarget.reset();
   };
 
   const sortButtonIconToggle = countryData.toggleSort ? (

@@ -54,5 +54,17 @@ export type CardLikesBoxProps = {
   isDeleted: boolean;
 };
 export type CreateCardFormProps = {
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (
+    event: React.FormEvent<HTMLFormElement>,
+    formDataObject: CardFormStateObj
+  ) => void;
 };
+
+export interface CardFormStateObj {
+  countryName: string;
+  population: number | string;
+  capitalCity: string;
+  area: number | string;
+  currency: string;
+  flagURL: string;
+}
