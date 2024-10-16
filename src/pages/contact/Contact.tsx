@@ -20,7 +20,6 @@ const Contact: React.FC = () => {
   const [contactFormErrorState, setContactFormErrorState] = useState(
     contactFormInitialMsg
   );
-  console.log(contactFormErrorState);
   const { firstName, lastName, email, message } = contactFormState;
 
   const { firstNameError, lastNameError, emailError, messageError } =
@@ -73,7 +72,6 @@ const Contact: React.FC = () => {
     }
     if (fieldName === "message") {
       if (message.trim().length < 10) {
-        console.log("yes");
         error = "Message must be at least 10 characters long";
       }
     }
@@ -89,6 +87,14 @@ const Contact: React.FC = () => {
     const { name } = event.target;
     validateInput(name);
   };
+  const handleFocus = (
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name } = event.target;
+    setContactFormErrorState((prevContactFormErrorState) => {
+      return { ...prevContactFormErrorState, [`${name}Error`]: "" };
+    });
+  };
 
   return (
     <main className={styles["contact_page_container"]}>
@@ -100,11 +106,12 @@ const Contact: React.FC = () => {
             <input
               value={firstName}
               onChange={handleChange}
+              onBlur={handleBlur}
+              onFocus={handleFocus}
               type="text"
               id="firstName"
               name="firstName"
               placeholder="John"
-              onBlur={handleBlur}
               required
             />
           </div>
@@ -117,6 +124,7 @@ const Contact: React.FC = () => {
               value={lastName}
               onChange={handleChange}
               onBlur={handleBlur}
+              onFocus={handleFocus}
               type="text"
               id="lastName"
               name="lastName"
@@ -133,6 +141,7 @@ const Contact: React.FC = () => {
               value={email}
               onChange={handleChange}
               onBlur={handleBlur}
+              onFocus={handleFocus}
               type="email"
               id="email"
               name="email"
@@ -148,6 +157,7 @@ const Contact: React.FC = () => {
             value={message}
             onChange={handleChange}
             onBlur={handleBlur}
+            onFocus={handleFocus}
             id="message"
             name="message"
             rows={4}
