@@ -24,6 +24,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     onSubmit(event, cardFormstate);
+    setCardFormState(formInitialObj);
   };
   return (
     <form className={styles.country_form} onSubmit={handleSubmit}>

@@ -1,18 +1,30 @@
+import { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./Contact.module.css";
 
+const contactFormInitialObj = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  message: "",
+};
 const Contact: React.FC = () => {
-  const handleContactSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget as HTMLFormElement;
+  const [contactFormState, setContactFormState] = useState(
+    contactFormInitialObj
+  );
+  const { firstName, lastName, email, message } = contactFormState;
 
-    const formData = {
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      email: form.email.value,
-      message: form.message.value,
-    };
-    console.log(formData);
-    form.reset();
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(contactFormState);
+    setContactFormState(contactFormInitialObj);
+  };
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setContactFormState((prevContactFormState) => {
+      return { ...prevContactFormState, [name]: value };
+    });
   };
   return (
     <main className={styles["contact_page_container"]}>
@@ -21,6 +33,8 @@ const Contact: React.FC = () => {
         <div className={styles.name_box}>
           <label htmlFor="firstName">First Name</label>
           <input
+            value={firstName}
+            onChange={handleChange}
             type="text"
             id="firstName"
             name="firstName"
@@ -31,6 +45,8 @@ const Contact: React.FC = () => {
         <div className={styles.name_box}>
           <label htmlFor="lastName">Last Name</label>
           <input
+            value={lastName}
+            onChange={handleChange}
             type="text"
             id="lastName"
             name="lastName"
@@ -42,6 +58,8 @@ const Contact: React.FC = () => {
         <div className={styles.name_box}>
           <label htmlFor="email">Email</label>
           <input
+            value={email}
+            onChange={handleChange}
             type="email"
             id="email"
             name="email"
@@ -51,6 +69,8 @@ const Contact: React.FC = () => {
         </div>
         <label htmlFor="message">Message</label>
         <textarea
+          value={message}
+          onChange={handleChange}
           id="message"
           name="message"
           rows={4}

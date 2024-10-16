@@ -59,7 +59,6 @@ const DestinationsPage: React.FC = () => {
     event.preventDefault();
     console.log(formDataObject);
     dispatch({ type: "create", payload: { formDataObject } });
-    event.currentTarget.reset();
   };
 
   const sortButtonIconToggle = countryData.toggleSort ? (
