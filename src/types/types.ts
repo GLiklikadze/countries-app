@@ -9,10 +9,12 @@ export interface CountryInterface {
   currency: string;
   imgUrl: string[];
   likes: number;
+  isDeleted: boolean;
 }
 
-export interface CountryArray {
-  country: CountryInterface;
+export interface CardReducerInitialState {
+  country_data: CountryInterface[];
+  toggleSort: boolean;
 }
 
 export interface CardHeaderProps {
@@ -25,6 +27,32 @@ export interface CardContentProps {
   area: string;
 }
 export interface CardFooterProps {
-  topAttractions: string[];
+  topAttractions?: string[];
   currency: string;
 }
+export type PhotoGalleryProps = {
+  country: CountryInterface;
+};
+
+export type CardProps = {
+  children: React.ReactNode;
+  isDeleted: boolean;
+};
+
+export type CardLikesBoxProps = {
+  likes: number;
+  countryId: number;
+  handleLikeClick: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => void;
+
+  handleCardDelete: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => void;
+  isDeleted: boolean;
+};
+export type CreateCardFormProps = {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+};

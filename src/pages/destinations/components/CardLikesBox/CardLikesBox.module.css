@@ -3,12 +3,16 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  gap: 20px;
   font-size: 18px;
   height: 40px;
   padding: 10px 5px;
 }
-
+.likes_container > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
 .like_count {
   color: rgb(238, 200, 10);
   font-weight: 700;
@@ -21,5 +25,6 @@
   color: rgb(238, 200, 10);
 }
 .likes_container button:hover {
+  background-color: rgba(105, 93, 24, 0.4);
   border: 2px solid rgb(238, 200, 10);
 }

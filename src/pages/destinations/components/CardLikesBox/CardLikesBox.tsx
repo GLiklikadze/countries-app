@@ -1,41 +1,42 @@
-import { CountryInterface } from "@/types/types";
 import styles from "./CardLikesBox.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons/faThumbsUp";
-interface CardLikesBoxProps {
-  likes: number;
-  setCountryData: (
-    updateFunction: (prevData: CountryInterface[]) => CountryInterface[]
-  ) => void;
-  countryId: number;
-}
+import { faCircleXmark, faRotate } from "@fortawesome/free-solid-svg-icons";
+import { CardLikesBoxProps } from "@/types/types";
 
 const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   likes,
-  setCountryData,
   countryId,
+  handleLikeClick,
+  handleCardDelete,
+  isDeleted,
 }) => {
-  const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setCountryData((prevCountryData: CountryInterface[]) =>
-      prevCountryData.map((item: CountryInterface) => {
-        if (item.id === countryId) {
-          return { ...item, likes: item.likes + 1 };
-        }
-        return item;
-      })
-    );
-  };
+  const deleteRetriveToggleButtonIcon = !isDeleted ? (
+    <FontAwesomeIcon icon={faCircleXmark} style={{ color: "red" }} size="lg" />
+  ) : (
+    <FontAwesomeIcon icon={faRotate} size="lg" style={{ color: "green" }} />
+  );
   return (
     <div className={styles.likes_container}>
       <span>
-        Likes: <span className={styles.like_count}>{likes}</span>
-      </span>
-
-      <span>
-        <button onClick={handleLikeClick}>
-          <FontAwesomeIcon icon={faThumbsUp} />
+        <button
+          onClick={(event) => {
+            handleLikeClick(event, countryId);
+          }}
+          title="Like"
+        >
+          <FontAwesomeIcon icon={faThumbsUp} size="lg" />
+        </button>
+        <span>
+          Likes: <span className={styles.like_count}>{likes}</span>
+        </span>
+        <button
+          onClick={(event) => {
+            handleCardDelete(event, countryId);
+          }}
+          title={!isDeleted ? "Delete Card" : "Retrive Card"}
+        >
+          {deleteRetriveToggleButtonIcon}
         </button>
       </span>
     </div>

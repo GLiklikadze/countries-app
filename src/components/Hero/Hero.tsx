@@ -11,13 +11,17 @@ const Hero: React.FC<PropsWithChildren> = ({ children }) => {
         alt="swiss-train-bridge"
       />
       <div className={styles.hero_section_info}>
-        <h2 className={styles.hero_section_heading}>
-          Discover the World’s Hidden Gems
-        </h2>
-        <p>
-          Explore breathtaking landscapes, rich cultures, and unforgettable
-          experiences. Your next adventure starts here.
-        </p>
+        {!children && (
+          <>
+            <h2 className={styles.hero_section_heading}>
+              Discover the World’s Hidden Gems
+            </h2>
+            <p>
+              Explore breathtaking landscapes, rich cultures, and unforgettable
+              experiences. Your next adventure starts here.
+            </p>
+          </>
+        )}
       </div>
       {children}
     </section>
