@@ -5,7 +5,7 @@ import CardList from "./components/CardList/CardList";
 import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FormEvent, useReducer } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CardFormStateObj, CountryInterface } from "@/types/types";
@@ -24,6 +24,7 @@ const initialState = {
 
 const DestinationsPage: React.FC = () => {
   const [countryData, dispatch] = useReducer(cardReducer, initialState);
+  const { lang } = useParams();
 
   const handleCardSortClick = () => {
     dispatch({ type: "sort" });
@@ -66,21 +67,18 @@ const DestinationsPage: React.FC = () => {
   ) : (
     <FontAwesomeIcon icon={faArrowUpWideShort} />
   );
+  const sortButton = lang === "en" ? "Sort" : "სორტირება";
   return (
     <>
       <Hero>
         <button onClick={handleCardSortClick}>
-          <span>Sort</span>
+          <span>{sortButton}</span>
           {sortButtonIconToggle}
         </button>
         <CreateCardForm onSubmit={handleCreateCard} />
         <CardList>
           {countryData.country_data.map((country: CountryInterface) => (
-            <Link
-              to={`/destinations/${country.id}`}
-              key={country.id}
-              state={{ countryData }}
-            >
+            <Link to={`${country.id}`} key={country.id} state={{ countryData }}>
               <Card key={country.id} isDeleted={country.isDeleted}>
                 <CardHeader
                   countryName={country.countryName}

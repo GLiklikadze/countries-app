@@ -1,6 +1,7 @@
 import { CardFormStateObj, CreateCardFormProps } from "@/types/types";
 import styles from "./CreateCardForm.module.css";
 import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const formInitialObj = {
   countryName: "",
@@ -26,6 +27,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     useState(formErrorInitialMsg);
   const { countryName, population, capitalCity, area, currency, flagURL } =
     cardFormstate;
+  const { lang } = useParams();
   const {
     countryNameError,
     populationError,
@@ -107,13 +109,25 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       event.preventDefault();
     }
   };
+  const countryLabel = lang === "en" ? "Country Name" : "ქვეყანა";
+  const populationLabel = lang === "en" ? "Population" : "მოსახლეობა";
+  const capitalCityLabel = lang === "en" ? "Capital City" : "დედაქალაქი";
+  const areaLabel = lang === "en" ? "Country Area km²" : "ფართობი კმ²";
+  const currencyLabel = lang === "en" ? "Currency" : "ვალუტა";
+  const flagUrlLabel = lang === "en" ? "Flag URL" : "დროშის URL";
+  const destinationCreateBtn =
+    lang === "en" ? "Create Destination" : "მიმართულების დამატება";
+  const countryPlaceholder = lang === "en" ? "Georgia" : "საქართველო";
+  const capitalCityPlaceholder = lang === "en" ? "Tbilisi" : "თბილისი";
+  const currencyPlaceholder = lang === "en" ? "Gel" : "ლარი";
+
   return (
     <form className={styles.country_form} onSubmit={handleSubmit}>
       <div>
         <div>
           <>
             <div>
-              <label htmlFor="country-name">Country Name</label>
+              <label htmlFor="country-name">{countryLabel}</label>
               <input
                 value={countryName}
                 onChange={handleChange}
@@ -122,7 +136,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 type="text"
                 name="countryName"
                 id="country-name"
-                placeholder="Georgia"
+                placeholder={countryPlaceholder}
                 required
               />
             </div>
@@ -130,7 +144,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           </>
           <>
             <div>
-              <label htmlFor="country-population">Population</label>
+              <label htmlFor="country-population">{populationLabel}</label>
               <input
                 value={population}
                 onChange={handleChange}
@@ -147,7 +161,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           </>
           <>
             <div>
-              <label htmlFor="capital-city">Capital City</label>
+              <label htmlFor="capital-city">{capitalCityLabel}</label>
               <input
                 value={capitalCity}
                 onChange={handleChange}
@@ -156,7 +170,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 type="text"
                 name="capitalCity"
                 id="capital-city"
-                placeholder="Tbilisi"
+                placeholder={capitalCityPlaceholder}
                 required
               />
             </div>
@@ -166,7 +180,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
         <div>
           <>
             <div>
-              <label htmlFor="country-area">Country Area km²</label>
+              <label htmlFor="country-area">{areaLabel}</label>
               <input
                 value={area}
                 onChange={handleChange}
@@ -183,7 +197,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           </>
           <>
             <div>
-              <label htmlFor="country-currency">Currency</label>
+              <label htmlFor="country-currency">{currencyLabel}</label>
               <input
                 value={currency}
                 onChange={handleChange}
@@ -192,7 +206,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 type="text"
                 name="currency"
                 id="country-currency"
-                placeholder="Gel"
+                placeholder={currencyPlaceholder}
                 required
               />
             </div>
@@ -200,7 +214,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           </>
           <>
             <div>
-              <label htmlFor="country-flag-url">Flag URL</label>
+              <label htmlFor="country-flag-url">{flagUrlLabel}</label>
               <input
                 value={flagURL}
                 onChange={handleChange}
@@ -217,7 +231,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
         </div>
       </div>
       <button type="submit" title="Create New Destination">
-        Create Destination
+        {destinationCreateBtn}
       </button>
     </form>
   );

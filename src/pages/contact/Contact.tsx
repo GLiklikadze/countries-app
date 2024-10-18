@@ -1,5 +1,6 @@
 import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
 import styles from "./Contact.module.css";
+import { useParams } from "react-router-dom";
 
 const contactFormInitialObj = {
   firstName: "",
@@ -24,7 +25,7 @@ const Contact: React.FC = () => {
 
   const { firstNameError, lastNameError, emailError, messageError } =
     contactFormErrorState;
-
+  const { lang } = useParams();
   const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
@@ -95,14 +96,20 @@ const Contact: React.FC = () => {
       return { ...prevContactFormErrorState, [`${name}Error`]: "" };
     });
   };
+  const contactPageHeading = lang === "en" ? "Contact Us" : "დაგვიკავშირდით";
+  const firstNameLabel = lang === "en" ? "First Name" : "სახელი";
+  const lastNameLabel = lang === "en" ? "Last Name" : "გვარი";
+  const emailLabel = lang === "en" ? "Email" : "ელ. ფოსტა";
+  const messageLabel = lang === "en" ? "Message" : "შეტყობინება";
+  const contactFormBtn = lang === "en" ? "Submit" : "გაგზავნა";
 
   return (
     <main className={styles["contact_page_container"]}>
-      <h1>Contact Us</h1>
+      <h1>{contactPageHeading}</h1>
       <form className={styles.contact_form} onSubmit={handleContactSubmit}>
         <>
           <div className={styles.name_box}>
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor="firstName">{firstNameLabel}</label>
             <input
               value={firstName}
               onChange={handleChange}
@@ -119,7 +126,7 @@ const Contact: React.FC = () => {
         </>
         <>
           <div className={styles.name_box}>
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor="lastName">{lastNameLabel}</label>
             <input
               value={lastName}
               onChange={handleChange}
@@ -136,7 +143,7 @@ const Contact: React.FC = () => {
         </>
         <>
           <div className={styles.name_box}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{emailLabel}</label>
             <input
               value={email}
               onChange={handleChange}
@@ -152,7 +159,7 @@ const Contact: React.FC = () => {
           <p className={styles.input_error_msg}>{emailError}</p>
         </>
         <>
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">{messageLabel}</label>
           <textarea
             value={message}
             onChange={handleChange}
@@ -166,7 +173,7 @@ const Contact: React.FC = () => {
           />
           <p className={styles.input_error_msg}>{messageError}</p>
         </>
-        <button type="submit">Submit</button>
+        <button type="submit">{contactFormBtn}</button>
       </form>
     </main>
   );

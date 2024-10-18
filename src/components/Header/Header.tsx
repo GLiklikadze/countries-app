@@ -1,8 +1,25 @@
 import europeLogo from "@/assets/euro-logo-2.png";
 import styles from "@/components/Header/Header.module.css";
-import { Link, NavLink, NavLinkRenderProps } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  NavLinkRenderProps,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const { lang } = useParams();
+  const location = useLocation();
+
+  const handleToggleLanguage = () => {
+    const newLang = lang === "en" ? "ka" : "en";
+    const newPath = location.pathname.replace(`/${lang}`, `/${newLang}`);
+    navigate(newPath);
+  };
+
   function handleActiveNav(props: NavLinkRenderProps) {
     const { isActive } = props;
 
@@ -12,6 +29,11 @@ const Header: React.FC = () => {
       return styles.nav_link;
     }
   }
+  const navDestinations = lang === "en" ? "Destinations" : "მიმართულებები";
+  const navExperiences = lang === "en" ? "Experiences" : "გამოცდილებები";
+  const navContact = lang === "en" ? "Contact" : "კონტაქტი";
+  const navAbout = lang === "en" ? "About" : "ჩვენს შესახებ";
+
   return (
     <header className={styles.header}>
       <Link className={styles.header_title_container} to="/">
@@ -25,28 +47,29 @@ const Header: React.FC = () => {
       <nav className={styles.header_navbar_container}>
         <ul className={styles.header_navbar_box}>
           <li>
-            <NavLink className={handleActiveNav} to="/destinations">
-              Destinations
+            <NavLink className={handleActiveNav} to="destinations">
+              {navDestinations}
             </NavLink>
           </li>
 
           <li>
-            <NavLink className={handleActiveNav} to="/experiences">
-              Experiences
+            <NavLink className={handleActiveNav} to="experiences">
+              {navExperiences}
             </NavLink>
           </li>
           <li>
-            <NavLink className={handleActiveNav} to="/contact">
-              Contact
+            <NavLink className={handleActiveNav} to="contact">
+              {navContact}
             </NavLink>
           </li>
           <li>
-            <NavLink className={handleActiveNav} to="/about">
-              About
+            <NavLink className={handleActiveNav} to="about">
+              {navAbout}
             </NavLink>
           </li>
         </ul>
       </nav>
+      <button onClick={handleToggleLanguage}>{lang} ---------------</button>
     </header>
   );
 };
