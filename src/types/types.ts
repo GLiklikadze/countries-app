@@ -1,12 +1,15 @@
 export interface CountryInterface {
   id: number;
   countryName: string;
+  countryName_ka: string;
   flagURL: string;
   population: number;
   capitalCity: string;
+  capitalCity_ka: string;
   area: string;
   topAttractions: string[];
   currency: string;
+  currency_ka: string;
   imgUrl: string[];
   likes: number;
   isDeleted: boolean;

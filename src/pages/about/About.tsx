@@ -45,7 +45,11 @@ const About = () => {
       უნგრეთის სილამაზისა და მრავალფეროვნების აღმოჩენაში. მოდით დაგეხმაროთ დაგეგმოთ 
       თქვენი მომავალი დიდი ევროპული თავგადასავალი - სად მიგიყვანთ თქვენი მოგზაურობა? `;
   return (
-    <div className={styles.about_page_container}>
+    <div
+      className={`${styles.about_page_container}  ${
+        lang === "ka" ? styles.lang_ka : ""
+      }`}
+    >
       <h1>{aboutPageHeading}</h1>
       <p>{aboutPageText}</p>
     </div>

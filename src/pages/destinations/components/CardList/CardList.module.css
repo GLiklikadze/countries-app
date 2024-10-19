@@ -8,3 +8,7 @@
   flex-wrap: wrap;
   font-family: "Exo 2", sans-serif;
 }
+.lang_ka {
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: 14px;
+}

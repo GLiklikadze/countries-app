@@ -17,7 +17,11 @@ const Hero: React.FC<PropsWithChildren> = ({ children }) => {
         className={styles.hero_background_img}
         alt="swiss-train-bridge"
       />
-      <div className={styles.hero_section_info}>
+      <div
+        className={`${styles.hero_section_info}  ${
+          lang === "ka" ? styles.lang_ka : ""
+        }`}
+      >
         {!children && (
           <>
             <h2 className={styles.hero_section_heading}>

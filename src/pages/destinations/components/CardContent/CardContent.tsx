@@ -19,7 +19,7 @@ const CardContent: React.FC<CardContentProps> = ({
         {capitalCityLabel}: {capitalCity}
       </p>
       <p>
-        {areaLabel}: {Number(area).toLocaleString()} km²
+        {areaLabel}: {Number(area).toLocaleString()}
       </p>
     </>
   );

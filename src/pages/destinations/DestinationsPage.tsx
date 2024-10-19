@@ -81,17 +81,23 @@ const DestinationsPage: React.FC = () => {
             <Link to={`${country.id}`} key={country.id} state={{ countryData }}>
               <Card key={country.id} isDeleted={country.isDeleted}>
                 <CardHeader
-                  countryName={country.countryName}
+                  countryName={
+                    lang === "en" ? country.countryName : country.countryName_ka
+                  }
                   flagURL={country.flagURL}
                 />
                 <CardContent
                   population={country.population}
-                  capitalCity={country.capitalCity}
+                  capitalCity={
+                    lang === "en" ? country.capitalCity : country.capitalCity_ka
+                  }
                   area={country.area}
                 />
                 <CardFooter
                   topAttractions={country.topAttractions}
-                  currency={country.currency}
+                  currency={
+                    lang === "en" ? country.currency : country.currency_ka
+                  }
                 />
                 <CardLikesBox
                   likes={country.likes}

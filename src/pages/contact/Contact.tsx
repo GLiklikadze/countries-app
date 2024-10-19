@@ -21,11 +21,11 @@ const Contact: React.FC = () => {
   const [contactFormErrorState, setContactFormErrorState] = useState(
     contactFormInitialMsg
   );
+  const { lang } = useParams();
   const { firstName, lastName, email, message } = contactFormState;
 
   const { firstNameError, lastNameError, emailError, messageError } =
     contactFormErrorState;
-  const { lang } = useParams();
   const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
@@ -104,7 +104,11 @@ const Contact: React.FC = () => {
   const contactFormBtn = lang === "en" ? "Submit" : "გაგზავნა";
 
   return (
-    <main className={styles["contact_page_container"]}>
+    <main
+      className={`${styles.contact_page_container} ${
+        lang === "ka" ? styles.lang_ka : ""
+      }`}
+    >
       <h1>{contactPageHeading}</h1>
       <form className={styles.contact_form} onSubmit={handleContactSubmit}>
         <>

@@ -77,3 +77,8 @@
   display: flex;
   justify-content: flex-end;
 }
+.lang_ka {
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}

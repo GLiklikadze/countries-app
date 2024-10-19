@@ -4,10 +4,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/switzerland-flag-png-large.png",
     countryName: "Switzerland",
+    countryName_ka: "შვეიცარია",
     population: 8_697_000, // as of 2023
     capitalCity: "Bern",
+    capitalCity_ka: "ბერნი",
     area: "41290", // in square kilometers
     currency: "Swiss Franc",
+    currency_ka: "შვეიცარული ფრანკი",
     timezone: "Central European Time (CET)",
     topAttractions: ["Matterhorn", "Lake Geneva"],
     imgUrl: [
@@ -22,13 +25,16 @@ const country_data = [
   {
     id: 1,
     countryName: "Austria",
+    countryName_ka: "ავსტრია",
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/flag-jpg-xl-10-2048x1365.jpg",
 
     population: 9_027_999, // as of 2023
     capitalCity: "Vienna",
+    capitalCity_ka: "ვენა",
     area: "83879", // in square kilometers
     currency: "Euro",
+    currency_ka: "ევრო",
     timezone: "Central European Time (CET)",
     topAttractions: ["Hallstatt", "The Hofburg"],
     imgUrl: [
@@ -45,10 +51,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/hungary-flag-png-large.png",
     countryName: "Hungary",
+    countryName_ka: "უნგრეთი",
     population: 9_630_000, // as of 2023
     capitalCity: "Budapest",
+    capitalCity_ka: "ბუდაპეშტი",
     area: "93030", // in square kilometers
     currency: "Forint",
+    currency_ka: "ფორინტი",
     timezone: "Central European Time (CET)",
     topAttractions: ["Buda Castle", "Parliament"],
     imgUrl: [
@@ -65,10 +74,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
     countryName: "Italy",
+    countryName_ka: "იტალია",
     population: 58_900_000, // as of 2023
     capitalCity: "Rome",
+    capitalCity_ka: "რომი",
     area: "301340", // in square kilometers
     currency: "Euro",
+    currency_ka: "ევრო",
     timezone: "Central European Time (CET)",
     topAttractions: ["Colosseum", "Venice Canals"],
     imgUrl: [

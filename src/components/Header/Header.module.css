@@ -2,7 +2,6 @@
   position: relative;
   width: 100%;
   height: 10vh;
-  font-size: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -16,6 +15,7 @@
     rgba(6, 67, 58) 100%
   );
 }
+
 .title_logo {
   width: 30px;
   height: 30px;
@@ -31,6 +31,8 @@
   border-radius: 10px;
   cursor: pointer;
   color: inherit;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 18px;
 }
 .header_title_container:hover {
   background-color: rgba(255, 255, 255, 0.34);
@@ -88,4 +90,28 @@
 }
 .active_nav_link:hover {
   color: rgb(238, 200, 10);
+}
+.header > button {
+  color: rgb(238, 200, 10);
+  background-color: rgb(5, 50, 43);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 120px;
+  height: 70%;
+  align-items: center;
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+.header > button:hover {
+  background-color: rgba(255, 255, 255, 0.34);
+  border-color: inherit;
+}
+
+.lang_ka {
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
 }

@@ -1,5 +1,7 @@
 import europeLogo from "@/assets/euro-logo-2.png";
 import styles from "@/components/Header/Header.module.css";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Link,
   NavLink,
@@ -33,9 +35,12 @@ const Header: React.FC = () => {
   const navExperiences = lang === "en" ? "Experiences" : "გამოცდილებები";
   const navContact = lang === "en" ? "Contact" : "კონტაქტი";
   const navAbout = lang === "en" ? "About" : "ჩვენს შესახებ";
+  const buttonLabel = lang === "en" ? "en" : "ქარ";
 
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${lang === "ka" ? styles.lang_ka : ""}`}
+    >
       <Link className={styles.header_title_container} to="/">
         <img
           src={europeLogo}
@@ -69,7 +74,10 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <button onClick={handleToggleLanguage}>{lang} ---------------</button>
+      <button onClick={handleToggleLanguage}>
+        <FontAwesomeIcon icon={faGlobe} />
+        <span>{buttonLabel}</span>
+      </button>
     </header>
   );
 };

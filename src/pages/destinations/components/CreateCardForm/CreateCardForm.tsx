@@ -122,7 +122,12 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
   const currencyPlaceholder = lang === "en" ? "Gel" : "ლარი";
 
   return (
-    <form className={styles.country_form} onSubmit={handleSubmit}>
+    <form
+      className={`${styles.country_form} ${
+        lang === "ka" ? styles.lang_ka : ""
+      }`}
+      onSubmit={handleSubmit}
+    >
       <div>
         <div>
           <>
