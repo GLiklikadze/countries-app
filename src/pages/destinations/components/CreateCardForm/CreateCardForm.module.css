@@ -21,7 +21,7 @@
   text-align: left;
   font-size: 14px;
 }
-.country_form input {
+.card_form_input {
   height: 20px;
   font-size: 14px;
   background-color: aliceblue;
@@ -30,7 +30,7 @@
   color: black;
   max-width: 160px;
 }
-.country_form input:focus {
+.card_form_input:focus {
   border: 3px solid rgb(150, 92, 34);
 }
 
@@ -81,4 +81,7 @@
   font-family: "Noto Sans Georgian", sans-serif;
   font-size: 14px;
   font-weight: 400;
+}
+.card_file_input {
+  max-width: 180px;
 }

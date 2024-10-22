@@ -25,7 +25,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     useState<CardFormStateObj>(formInitialObj);
   const [cardFormErrorState, setCardFormErrorState] =
     useState(formErrorInitialMsg);
-  const { countryName, population, capitalCity, area, currency, flagURL } =
+  const { countryName, population, capitalCity, area, currency } =
     cardFormstate;
   const { lang } = useParams();
   const {
@@ -38,10 +38,38 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
   } = cardFormErrorState;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setCardFormState((prevCardFormSate) => {
-      return { ...prevCardFormSate, [name]: value };
-    });
+    const { name, value, files } = event.target;
+
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      if (file.type === "image/jpeg" || file.type === "image/png") {
+        setCardFormErrorState((prevCardFormErrorState) => ({
+          ...prevCardFormErrorState,
+          flagURLError: "",
+        }));
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          setCardFormState((prevCardFormState) => ({
+            ...prevCardFormState,
+            flagURL: reader.result as string,
+          }));
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        setCardFormErrorState((prevCardFormErrorState) => ({
+          ...prevCardFormErrorState,
+          flagURLError: "File must be a JPG or PNG image.",
+        }));
+        console.error("File must be a JPG or PNG image.");
+      }
+    } else {
+      setCardFormState((prevCardFormSate) => {
+        return { ...prevCardFormSate, [name]: value };
+      });
+    }
   };
 
   const validateInput = (fieldName: string) => {
@@ -78,11 +106,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
         error = "Currency must contain only letters";
       }
     }
-    if (fieldName === "flagURL") {
-      if (!flagURL.startsWith("http")) {
-        error = "Please enter valid URL address";
-      }
-    }
     setCardFormErrorState((prevCardFormErrorState) => {
       return { ...prevCardFormErrorState, [`${fieldName}Error`]: error };
     });
@@ -109,25 +132,24 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       event.preventDefault();
     }
   };
+
   const countryLabel = lang === "en" ? "Country Name" : "ქვეყანა";
   const populationLabel = lang === "en" ? "Population" : "მოსახლეობა";
   const capitalCityLabel = lang === "en" ? "Capital City" : "დედაქალაქი";
   const areaLabel = lang === "en" ? "Country Area km²" : "ფართობი კმ²";
   const currencyLabel = lang === "en" ? "Currency" : "ვალუტა";
-  const flagUrlLabel = lang === "en" ? "Flag URL" : "დროშის URL";
+  const flagUrlLabel = lang === "en" ? "Flag" : "დროშა";
   const destinationCreateBtn =
     lang === "en" ? "Create Destination" : "მიმართულების დამატება";
   const countryPlaceholder = lang === "en" ? "Georgia" : "საქართველო";
   const capitalCityPlaceholder = lang === "en" ? "Tbilisi" : "თბილისი";
   const currencyPlaceholder = lang === "en" ? "Gel" : "ლარი";
+  const formClassName = `${styles.country_form} ${
+    lang === "ka" ? styles.lang_ka : ""
+  }`;
 
   return (
-    <form
-      className={`${styles.country_form} ${
-        lang === "ka" ? styles.lang_ka : ""
-      }`}
-      onSubmit={handleSubmit}
-    >
+    <form className={formClassName} onSubmit={handleSubmit}>
       <div>
         <div>
           <>
@@ -142,6 +164,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 name="countryName"
                 id="country-name"
                 placeholder={countryPlaceholder}
+                className={styles.card_form_input}
                 required
               />
             </div>
@@ -159,6 +182,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 name="population"
                 id="country-population"
                 placeholder="3 688 000"
+                className={styles.card_form_input}
                 required
               />
             </div>
@@ -175,6 +199,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 type="text"
                 name="capitalCity"
                 id="capital-city"
+                className={styles.card_form_input}
                 placeholder={capitalCityPlaceholder}
                 required
               />
@@ -194,6 +219,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 type="number"
                 name="area"
                 id="country-area"
+                className={styles.card_form_input}
                 placeholder="69 700"
                 required
               />
@@ -210,6 +236,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 onFocus={handleFocus}
                 type="text"
                 name="currency"
+                className={styles.card_form_input}
                 id="country-currency"
                 placeholder={currencyPlaceholder}
                 required
@@ -220,7 +247,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           <>
             <div>
               <label htmlFor="country-flag-url">{flagUrlLabel}</label>
-              <input
+              {/* <input
                 value={flagURL}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -229,6 +256,13 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 name="flagURL"
                 id="country-flag-url"
                 placeholder="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Flag_of_Georgia.svg/1200px-Flag_of_Georgia.svg.png?20231228212034"
+              /> */}
+              <input
+                accept=""
+                type="file"
+                name="imgInput"
+                className={styles.card_file_input}
+                onChange={handleChange}
               />
             </div>
             <p className={styles.input_error_msg}>{flagURLError}</p>

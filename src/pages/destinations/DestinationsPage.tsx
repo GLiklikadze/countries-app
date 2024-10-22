@@ -24,6 +24,7 @@ const initialState = {
 
 const DestinationsPage: React.FC = () => {
   const [countryData, dispatch] = useReducer(cardReducer, initialState);
+  console.log(countryData);
   const { lang } = useParams();
 
   const handleCardSortClick = () => {
