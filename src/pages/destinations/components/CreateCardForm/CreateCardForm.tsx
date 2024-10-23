@@ -2,30 +2,14 @@ import { CardFormStateObj, CreateCardFormProps } from "@/types/types";
 import styles from "./CreateCardForm.module.css";
 import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
+import {
+  formErrorInitialMsg,
+  formInitialObj,
+  inputToggleInitialObj,
+} from "./InitialStates";
+import { validateInput } from "./validateFormInputs";
+import useLabelsAndMessages from "./useLabelsAndMessages";
 
-const formInitialObj = {
-  countryName: "",
-  countryNameKa: "",
-  population: "",
-  capitalCity: "",
-  capitalCityKa: "",
-  area: "",
-  currency: "",
-  currencyKa: "",
-  flagURL: "",
-};
-
-const formErrorInitialMsg = {
-  countryNameError: "",
-  countryNameKaError: "",
-  populationError: "",
-  capitalCityError: "",
-  capitalCityKaError: "",
-  areaError: "",
-  currencyError: "",
-  currencyKaError: "",
-  flagURLError: "",
-};
 const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
   const [cardFormstate, setCardFormState] =
     useState<CardFormStateObj>(formInitialObj);
@@ -33,11 +17,22 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
   const [cardFormErrorState, setCardFormErrorState] =
     useState(formErrorInitialMsg);
 
-  const [inputsToggleState, setInputsToggleState] = useState({
-    countryInput: false,
-    capitalCityInput: false,
-    currencyInput: false,
-  });
+  const [inputsToggleState, setInputsToggleState] = useState(
+    inputToggleInitialObj
+  );
+  const {
+    countryLabel,
+    populationLabel,
+    capitalCityLabel,
+    areaLabel,
+    currencyLabel,
+    flagUrlLabel,
+    destinationCreateBtn,
+    formClassName,
+    inputToggleButtonsTextGeo,
+    inputToggleButtonsTextEng,
+    flagUploadError,
+  } = useLabelsAndMessages();
 
   const { lang } = useParams();
   const {
@@ -62,7 +57,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     currencyKaError,
     flagURLError,
   } = cardFormErrorState;
-  console.log(cardFormErrorState);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target;
 
@@ -87,7 +82,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       } else {
         setCardFormErrorState((prevCardFormErrorState) => ({
           ...prevCardFormErrorState,
-          flagURLError: "File must be a JPG or PNG image.",
+          flagURLError: flagUploadError,
         }));
         console.error("File must be a JPG or PNG image.");
       }
@@ -98,74 +93,11 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     }
   };
 
-  const validateInput = (fieldName: string) => {
-    let error = "";
-    const onlyLettersRegex = /[^a-zA-Z]/;
-    const georgianRegex = /[^\u10A0-\u10FF\s]/;
-
-    if (fieldName === "countryName") {
-      if (countryName.trim().length < 3) {
-        error = "Country Name must be at least 3 characters long";
-      } else if (onlyLettersRegex.test(countryName.trim())) {
-        error = "Country Name must contain only letters";
-      }
-    }
-    if (fieldName === "countryNameKa") {
-      if (countryNameKa.trim().length < 3) {
-        error = "ქვეყნის სახელი უნდა იყოს მინიმუმ 3 სიმბოლო";
-      } else if (georgianRegex.test(countryNameKa.trim())) {
-        error = " უნდა შეიცავდეს მხოლოდ ქართულ ასოებს";
-      }
-    }
-    if (fieldName === "population") {
-      if (+population < 1000) {
-        error =
-          lang === "ka"
-            ? "მინიმალური რაოდენობაა 1000"
-            : "Population must be at least 1000 citizen";
-      }
-    }
-    if (fieldName === "capitalCity") {
-      if (capitalCity.trim().length < 3) {
-        error = "Capital City must be at least 3 characters long";
-      } else if (onlyLettersRegex.test(capitalCity.trim())) {
-        error = "Capital City must contain only letters";
-      }
-    }
-    if (fieldName === "capitalCityKa") {
-      if (capitalCityKa.trim().length < 3) {
-        error = "უნდა იყოს მინიმუმ 3 სიმბოლო";
-      } else if (georgianRegex.test(capitalCityKa.trim())) {
-        error = "უნდა შეიცავდეს მხოლოდ ქართულ ასოებს";
-      }
-    }
-    if (fieldName === "area") {
-      if (+area < 100) {
-        error =
-          lang === "ka"
-            ? "ფართობის მინიმალური რაოდენობა 100 კვ.მ"
-            : "Area must be at least 100 km²";
-      }
-    }
-    if (fieldName === "currency") {
-      if (onlyLettersRegex.test(currency.trim())) {
-        error = "Currency must contain only letters";
-      }
-    }
-    if (fieldName === "currencyKa") {
-      if (georgianRegex.test(currencyKa.trim())) {
-        error = "უნდა შეიცავდეს მხოლოდ ქართულ ასოებს";
-      }
-    }
-    setCardFormErrorState((prevCardFormErrorState) => {
-      return { ...prevCardFormErrorState, [`${fieldName}Error`]: error };
-    });
-  };
   const handleBlur = (
     event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name } = event.target;
-    validateInput(name);
+    validateInput(name, cardFormstate, setCardFormErrorState, lang ?? "ka");
   };
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     const { name } = event.target;
@@ -203,20 +135,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       currencyInput: !inputsToggleState.currencyInput,
     }));
   };
-
-  const countryLabel = lang === "en" ? "Country Name" : "ქვეყანა";
-  const populationLabel = lang === "en" ? "Population" : "მოსახლეობა";
-  const capitalCityLabel = lang === "en" ? "Capital City" : "დედაქალაქი";
-  const areaLabel = lang === "en" ? "Country Area km²" : "ფართობი კმ²";
-  const currencyLabel = lang === "en" ? "Currency" : "ვალუტა";
-  const flagUrlLabel = lang === "en" ? "Flag" : "დროშა";
-
-  const destinationCreateBtn =
-    lang === "en" ? "Create Destination" : "მიმართულების დამატება";
-  const formClassName = `${styles.country_form} ${
-    lang === "ka" ? styles.lang_ka : ""
-  }`;
-
   let countryInputBox;
   let capitalCityInputBox;
   let currencyInputBox;
@@ -332,8 +250,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       </div>
     );
   }
-  const inputToggleButtonsTextGeo = lang === "ka" ? "ქარ" : "Geo";
-  const inputToggleButtonsTextEng = lang === "en" ? "Eng" : "ინგ";
   return (
     <form className={formClassName} onSubmit={handleSubmit}>
       <div>
@@ -350,7 +266,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
               >
                 {inputToggleButtonsTextGeo}
               </div>
-
               <div
                 className={
                   inputsToggleState.countryInput ? styles.active_toggle_box : ""
@@ -360,7 +275,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
                 {inputToggleButtonsTextEng}
               </div>
             </div>
-
             {countryInputBox}
             <p className={styles.input_error_msg}>{countryNameKaError}</p>
             <p className={styles.input_error_msg}>{countryNameError}</p>

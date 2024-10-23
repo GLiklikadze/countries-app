@@ -74,3 +74,17 @@ export interface CardFormStateObj {
   currencyKa: string;
   flagURL: string;
 }
+export interface cardFormErrorState {
+  countryNameError: string;
+  countryNameKaError: string;
+  populationError: string;
+  capitalCityError: string;
+  capitalCityKaError: string;
+  areaError: string;
+  currencyError: string;
+  currencyKaError: string;
+  flagURLError: string;
+}
+export type SetCardFormErrorState = React.Dispatch<
+  React.SetStateAction<cardFormErrorState>
+>;
