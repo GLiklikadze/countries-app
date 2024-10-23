@@ -112,14 +112,17 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     }
     if (fieldName === "countryNameKa") {
       if (countryNameKa.trim().length < 3) {
-        error = "Country Name must be at least 3 characters long";
+        error = "ქვეყნის სახელი უნდა იყოს მინიმუმ 3 სიმბოლო";
       } else if (georgianRegex.test(countryNameKa.trim())) {
-        error = "Country Name must contain only letters";
+        error = " უნდა შეიცავდეს მხოლოდ ქართულ ასოებს";
       }
     }
     if (fieldName === "population") {
       if (+population < 1000) {
-        error = "Population must be at least 1000 citizen";
+        error =
+          lang === "ka"
+            ? "მინიმალური რაოდენობაა 1000"
+            : "Population must be at least 1000 citizen";
       }
     }
     if (fieldName === "capitalCity") {
@@ -131,14 +134,17 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     }
     if (fieldName === "capitalCityKa") {
       if (capitalCityKa.trim().length < 3) {
-        error = "Capital City must be at least 3 characters long";
-      } else if (georgianRegex.test(capitalCity.trim())) {
-        error = "Capital City must contain only letters";
+        error = "უნდა იყოს მინიმუმ 3 სიმბოლო";
+      } else if (georgianRegex.test(capitalCityKa.trim())) {
+        error = "უნდა შეიცავდეს მხოლოდ ქართულ ასოებს";
       }
     }
     if (fieldName === "area") {
       if (+area < 100) {
-        error = "Area must be at least 100 km² ";
+        error =
+          lang === "ka"
+            ? "ფართობის მინიმალური რაოდენობა 100 კვ.მ"
+            : "Area must be at least 100 km²";
       }
     }
     if (fieldName === "currency") {
@@ -148,7 +154,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     }
     if (fieldName === "currencyKa") {
       if (georgianRegex.test(currencyKa.trim())) {
-        error = "Currency must contain only letters";
+        error = "უნდა შეიცავდეს მხოლოდ ქართულ ასოებს";
       }
     }
     setCardFormErrorState((prevCardFormErrorState) => {
@@ -403,8 +409,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
               </div>
             </div>
             {capitalCityInputBox}
-            <p className={styles.input_error_msg}>{capitalCityError}</p>
             <p className={styles.input_error_msg}>{capitalCityKaError}</p>
+            <p className={styles.input_error_msg}>{capitalCityError}</p>
           </>
           <>
             <div className={styles.input_box}>
@@ -450,8 +456,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
               </div>
             </div>
             {currencyInputBox}
-            <p className={styles.input_error_msg}>{currencyError}</p>
             <p className={styles.input_error_msg}>{currencyKaError}</p>
+            <p className={styles.input_error_msg}>{currencyError}</p>
           </>
           <>
             <div className={styles.input_box}>
