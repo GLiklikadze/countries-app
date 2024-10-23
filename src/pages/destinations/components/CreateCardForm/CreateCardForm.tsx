@@ -377,7 +377,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
             <div className={styles.input_box}>
               <label htmlFor="country-flag-url">{flagUrlLabel}</label>
               <input
-                accept=""
+                required
                 type="file"
                 name="imgInput"
                 className={styles.card_file_input}
