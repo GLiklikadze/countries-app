@@ -1,15 +1,15 @@
 export interface CountryInterface {
   id: number;
   countryName: string;
-  countryName_ka: string;
+  countryNameKa: string;
   flagURL: string;
   population: number;
   capitalCity: string;
-  capitalCity_ka: string;
+  capitalCityKa: string;
   area: string;
   topAttractions: string[];
   currency: string;
-  currency_ka: string;
+  currencyKa: string;
   imgUrl: string[];
   likes: number;
   isDeleted: boolean;
@@ -65,9 +65,12 @@ export type CreateCardFormProps = {
 
 export interface CardFormStateObj {
   countryName: string;
+  countryNameKa: string;
   population: number | string;
   capitalCity: string;
+  capitalCityKa: string;
   area: number | string;
   currency: string;
+  currencyKa: string;
   flagURL: string;
 }

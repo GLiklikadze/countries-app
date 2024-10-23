@@ -4,13 +4,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/switzerland-flag-png-large.png",
     countryName: "Switzerland",
-    countryName_ka: "შვეიცარია",
+    countryNameKa: "შვეიცარია",
     population: 8_697_000, // as of 2023
     capitalCity: "Bern",
-    capitalCity_ka: "ბერნი",
+    capitalCityKa: "ბერნი",
     area: "41290", // in square kilometers
     currency: "Swiss Franc",
-    currency_ka: "შვეიცარული ფრანკი",
+    currencyKa: "შვეიცარული ფრანკი",
     timezone: "Central European Time (CET)",
     topAttractions: ["Matterhorn", "Lake Geneva"],
     imgUrl: [
@@ -25,16 +25,16 @@ const country_data = [
   {
     id: 1,
     countryName: "Austria",
-    countryName_ka: "ავსტრია",
+    countryNameKa: "ავსტრია",
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/flag-jpg-xl-10-2048x1365.jpg",
 
     population: 9_027_999, // as of 2023
     capitalCity: "Vienna",
-    capitalCity_ka: "ვენა",
+    capitalCityKa: "ვენა",
     area: "83879", // in square kilometers
     currency: "Euro",
-    currency_ka: "ევრო",
+    currencyKa: "ევრო",
     timezone: "Central European Time (CET)",
     topAttractions: ["Hallstatt", "The Hofburg"],
     imgUrl: [
@@ -51,13 +51,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/hungary-flag-png-large.png",
     countryName: "Hungary",
-    countryName_ka: "უნგრეთი",
+    countryNameKa: "უნგრეთი",
     population: 9_630_000, // as of 2023
     capitalCity: "Budapest",
-    capitalCity_ka: "ბუდაპეშტი",
+    capitalCityKa: "ბუდაპეშტი",
     area: "93030", // in square kilometers
     currency: "Forint",
-    currency_ka: "ფორინტი",
+    currencyKa: "ფორინტი",
     timezone: "Central European Time (CET)",
     topAttractions: ["Buda Castle", "Parliament"],
     imgUrl: [
@@ -74,13 +74,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
     countryName: "Italy",
-    countryName_ka: "იტალია",
+    countryNameKa: "იტალია",
     population: 58_900_000, // as of 2023
     capitalCity: "Rome",
-    capitalCity_ka: "რომი",
+    capitalCityKa: "რომი",
     area: "301340", // in square kilometers
     currency: "Euro",
-    currency_ka: "ევრო",
+    currencyKa: "ევრო",
     timezone: "Central European Time (CET)",
     topAttractions: ["Colosseum", "Venice Canals"],
     imgUrl: [
