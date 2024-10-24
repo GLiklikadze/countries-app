@@ -1,6 +1,6 @@
 import "@/App.css";
 import Layout from "@/components/Layout/Layout.tsx";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import About from "./pages/about/About";
 import ErrorPage from "./pages/error/ErrorPage";
 import Experience from "./pages/experience/Experience";
@@ -17,8 +17,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Hero />} />
+        <Route path="/:lang" element={<Layout />}>
+          <Route path="" element={<Hero />} />
           <Route
             path="destinations"
             element={
@@ -39,6 +39,7 @@ function App() {
           />
           <Route path="about" element={<About />} />
         </Route>
+        <Route path="/" element={<Navigate to="/ka/" />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

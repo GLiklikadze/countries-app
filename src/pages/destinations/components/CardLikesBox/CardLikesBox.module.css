@@ -3,7 +3,6 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  font-size: 18px;
   height: 40px;
   padding: 10px 5px;
 }
@@ -12,6 +11,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 15px;
+  font-weight: 600;
 }
 .like_count {
   color: rgb(238, 200, 10);

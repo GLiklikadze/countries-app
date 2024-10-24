@@ -1,12 +1,15 @@
 export interface CountryInterface {
   id: number;
   countryName: string;
+  countryNameKa: string;
   flagURL: string;
   population: number;
   capitalCity: string;
+  capitalCityKa: string;
   area: string;
   topAttractions: string[];
   currency: string;
+  currencyKa: string;
   imgUrl: string[];
   likes: number;
   isDeleted: boolean;
@@ -62,9 +65,26 @@ export type CreateCardFormProps = {
 
 export interface CardFormStateObj {
   countryName: string;
+  countryNameKa: string;
   population: number | string;
   capitalCity: string;
+  capitalCityKa: string;
   area: number | string;
   currency: string;
+  currencyKa: string;
   flagURL: string;
 }
+export interface cardFormErrorState {
+  countryNameError: string;
+  countryNameKaError: string;
+  populationError: string;
+  capitalCityError: string;
+  capitalCityKaError: string;
+  areaError: string;
+  currencyError: string;
+  currencyKaError: string;
+  flagURLError: string;
+}
+export type SetCardFormErrorState = React.Dispatch<
+  React.SetStateAction<cardFormErrorState>
+>;

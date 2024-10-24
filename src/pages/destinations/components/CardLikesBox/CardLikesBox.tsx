@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons/faThumbsUp";
 import { faCircleXmark, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { CardLikesBoxProps } from "@/types/types";
+import { useParams } from "react-router-dom";
 
 const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   likes,
@@ -11,11 +12,13 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   handleCardDelete,
   isDeleted,
 }) => {
+  const { lang } = useParams();
   const deleteRetriveToggleButtonIcon = !isDeleted ? (
     <FontAwesomeIcon icon={faCircleXmark} style={{ color: "red" }} size="lg" />
   ) : (
     <FontAwesomeIcon icon={faRotate} size="lg" style={{ color: "green" }} />
   );
+  const likesLabel = lang === "en" ? "Likes" : "მოწონება";
   return (
     <div className={styles.likes_container}>
       <span>
@@ -28,7 +31,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
           <FontAwesomeIcon icon={faThumbsUp} size="lg" />
         </button>
         <span>
-          Likes: <span className={styles.like_count}>{likes}</span>
+          {likesLabel}: <span className={styles.like_count}>{likes}</span>
         </span>
         <button
           onClick={(event) => {

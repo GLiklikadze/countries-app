@@ -1,9 +1,11 @@
 import { CardFooterProps } from "@/types/types";
+import { useParams } from "react-router-dom";
 
 const CardFooter: React.FC<CardFooterProps> = ({
   // topAttractions,
   currency,
 }) => {
+  const { lang } = useParams();
   // const topAttractionsList = (
   //   <p>
   //     Top Attractions:&nbsp;
@@ -12,10 +14,13 @@ const CardFooter: React.FC<CardFooterProps> = ({
   //     ))}
   //   </p>
   // );
+  const currencyLabel = lang === "en" ? "Currency" : "ვალუტა";
   return (
     <>
       {/* {topAttractionsList} */}
-      <p>Currency: {currency}</p>
+      <p>
+        {currencyLabel}: {currency}
+      </p>
     </>
   );
 };

@@ -4,10 +4,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/switzerland-flag-png-large.png",
     countryName: "Switzerland",
+    countryNameKa: "შვეიცარია",
     population: 8_697_000, // as of 2023
     capitalCity: "Bern",
+    capitalCityKa: "ბერნი",
     area: "41290", // in square kilometers
     currency: "Swiss Franc",
+    currencyKa: "შვეიცარული ფრანკი",
     timezone: "Central European Time (CET)",
     topAttractions: ["Matterhorn", "Lake Geneva"],
     imgUrl: [
@@ -22,13 +25,16 @@ const country_data = [
   {
     id: 1,
     countryName: "Austria",
+    countryNameKa: "ავსტრია",
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/flag-jpg-xl-10-2048x1365.jpg",
 
     population: 9_027_999, // as of 2023
     capitalCity: "Vienna",
+    capitalCityKa: "ვენა",
     area: "83879", // in square kilometers
     currency: "Euro",
+    currencyKa: "ევრო",
     timezone: "Central European Time (CET)",
     topAttractions: ["Hallstatt", "The Hofburg"],
     imgUrl: [
@@ -45,10 +51,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/hungary-flag-png-large.png",
     countryName: "Hungary",
+    countryNameKa: "უნგრეთი",
     population: 9_630_000, // as of 2023
     capitalCity: "Budapest",
+    capitalCityKa: "ბუდაპეშტი",
     area: "93030", // in square kilometers
     currency: "Forint",
+    currencyKa: "ფორინტი",
     timezone: "Central European Time (CET)",
     topAttractions: ["Buda Castle", "Parliament"],
     imgUrl: [
@@ -65,10 +74,13 @@ const country_data = [
     flagURL:
       "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
     countryName: "Italy",
+    countryNameKa: "იტალია",
     population: 58_900_000, // as of 2023
     capitalCity: "Rome",
+    capitalCityKa: "რომი",
     area: "301340", // in square kilometers
     currency: "Euro",
+    currencyKa: "ევრო",
     timezone: "Central European Time (CET)",
     topAttractions: ["Colosseum", "Venice Canals"],
     imgUrl: [

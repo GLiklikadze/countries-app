@@ -1,11 +1,12 @@
+import { useParams } from "react-router-dom";
 import styles from "./About.module.css";
 
 const About = () => {
-  return (
-    <div className={styles.about_page_container}>
-      <h1>About Us</h1>
-      <p>
-        Welcome to Explore Europe, where your next unforgettable journey through
+  const { lang } = useParams();
+  const aboutPageHeading = lang === "en" ? "About Us" : "ჩვენს შესახებ ";
+  const aboutPageText =
+    lang === "en"
+      ? `Welcome to Explore Europe, where your next unforgettable journey through
         the heart of Europe begins! Our travel guides focus on four of the
         continent's most fascinating destinations—Austria, Switzerland, Spain,
         and Hungary—offering you an unparalleled travel experience in these
@@ -24,8 +25,33 @@ const About = () => {
         Explore Europe is your trusted partner in discovering the beauty and
         diversity of Austria, Switzerland, Spain, and Hungary. Let us help you
         plan your next great European adventure—where will your journey take
-        you?
-      </p>
+        you?`
+      : `კეთილი იყოს თქვენი მობრძანება გამოიკვლიეთ ევროპა, სადაც იწყება თქვენი
+      შემდეგი დაუვიწყარი მოგზაურობა ევროპის გულში! ჩვენი ტურისტული გიდები 
+      ფოკუსირებულია კონტინენტის ოთხ ყველაზე მომხიბვლელ მიმართულებაზე - ავსტრია,
+      შვეიცარია, ესპანეთი და უნგრეთი - გთავაზობთ შეუდარებელ მოგზაურობის გამოცდილებას
+      ამ მრავალფეროვან და მომხიბვლელ ქვეყნებში. Travel Europe-ში ჩვენ გვჯერა მოგზაურობის მაგიის,
+      სადაც თითოეული დანიშნულება მოგვითხრობს ისტორიას. შვეიცარიის ალპების დათოვლილი
+      მწვერვალებიდან დაწყებული ავსტრიის ელეგანტურ სასახლეებამდე, ესპანეთის ენერგიულ ქუჩებამდე
+      და უნგრეთის ისტორიულ სიდიადემდე, ჩვენ მიზნად ვისახავთ დაგაახლოოთ ევროპის მდიდარ 
+      კულტურულ მემკვიდრეობასთან, თვალწარმტაც პეიზაჟებთან და საგანძურთან. ჩვენი
+      თავდადებული მოგზაურობის ექსპერტთა გუნდი აქ არის, რათა დაგეხმაროთ შეადგინოთ
+      სრულყოფილი მარშრუტი, რომელიც სავსეა თქვენს ინტერესებზე მორგებული უნიკალური
+      გამოცდილებით. გინდათ დატკბეთ ვენის არქიტექტურული საოცრებებით, ესპანეთის
+      ხმელთაშუა ზღვის სანაპიროზე მზეზე ჩაძირვა, შვეიცარიის მომხიბვლელი სოფლების
+      დათვალიერება ან ბუდაპეშტის მდიდარ ისტორიაში ჩაძირვა. ჩვენ დაგეხმარებით
+      ინსაიდერული რჩევებით, კურირებული მარშრუტებითა და ადგილობრივი რეკომენდაციებით,
+      Travel Europe არის თქვენი სანდო პარტნიორი ავსტრიის, შვეიცარიის, ესპანეთისა და 
+      უნგრეთის სილამაზისა და მრავალფეროვნების აღმოჩენაში. მოდით დაგეხმაროთ დაგეგმოთ 
+      თქვენი მომავალი დიდი ევროპული თავგადასავალი - სად მიგიყვანთ თქვენი მოგზაურობა? `;
+  return (
+    <div
+      className={`${styles.about_page_container}  ${
+        lang === "ka" ? styles.lang_ka : ""
+      }`}
+    >
+      <h1>{aboutPageHeading}</h1>
+      <p>{aboutPageText}</p>
     </div>
   );
 };

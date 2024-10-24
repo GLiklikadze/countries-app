@@ -1,8 +1,15 @@
 import trainIMG from "@/assets/train-bridge.jpg";
 import styles from "./Hero.module.css";
 import { PropsWithChildren } from "react";
+import { useParams } from "react-router-dom";
 
 const Hero: React.FC<PropsWithChildren> = ({ children }) => {
+  const { lang } = useParams();
+
+  const heroSectionHeading =
+    lang === "en"
+      ? "Discover the World’s Hidden Gems"
+      : "აღმოაჩინე მსოფლიოს დამალული განძი";
   return (
     <section className={styles.hero_section}>
       <img
@@ -10,15 +17,20 @@ const Hero: React.FC<PropsWithChildren> = ({ children }) => {
         className={styles.hero_background_img}
         alt="swiss-train-bridge"
       />
-      <div className={styles.hero_section_info}>
+      <div
+        className={`${styles.hero_section_info}  ${
+          lang === "ka" ? styles.lang_ka : ""
+        }`}
+      >
         {!children && (
           <>
             <h2 className={styles.hero_section_heading}>
-              Discover the World’s Hidden Gems
+              {heroSectionHeading}
             </h2>
             <p>
-              Explore breathtaking landscapes, rich cultures, and unforgettable
-              experiences. Your next adventure starts here.
+              {lang === "en"
+                ? "Explore breathtaking landscapes, rich cultures, and unforgettable experiences. Your next adventure starts here."
+                : "გამოიკვლიეთ თვალწარმტაცი პეიზაჟები, მდიდარი კულტურები და დაუვიწყარი გამოცდილება. თქვენი შემდეგი თავგადასავალი აქ იწყება."}
             </p>
           </>
         )}

@@ -5,7 +5,7 @@
   transform: translate(-50%, 0);
   display: flex;
   flex-direction: column;
-  min-width: 45vw;
+  max-width: 960px;
   font-family: "Exo 2", sans-serif;
   gap: 20px;
   padding: 30px;
@@ -18,19 +18,23 @@
   border-radius: 10px;
 }
 .country_form label {
+  white-space: nowrap;
   text-align: left;
   font-size: 14px;
 }
-.country_form input {
+.country_form label:hover {
+  color: rgb(238, 200, 10);
+}
+.card_form_input {
   height: 20px;
   font-size: 14px;
   background-color: aliceblue;
   border-radius: 5px;
   border: 3px solid rgba(6, 67, 58);
   color: black;
-  max-width: 160px;
+  max-width: 170px;
 }
-.country_form input:focus {
+.card_form_input:focus {
   border: 3px solid rgb(150, 92, 34);
 }
 
@@ -40,8 +44,6 @@
   gap: 30px;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  /* flex-wrap: wrap; */
 }
 
 .country_form > div > div {
@@ -49,18 +51,20 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
-.country_form > div > div > div {
+.input_box {
   width: 100%;
+  padding-top: 15px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 20px;
   justify-content: space-between;
 }
 .country_form button {
   margin: 0 auto;
-  width: 180px;
+  max-width: 270px;
   font-weight: 600;
   border: 1px solid hsl(0, 0%, 100%, 0.5);
   background-color: rgba(6, 67, 58);
@@ -71,9 +75,49 @@
 }
 .input_error_msg {
   height: 18px;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
   color: rgb(238, 200, 10);
   display: flex;
   justify-content: flex-end;
+}
+.lang_ka {
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+.card_file_input {
+  max-width: 180px;
+}
+.input_toggle_box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: rgba(6, 67, 58, 0.2);
+  height: 25px;
+  border-radius: 5px;
+  width: 60%;
+  margin-left: 33%;
+  border: 1px solid rgba(6, 67, 58, 0.6);
+}
+.input_toggle_box > div {
+  flex: 1;
+  padding: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.input_toggle_box > div:hover {
+  color: rgb(238, 200, 10);
+}
+.active_toggle_box {
+  background-color: rgba(6, 67, 58, 0.8);
+  border: 1px solid rgb(238, 200, 10, 0.5);
+  color: rgb(238, 200, 10, 0.8);
+}
+
+@media only screen and (max-width: 992px) {
+  .country_form > div {
+    flex-direction: column;
+  }
 }

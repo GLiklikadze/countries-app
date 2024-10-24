@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import CardContent from "../../components/CardContent/CardContent";
 import CardFooter from "../../components/CardFooter/CardFooter";
@@ -10,6 +10,13 @@ const CountryDetailsPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const { countryData } = location.state || {};
+
+  const navigate = useNavigate();
+
+  if (!countryData) {
+    navigate(-1);
+    return null;
+  }
   return (
     <div className={styles.country_details_container}>
       {countryData.country_data
