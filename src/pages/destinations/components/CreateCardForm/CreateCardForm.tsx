@@ -6,7 +6,7 @@ import {
   formErrorInitialMsg,
   formInitialObj,
   inputToggleInitialObj,
-} from "./InitialStates";
+} from "./initialStates";
 import { validateInput } from "./validateFormInputs";
 import useLabelsAndMessages from "./useLabelsAndMessages";
 
