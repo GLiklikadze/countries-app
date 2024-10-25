@@ -28,7 +28,7 @@ const DestinationsPage: React.FC = () => {
   const { lang } = useParams();
 
   const handleCardSortClick = () => {
-    dispatch({ type: "sort" });
+    dispatch({ type: "sort", payload: null });
   };
 
   const handleCardDelete = (
@@ -95,7 +95,7 @@ const DestinationsPage: React.FC = () => {
                   area={country.area}
                 />
                 <CardFooter
-                  topAttractions={country.topAttractions}
+                  // topAttractions={country.topAttractions}
                   currency={
                     lang === "en" ? country.currency : country.currencyKa
                   }

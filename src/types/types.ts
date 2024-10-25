@@ -3,11 +3,11 @@ export interface CountryInterface {
   countryName: string;
   countryNameKa: string;
   flagURL: string;
-  population: number;
+  population: number | string;
   capitalCity: string;
   capitalCityKa: string;
-  area: string;
-  topAttractions: string[];
+  area: string | number;
+  // topAttractions: string[];
   currency: string;
   currencyKa: string;
   imgUrl: string[];
@@ -25,12 +25,12 @@ export interface CardHeaderProps {
   flagURL: string;
 }
 export interface CardContentProps {
-  population: number;
+  population: number | string;
   capitalCity: string;
-  area: string;
+  area: number | string;
 }
 export interface CardFooterProps {
-  topAttractions?: string[];
+  // topAttractions?: string[];
   currency: string;
 }
 export type PhotoGalleryProps = {

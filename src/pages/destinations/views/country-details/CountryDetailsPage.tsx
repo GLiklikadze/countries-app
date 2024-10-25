@@ -35,7 +35,7 @@ const CountryDetailsPage = () => {
               />
               <CardFooter
                 currency={country.currency}
-                topAttractions={country.topAttractions}
+                // topAttractions={country.topAttractions}
               />
             </div>
             <PhotoGallery country={country} />
