@@ -10,7 +10,6 @@ export const cardReducer = (
   countryData: CardReducerInitialState,
   action: CardReducerAction,
 ): CardReducerInitialState => {
-  //sort logic
   if (action.type === "sort") {
     const filterDeletedCards = countryData.country_data.filter(
       (country) => !country.isDeleted,
