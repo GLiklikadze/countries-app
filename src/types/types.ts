@@ -47,19 +47,19 @@ export type CardLikesBoxProps = {
   countryId: number;
   handleLikeClick: (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => void;
 
   handleCardDelete: (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => void;
   isDeleted: boolean;
 };
 export type CreateCardFormProps = {
   onSubmit: (
     event: React.FormEvent<HTMLFormElement>,
-    formDataObject: CardFormStateObj
+    formDataObject: CardFormStateObj,
   ) => void;
 };
 

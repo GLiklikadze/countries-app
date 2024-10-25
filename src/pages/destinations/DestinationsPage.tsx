@@ -33,7 +33,7 @@ const DestinationsPage: React.FC = () => {
 
   const handleCardDelete = (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => {
     event.preventDefault();
     event.stopPropagation();
@@ -42,7 +42,7 @@ const DestinationsPage: React.FC = () => {
 
   const handleLikeClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => {
     event.preventDefault();
     event.stopPropagation();
@@ -56,7 +56,7 @@ const DestinationsPage: React.FC = () => {
 
   const handleCreateCard = (
     event: FormEvent<HTMLFormElement>,
-    formDataObject: CardFormStateObj
+    formDataObject: CardFormStateObj,
   ) => {
     event.preventDefault();
     console.log(formDataObject);

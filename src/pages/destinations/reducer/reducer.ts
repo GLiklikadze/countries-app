@@ -8,14 +8,15 @@ export type CardReducerAction =
 
 export const cardReducer = (
   countryData: CardReducerInitialState,
-  action: CardReducerAction
+  action: CardReducerAction,
 ): CardReducerInitialState => {
+  //sort logic
   if (action.type === "sort") {
     const filterDeletedCards = countryData.country_data.filter(
-      (country) => !country.isDeleted
+      (country) => !country.isDeleted,
     );
     const deletedCards = countryData.country_data.filter(
-      (country) => country.isDeleted
+      (country) => country.isDeleted,
     );
     const sortedCards = [...filterDeletedCards].sort((a, b) => {
       return countryData.toggleSort ? b.likes - a.likes : a.likes - b.likes;
@@ -29,7 +30,7 @@ export const cardReducer = (
   if (action.type === "like") {
     const handleCardLike = (
       countryData: CardReducerInitialState,
-      countryId: number
+      countryId: number,
     ) => {
       return countryData.country_data.map((country: CountryInterface) => {
         if (country.id === countryId) {
@@ -87,7 +88,7 @@ export const cardReducer = (
   if (action.type === "delete") {
     const handleCardDelete = (
       countryData: CardReducerInitialState,
-      countryId: number
+      countryId: number,
     ) => {
       return countryData.country_data.map((country: CountryInterface) => {
         if (country.id === countryId) {

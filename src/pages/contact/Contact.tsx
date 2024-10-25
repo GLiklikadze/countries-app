@@ -16,10 +16,10 @@ const contactFormInitialMsg = {
 };
 const Contact: React.FC = () => {
   const [contactFormState, setContactFormState] = useState(
-    contactFormInitialObj
+    contactFormInitialObj,
   );
   const [contactFormErrorState, setContactFormErrorState] = useState(
-    contactFormInitialMsg
+    contactFormInitialMsg,
   );
   const { lang } = useParams();
   const { firstName, lastName, email, message } = contactFormState;
@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
     }
   };
   const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
     setContactFormState((prevContactFormState) => {
@@ -83,13 +83,13 @@ const Contact: React.FC = () => {
   };
 
   const handleBlur = (
-    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name } = event.target;
     validateInput(name);
   };
   const handleFocus = (
-    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name } = event.target;
     setContactFormErrorState((prevContactFormErrorState) => {
