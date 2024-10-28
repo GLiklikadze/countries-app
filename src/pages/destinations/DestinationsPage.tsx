@@ -28,12 +28,12 @@ const DestinationsPage: React.FC = () => {
   const { lang } = useParams();
 
   const handleCardSortClick = () => {
-    dispatch({ type: "sort" });
+    dispatch({ type: "sort", payload: null });
   };
 
   const handleCardDelete = (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => {
     event.preventDefault();
     event.stopPropagation();
@@ -42,7 +42,7 @@ const DestinationsPage: React.FC = () => {
 
   const handleLikeClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => {
     event.preventDefault();
     event.stopPropagation();
@@ -56,7 +56,7 @@ const DestinationsPage: React.FC = () => {
 
   const handleCreateCard = (
     event: FormEvent<HTMLFormElement>,
-    formDataObject: CardFormStateObj
+    formDataObject: CardFormStateObj,
   ) => {
     event.preventDefault();
     console.log(formDataObject);
@@ -95,7 +95,7 @@ const DestinationsPage: React.FC = () => {
                   area={country.area}
                 />
                 <CardFooter
-                  topAttractions={country.topAttractions}
+                  // topAttractions={country.topAttractions}
                   currency={
                     lang === "en" ? country.currency : country.currencyKa
                   }

@@ -12,7 +12,6 @@ const country_data = [
     currency: "Swiss Franc",
     currencyKa: "შვეიცარული ფრანკი",
     timezone: "Central European Time (CET)",
-    topAttractions: ["Matterhorn", "Lake Geneva"],
     imgUrl: [
       "/src/assets/swiss-photos/swiss-photo-1.jpg",
       "/src/assets/swiss-photos/swiss-photo-2.jpg",
@@ -36,7 +35,6 @@ const country_data = [
     currency: "Euro",
     currencyKa: "ევრო",
     timezone: "Central European Time (CET)",
-    topAttractions: ["Hallstatt", "The Hofburg"],
     imgUrl: [
       "/src/assets/austria-photos/austria-photo-1.jpg",
       "/src/assets/austria-photos/austria-photo-2.jpg",
@@ -59,7 +57,6 @@ const country_data = [
     currency: "Forint",
     currencyKa: "ფორინტი",
     timezone: "Central European Time (CET)",
-    topAttractions: ["Buda Castle", "Parliament"],
     imgUrl: [
       "/src/assets/hungary-photos/hungary-photo-1.jpg",
       "/src/assets/hungary-photos/hungary-photo-2.jpg",
@@ -82,7 +79,6 @@ const country_data = [
     currency: "Euro",
     currencyKa: "ევრო",
     timezone: "Central European Time (CET)",
-    topAttractions: ["Colosseum", "Venice Canals"],
     imgUrl: [
       "/src/assets/italy-photos/italy-photo-1.jpg",
       "/src/assets/italy-photos/italy-photo-2.jpg",

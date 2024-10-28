@@ -18,7 +18,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     useState(formErrorInitialMsg);
 
   const [inputsToggleState, setInputsToggleState] = useState(
-    inputToggleInitialObj
+    inputToggleInitialObj,
   );
   const {
     countryLabel,
@@ -94,7 +94,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
   };
 
   const handleBlur = (
-    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name } = event.target;
     validateInput(name, cardFormstate, setCardFormErrorState, lang ?? "ka");

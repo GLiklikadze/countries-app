@@ -4,7 +4,7 @@ export const validateInput = (
   fieldName: string,
   cardFormstate: CardFormStateObj,
   setCardFormErrorState: SetCardFormErrorState,
-  lang: string
+  lang: string,
 ) => {
   const {
     countryName,

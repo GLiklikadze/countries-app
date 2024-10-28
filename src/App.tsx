@@ -9,7 +9,7 @@ import { lazy, Suspense } from "react";
 import CountryDetailsPage from "./pages/destinations/views/country-details/CountryDetailsPage";
 
 const LazyDestinationsPage = lazy(
-  () => import("./pages/destinations/DestinationsPage")
+  () => import("./pages/destinations/DestinationsPage"),
 );
 const LazyContactPage = lazy(() => import("./pages/contact/Contact"));
 

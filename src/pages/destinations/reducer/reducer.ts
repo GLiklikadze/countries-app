@@ -1,20 +1,21 @@
 import { CardReducerInitialState, CountryInterface } from "@/types/types";
 
-export type CardReducerAction = {
-  type: "like" | "sort" | "create" | "delete";
-  payload?: any;
-};
+export type CardReducerAction =
+  | { type: "like"; payload: { id: number } }
+  | { type: "sort"; payload: null }
+  | { type: "create"; payload: { formDataObject: Partial<CountryInterface> } }
+  | { type: "delete"; payload: { id: number } };
 
 export const cardReducer = (
   countryData: CardReducerInitialState,
-  action: CardReducerAction
-) => {
+  action: CardReducerAction,
+): CardReducerInitialState => {
   if (action.type === "sort") {
     const filterDeletedCards = countryData.country_data.filter(
-      (country) => !country.isDeleted
+      (country) => !country.isDeleted,
     );
     const deletedCards = countryData.country_data.filter(
-      (country) => country.isDeleted
+      (country) => country.isDeleted,
     );
     const sortedCards = [...filterDeletedCards].sort((a, b) => {
       return countryData.toggleSort ? b.likes - a.likes : a.likes - b.likes;
@@ -28,7 +29,7 @@ export const cardReducer = (
   if (action.type === "like") {
     const handleCardLike = (
       countryData: CardReducerInitialState,
-      countryId: number
+      countryId: number,
     ) => {
       return countryData.country_data.map((country: CountryInterface) => {
         if (country.id === countryId) {
@@ -46,9 +47,30 @@ export const cardReducer = (
   }
   if (action.type === "create") {
     const uniqueId = Math.floor(Date.now() + Math.random() * 1000);
-    const newCard = {
-      ...action.payload.formDataObject,
-      topAttractions: [],
+    const {
+      countryName,
+      population,
+      capitalCity,
+      currency,
+      area,
+      capitalCityKa,
+      countryNameKa,
+      currencyKa,
+      flagURL,
+      isDeleted,
+    } = action.payload.formDataObject;
+
+    const newCard: CountryInterface = {
+      countryName: countryName || "",
+      population: population || 0,
+      capitalCity: capitalCity || "",
+      currency: currency || "",
+      area: area || 0,
+      capitalCityKa: capitalCityKa || "",
+      countryNameKa: countryNameKa || "",
+      currencyKa: currencyKa || "",
+      flagURL: flagURL || "",
+      isDeleted: isDeleted || false,
       imgUrl: [],
       likes: 0,
       id: uniqueId,
@@ -65,7 +87,7 @@ export const cardReducer = (
   if (action.type === "delete") {
     const handleCardDelete = (
       countryData: CardReducerInitialState,
-      countryId: number
+      countryId: number,
     ) => {
       return countryData.country_data.map((country: CountryInterface) => {
         if (country.id === countryId) {

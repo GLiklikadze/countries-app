@@ -3,11 +3,11 @@ export interface CountryInterface {
   countryName: string;
   countryNameKa: string;
   flagURL: string;
-  population: number;
+  population: number | string;
   capitalCity: string;
   capitalCityKa: string;
-  area: string;
-  topAttractions: string[];
+  area: string | number;
+  // topAttractions: string[];
   currency: string;
   currencyKa: string;
   imgUrl: string[];
@@ -25,12 +25,12 @@ export interface CardHeaderProps {
   flagURL: string;
 }
 export interface CardContentProps {
-  population: number;
+  population: number | string;
   capitalCity: string;
-  area: string;
+  area: number | string;
 }
 export interface CardFooterProps {
-  topAttractions?: string[];
+  // topAttractions?: string[];
   currency: string;
 }
 export type PhotoGalleryProps = {
@@ -47,19 +47,19 @@ export type CardLikesBoxProps = {
   countryId: number;
   handleLikeClick: (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => void;
 
   handleCardDelete: (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => void;
   isDeleted: boolean;
 };
 export type CreateCardFormProps = {
   onSubmit: (
     event: React.FormEvent<HTMLFormElement>,
-    formDataObject: CardFormStateObj
+    formDataObject: CardFormStateObj,
   ) => void;
 };
 
