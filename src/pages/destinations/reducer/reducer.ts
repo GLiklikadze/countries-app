@@ -4,12 +4,19 @@ export type CardReducerAction =
   | { type: "like"; payload: { id: number } }
   | { type: "sort"; payload: null }
   | { type: "create"; payload: { formDataObject: Partial<CountryInterface> } }
-  | { type: "delete"; payload: { id: number } };
+  | { type: "delete"; payload: { id: number } }
+  | { type: "set_countries"; payload: { country_data: CountryInterface[] } };
 
 export const cardReducer = (
   countryData: CardReducerInitialState,
   action: CardReducerAction,
 ): CardReducerInitialState => {
+  if (action.type === "set_countries") {
+    return {
+      ...countryData,
+      country_data: action.payload.country_data,
+    };
+  }
   if (action.type === "sort") {
     const filterDeletedCards = countryData.country_data.filter(
       (country) => !country.isDeleted,

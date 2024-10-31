@@ -1,4 +1,3 @@
-import country_data from "@/data/country-data";
 import Card from "./components/Card/Card";
 import Hero from "@/components/Hero/Hero";
 import CardList from "./components/CardList/CardList";
@@ -6,7 +5,7 @@ import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
 import { Link, useParams } from "react-router-dom";
-import { FormEvent, useReducer } from "react";
+import { FormEvent, useEffect, useReducer } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CardFormStateObj, CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,14 +15,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cardReducer } from "./reducer/reducer";
 import CreateCardForm from "./components/CreateCardForm/CreateCardForm";
+import axios from "axios";
 
 const initialState = {
-  country_data: country_data,
+  country_data: [],
   toggleSort: false,
 };
-
 const DestinationsPage: React.FC = () => {
   const [countryData, dispatch] = useReducer(cardReducer, initialState);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/countries")
+      .then((response) =>
+        dispatch({
+          type: "set_countries",
+          payload: { country_data: response.data },
+        }),
+      )
+      .catch((error) => console.error("Error fetching countries", error));
+  }, []);
+
   console.log(countryData);
   const { lang } = useParams();
 
@@ -79,7 +91,7 @@ const DestinationsPage: React.FC = () => {
         <CreateCardForm onSubmit={handleCreateCard} />
         <CardList>
           {countryData.country_data.map((country: CountryInterface) => (
-            <Link to={`${country.id}`} key={country.id} state={{ countryData }}>
+            <Link to={`${country.id}`} key={country.id}>
               <Card key={country.id} isDeleted={country.isDeleted}>
                 <CardHeader
                   countryName={
