@@ -1,0 +1,88 @@
+{
+  "countries": [
+    {
+      "id": 0,
+      "flagURL": "https://www.countryflags.com/wp-content/uploads/switzerland-flag-png-large.png",
+      "countryName": "Switzerland",
+      "countryNameKa": "შვეიცარია",
+      "population": 8697000,
+      "capitalCity": "Bern",
+      "capitalCityKa": "ბერნი",
+      "area": 41290,
+      "currency": "Swiss Franc",
+      "currencyKa": "შვეიცარული ფრანკი",
+      "timezone": "Central European Time (CET)",
+      "imgUrl": [
+        "/src/assets/swiss-photos/swiss-photo-1.jpg",
+        "/src/assets/swiss-photos/swiss-photo-2.jpg",
+        "/src/assets/swiss-photos/swiss-photo-3.jpg",
+        "/src/assets/swiss-photos/swiss-photo-4.jpg"
+      ],
+      "likes": 19,
+      "isDeleted": false
+    },
+    {
+      "id": 1,
+      "countryName": "Austria",
+      "countryNameKa": "ავსტრია",
+      "flagURL": "https://www.countryflags.com/wp-content/uploads/flag-jpg-xl-10-2048x1365.jpg",
+      "population": 9027999,
+      "capitalCity": "Vienna",
+      "capitalCityKa": "ვენა",
+      "area": 83879,
+      "currency": "Euro",
+      "currencyKa": "ევრო",
+      "timezone": "Central European Time (CET)",
+      "imgUrl": [
+        "/src/assets/austria-photos/austria-photo-1.jpg",
+        "/src/assets/austria-photos/austria-photo-2.jpg",
+        "/src/assets/austria-photos/austria-photo-3.jpg",
+        "/src/assets/austria-photos/austria-photo-4.jpg"
+      ],
+      "likes": 7,
+      "isDeleted": false
+    },
+    {
+      "id": 2,
+      "flagURL": "https://www.countryflags.com/wp-content/uploads/hungary-flag-png-large.png",
+      "countryName": "Hungary",
+      "countryNameKa": "უნგრეთი",
+      "population": 9630000,
+      "capitalCity": "Budapest",
+      "capitalCityKa": "ბუდაპეშტი",
+      "area": 93030,
+      "currency": "Forint",
+      "currencyKa": "ფორინტი",
+      "timezone": "Central European Time (CET)",
+      "imgUrl": [
+        "/src/assets/hungary-photos/hungary-photo-1.jpg",
+        "/src/assets/hungary-photos/hungary-photo-2.jpg",
+        "/src/assets/hungary-photos/hungary-photo-3.jpg",
+        "/src/assets/hungary-photos/hungary-photo-4.jpg"
+      ],
+      "likes": 10,
+      "isDeleted": false
+    },
+    {
+      "id": 3,
+      "flagURL": "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
+      "countryName": "Italy",
+      "countryNameKa": "იტალია",
+      "population": 58900000,
+      "capitalCity": "Rome",
+      "capitalCityKa": "რომი",
+      "area": 301340,
+      "currency": "Euro",
+      "currencyKa": "ევრო",
+      "timezone": "Central European Time (CET)",
+      "imgUrl": [
+        "/src/assets/italy-photos/italy-photo-1.jpg",
+        "/src/assets/italy-photos/italy-photo-2.jpg",
+        "/src/assets/italy-photos/italy-photo-3.jpg",
+        "/src/assets/italy-photos/italy-photo-4.jpg"
+      ],
+      "likes": 13,
+      "isDeleted": false
+    }
+  ]
+}
