@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const initialCountryObj = {
-  id: -1,
+  id: "-1",
   countryName: "",
   countryNameKa: "",
   flagURL: "",
@@ -41,6 +41,7 @@ const CountryDetailsPage = () => {
   } = countryObj;
 
   const { lang, id } = useParams();
+
   const navigate = useNavigate();
   useEffect(() => {
     axios

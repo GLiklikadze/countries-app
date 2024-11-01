@@ -1,11 +1,19 @@
-import { CardReducerInitialState, CountryInterface } from "@/types/types";
+import {
+  CardFormStateObj,
+  CardReducerInitialState,
+  CountryInterface,
+} from "@/types/types";
 
 export type CardReducerAction =
-  | { type: "like"; payload: { id: number } }
+  | { type: "set_countries"; payload: { country_data: CountryInterface[] } }
+  | { type: "like"; payload: { id: string } }
   | { type: "sort"; payload: null }
-  | { type: "create"; payload: { formDataObject: Partial<CountryInterface> } }
-  | { type: "delete"; payload: { id: number } }
-  | { type: "set_countries"; payload: { country_data: CountryInterface[] } };
+  | {
+      type: "create";
+      payload: { newCardPostRequestResult: CountryInterface };
+    }
+  | { type: "delete"; payload: { id: string } }
+  | { type: "edit"; payload: { id: string; cardFormState: CardFormStateObj } };
 
 export const cardReducer = (
   countryData: CardReducerInitialState,
@@ -36,7 +44,7 @@ export const cardReducer = (
   if (action.type === "like") {
     const handleCardLike = (
       countryData: CardReducerInitialState,
-      countryId: number,
+      countryId: string,
     ) => {
       return countryData.country_data.map((country: CountryInterface) => {
         if (country.id === countryId) {
@@ -53,60 +61,27 @@ export const cardReducer = (
     };
   }
   if (action.type === "create") {
-    const uniqueId = Math.floor(Date.now() + Math.random() * 1000);
-    const {
-      countryName,
-      population,
-      capitalCity,
-      currency,
-      area,
-      capitalCityKa,
-      countryNameKa,
-      currencyKa,
-      flagURL,
-      isDeleted,
-    } = action.payload.formDataObject;
-
-    const newCard: CountryInterface = {
-      countryName: countryName || "",
-      population: population || 0,
-      capitalCity: capitalCity || "",
-      currency: currency || "",
-      area: area || 0,
-      capitalCityKa: capitalCityKa || "",
-      countryNameKa: countryNameKa || "",
-      currencyKa: currencyKa || "",
-      flagURL: flagURL || "",
-      isDeleted: isDeleted || false,
-      imgUrl: [],
-      likes: 0,
-      id: uniqueId,
-    };
-    const updatedCards = [...countryData.country_data, newCard];
-    const activeCards = updatedCards.filter((card) => !card.isDeleted);
-    const deletedCards = updatedCards.filter((card) => card.isDeleted);
-
+    const newCard = action.payload.newCardPostRequestResult;
     return {
       ...countryData,
-      country_data: [...activeCards, ...deletedCards],
+      country_data: [...countryData.country_data, newCard],
     };
   }
   if (action.type === "delete") {
-    const handleCardDelete = (
-      countryData: CardReducerInitialState,
-      countryId: number,
-    ) => {
-      return countryData.country_data.map((country: CountryInterface) => {
-        if (country.id === countryId) {
-          return { ...country, isDeleted: !country.isDeleted };
-        }
-        return country;
-      });
+    const activeCards = countryData.country_data.filter(
+      (card: CountryInterface) => card.id !== action.payload.id,
+    );
+    return { ...countryData, country_data: activeCards };
+  }
+  if (action.type === "edit") {
+    return {
+      ...countryData,
+      country_data: countryData.country_data.map((country) =>
+        country.id === action.payload.id
+          ? { ...country, ...action.payload.cardFormState }
+          : country,
+      ),
     };
-    const newCountryData = handleCardDelete(countryData, action.payload.id!);
-    const activeCards = newCountryData.filter((card) => !card.isDeleted);
-    const deletedCards = newCountryData.filter((card) => card.isDeleted);
-    return { ...countryData, country_data: [...activeCards, ...deletedCards] };
   }
   return countryData;
 };

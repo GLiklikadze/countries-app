@@ -5,7 +5,7 @@ import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
 import { Link, useParams } from "react-router-dom";
-import { FormEvent, useEffect, useReducer } from "react";
+import { FormEvent, useEffect, useReducer, useState } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CardFormStateObj, CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,7 @@ import {
 import { cardReducer } from "./reducer/reducer";
 import CreateCardForm from "./components/CreateCardForm/CreateCardForm";
 import axios from "axios";
+import { formInitialObj } from "./components/CreateCardForm/initialStates";
 
 const initialState = {
   country_data: [],
@@ -23,7 +24,11 @@ const initialState = {
 };
 const DestinationsPage: React.FC = () => {
   const [countryData, dispatch] = useReducer(cardReducer, initialState);
-
+  const [cardFormState, setCardFormState] =
+    useState<CardFormStateObj>(formInitialObj);
+  const [isEditingCard, setIsEditingCard] = useState<boolean>(false);
+  console.log("DATA:", countryData);
+  console.log("FORM:", cardFormState);
   useEffect(() => {
     axios
       .get("http://localhost:3000/countries")
@@ -36,25 +41,37 @@ const DestinationsPage: React.FC = () => {
       .catch((error) => console.error("Error fetching countries", error));
   }, []);
 
-  console.log(countryData);
   const { lang } = useParams();
 
   const handleCardSortClick = () => {
     dispatch({ type: "sort", payload: null });
   };
 
-  const handleCardDelete = (
+  const handleCardDelete = async (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number,
+    id: string,
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    dispatch({ type: "delete", payload: { id } });
-  };
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/countries/${id}`,
+      );
 
+      if (response.status === 200 || response.status === 201) {
+        dispatch({ type: "delete", payload: { id } });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error deleting card:", error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
+    }
+  };
   const handleLikeClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number,
+    id: string,
   ) => {
     event.preventDefault();
     event.stopPropagation();
@@ -66,13 +83,114 @@ const DestinationsPage: React.FC = () => {
     });
   };
 
-  const handleCreateCard = (
+  const handleCreateCard = async (
     event: FormEvent<HTMLFormElement>,
     formDataObject: CardFormStateObj,
   ) => {
     event.preventDefault();
-    console.log(formDataObject);
-    dispatch({ type: "create", payload: { formDataObject } });
+    const uniqueId = Math.floor(Date.now() + Math.random() * 1000);
+    const {
+      countryName,
+      population,
+      capitalCity,
+      currency,
+      area,
+      capitalCityKa,
+      countryNameKa,
+      currencyKa,
+      flagURL,
+    } = formDataObject;
+
+    const newCard: CountryInterface = {
+      countryName: countryName || "",
+      population: population || 0,
+      capitalCity: capitalCity || "",
+      currency: currency || "",
+      area: area || 0,
+      capitalCityKa: capitalCityKa || "",
+      countryNameKa: countryNameKa || "",
+      currencyKa: currencyKa || "",
+      flagURL: flagURL || "",
+      isDeleted: false,
+      imgUrl: [],
+      likes: 0,
+      id: uniqueId.toString(),
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/countries",
+        newCard,
+      );
+      if (response.status === 200 || response.status === 201) {
+        const newCardPostRequestResult = response.data;
+        dispatch({ type: "create", payload: { newCardPostRequestResult } });
+      } else {
+        console.log(response.statusText);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error creating card:", error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
+    }
+  };
+  const handleCardEdit = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsEditingCard((prevIsEditingCard) => !prevIsEditingCard);
+    const selectedCard = countryData.country_data.filter(
+      (card: CountryInterface) => card.id === id,
+    );
+    const {
+      countryName,
+      population,
+      capitalCity,
+      currency,
+      area,
+      capitalCityKa,
+      countryNameKa,
+      currencyKa,
+      flagURL,
+    } = selectedCard[0];
+
+    setCardFormState((prevCardFormState) => ({
+      ...prevCardFormState,
+      countryName,
+      population,
+      capitalCity,
+      currency,
+      area,
+      capitalCityKa,
+      countryNameKa,
+      currencyKa,
+      flagURL,
+      id,
+    }));
+    console.log(isEditingCard);
+  };
+
+  const handleEditClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+  ) => {
+    event.preventDefault();
+    dispatch({
+      type: "edit",
+      payload: {
+        id: id,
+        cardFormState: cardFormState,
+      },
+    });
+    setIsEditingCard((prevIsEditingCard) => !prevIsEditingCard);
+    setCardFormState((prevCardFormState) => ({
+      ...prevCardFormState,
+      ...formInitialObj,
+    }));
   };
 
   const sortButtonIconToggle = countryData.toggleSort ? (
@@ -88,7 +206,13 @@ const DestinationsPage: React.FC = () => {
           <span>{sortButton}</span>
           {sortButtonIconToggle}
         </button>
-        <CreateCardForm onSubmit={handleCreateCard} />
+        <CreateCardForm
+          onSubmit={handleCreateCard}
+          cardFormState={cardFormState}
+          setCardFormState={setCardFormState}
+          isEditingCard={isEditingCard}
+          handleEditClick={handleEditClick}
+        />
         <CardList>
           {countryData.country_data.map((country: CountryInterface) => (
             <Link to={`${country.id}`} key={country.id}>
@@ -117,6 +241,7 @@ const DestinationsPage: React.FC = () => {
                   countryId={country.id}
                   handleLikeClick={handleLikeClick}
                   handleCardDelete={handleCardDelete}
+                  handleCardEdit={handleCardEdit}
                   isDeleted={country.isDeleted}
                 />
               </Card>

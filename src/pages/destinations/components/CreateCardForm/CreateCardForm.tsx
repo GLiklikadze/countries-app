@@ -1,4 +1,4 @@
-import { CardFormStateObj, CreateCardFormProps } from "@/types/types";
+import { CreateCardFormProps } from "@/types/types";
 import styles from "./CreateCardForm.module.css";
 import { ChangeEvent, FocusEvent, FormEvent, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -11,10 +11,13 @@ import { validateInput } from "./validateFormInputs";
 import useLabelsAndMessages from "./useLabelsAndMessages";
 import OtpInput, { OtpInputRef } from "./OtpInput";
 
-const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
-  const [cardFormstate, setCardFormState] =
-    useState<CardFormStateObj>(formInitialObj);
-
+const CreateCardForm: React.FC<CreateCardFormProps> = ({
+  onSubmit,
+  cardFormState,
+  setCardFormState,
+  isEditingCard,
+  handleEditClick,
+}) => {
   const [cardFormErrorState, setCardFormErrorState] =
     useState(formErrorInitialMsg);
 
@@ -30,6 +33,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     isVerified: false,
     errorText: false,
   });
+
   const inputRefs = useRef<OtpInputRef | null>(null);
 
   const verifyCode = 1234;
@@ -51,6 +55,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     verifyCodeSendText,
     verifyConfirmText,
     verifyErrorText,
+    destinationEdit,
   } = useLabelsAndMessages();
 
   const { lang } = useParams();
@@ -63,7 +68,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     area,
     currency,
     currencyKa,
-  } = cardFormstate;
+    id,
+  } = cardFormState;
 
   const {
     countryNameError,
@@ -106,8 +112,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
         console.error("File must be a JPG or PNG image.");
       }
     } else {
-      setCardFormState((prevCardFormSate) => {
-        return { ...prevCardFormSate, [name]: value };
+      setCardFormState((prevCardFormState) => {
+        return { ...prevCardFormState, [name]: value };
       });
     }
   };
@@ -116,7 +122,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name } = event.target;
-    validateInput(name, cardFormstate, setCardFormErrorState, lang ?? "ka");
+    validateInput(name, cardFormState, setCardFormErrorState, lang ?? "ka");
   };
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     const { name } = event.target;
@@ -156,7 +162,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       Object.values(cardFormErrorState).every((value) => value === "") &&
       toggleVerificationCode.isVerified
     ) {
-      onSubmit(event, cardFormstate);
+      onSubmit(event, cardFormState);
       setCardFormState(formInitialObj);
       setCardFormErrorState(formErrorInitialMsg);
       setToggleVerificationCode((prevToggle) => ({
@@ -226,7 +232,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           id="country-name-ka"
           placeholder="საქართველო"
           className={styles.card_form_input}
-          required
         />
       </div>
     );
@@ -282,7 +287,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           className={styles.card_form_input}
           id="country-currency"
           placeholder="Gel"
-          required
         />
       </div>
     );
@@ -300,7 +304,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           className={styles.card_form_input}
           id="country-currency"
           placeholder="ლარი"
-          required
         />
       </div>
     );
@@ -454,7 +457,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
             <div className={styles.input_box}>
               <label htmlFor="country-flag-url">{flagUrlLabel}</label>
               <input
-                required
+                // required
                 type="file"
                 name="imgInput"
                 className={styles.card_file_input}
@@ -468,9 +471,19 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       <div className={styles.otp_container} onClick={handleVerificationToggle}>
         {otpContainer}
       </div>
-      <button type="submit" title="Create New Destination">
-        {destinationCreateBtn}
-      </button>
+      {!isEditingCard ? (
+        <button type="submit" title="Create New Destination">
+          {destinationCreateBtn}
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={(event) => handleEditClick(event, id)}
+          title="Edit Destination"
+        >
+          {destinationEdit}
+        </button>
+      )}
     </form>
   );
 };
