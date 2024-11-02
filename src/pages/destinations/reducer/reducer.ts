@@ -1,8 +1,4 @@
-import {
-  CardFormStateObj,
-  CardReducerInitialState,
-  CountryInterface,
-} from "@/types/types";
+import { CardReducerInitialState, CountryInterface } from "@/types/types";
 
 export type CardReducerAction =
   | { type: "set_countries"; payload: { country_data: CountryInterface[] } }
@@ -13,7 +9,7 @@ export type CardReducerAction =
       payload: { newCardPostRequestResult: CountryInterface };
     }
   | { type: "delete"; payload: { id: string } }
-  | { type: "edit"; payload: { id: string; cardFormState: CardFormStateObj } };
+  | { type: "edit"; payload: { id: string; updatedCountry: CountryInterface } };
 
 export const cardReducer = (
   countryData: CardReducerInitialState,
@@ -78,7 +74,7 @@ export const cardReducer = (
       ...countryData,
       country_data: countryData.country_data.map((country) =>
         country.id === action.payload.id
-          ? { ...country, ...action.payload.cardFormState }
+          ? action.payload.updatedCountry
           : country,
       ),
     };

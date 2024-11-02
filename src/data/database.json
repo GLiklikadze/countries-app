@@ -85,16 +85,25 @@
       "isDeleted": false
     },
     {
-      "id": "aee0",
-      "countryName": "Georgia",
-      "countryNameKa": "საქართველო",
-      "population": "34567890",
-      "capitalCity": "Tbilisi",
-      "capitalCityKa": "თბილისი",
-      "area": "4356789",
-      "currency": "",
-      "currencyKa": "ლარი",
-      "flagURL": ""
+      "id": "4",
+      "flagURL": "https://www.countryflags.com/wp-content/uploads/italy-flag-png-large.png",
+      "countryName": "Italy",
+      "countryNameKa": "იტალიიი",
+      "population": 58900000,
+      "capitalCity": "Rome",
+      "capitalCityKa": "რომი",
+      "area": 301340,
+      "currency": "Euro",
+      "currencyKa": "ევრო",
+      "timezone": "Central European Time (CET)",
+      "imgUrl": [
+        "/src/assets/italy-photos/italy-photo-1.jpg",
+        "/src/assets/italy-photos/italy-photo-2.jpg",
+        "/src/assets/italy-photos/italy-photo-3.jpg",
+        "/src/assets/italy-photos/italy-photo-4.jpg"
+      ],
+      "likes": 13,
+      "isDeleted": false
     }
   ]
 }

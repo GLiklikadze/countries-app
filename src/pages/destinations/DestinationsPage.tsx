@@ -126,7 +126,7 @@ const DestinationsPage: React.FC = () => {
         const newCardPostRequestResult = response.data;
         dispatch({ type: "create", payload: { newCardPostRequestResult } });
       } else {
-        console.log(response.statusText);
+        console.error(response.statusText);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -174,23 +174,50 @@ const DestinationsPage: React.FC = () => {
     console.log(isEditingCard);
   };
 
-  const handleEditClick = (
+  const handleEditClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
   ) => {
     event.preventDefault();
-    dispatch({
-      type: "edit",
-      payload: {
-        id: id,
-        cardFormState: cardFormState,
-      },
-    });
+    const updatedCountryData = countryData.country_data.map((country) =>
+      country.id === id ? { ...country, ...cardFormState } : country,
+    );
+    const updatedCountryArray = updatedCountryData.filter(
+      (country) => country.id === id,
+    );
+    const updatedCountry = updatedCountryArray[0];
+
     setIsEditingCard((prevIsEditingCard) => !prevIsEditingCard);
-    setCardFormState((prevCardFormState) => ({
-      ...prevCardFormState,
-      ...formInitialObj,
-    }));
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/countries/${id}`,
+        updatedCountry,
+      );
+      if (response.status === 200 || response.status === 201) {
+        const editRequestResult = response.data;
+        dispatch({
+          type: "edit",
+          payload: {
+            id: id,
+            updatedCountry: updatedCountry,
+          },
+        });
+        console.log(editRequestResult);
+      } else {
+        console.error(response.statusText);
+      }
+
+      setCardFormState((prevCardFormState) => ({
+        ...prevCardFormState,
+        ...formInitialObj,
+      }));
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error creating card:", error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
+    }
   };
 
   const sortButtonIconToggle = countryData.toggleSort ? (
