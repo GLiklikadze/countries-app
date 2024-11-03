@@ -69,18 +69,40 @@ const DestinationsPage: React.FC = () => {
       }
     }
   };
-  const handleLikeClick = (
+  const handleLikeClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    dispatch({
-      type: "like",
-      payload: {
-        id,
+    const updatedCountryLike = countryData.country_data.map(
+      (country: CountryInterface) => {
+        if (country.id === id) {
+          return { ...country, likes: country.likes + 1 };
+        }
+        return country;
       },
-    });
+    );
+    const updatedCountryArray = updatedCountryLike.filter(
+      (country) => country.id === id,
+    );
+    const updatedCountry = updatedCountryArray[0];
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/countries/${id}`,
+        updatedCountry,
+      );
+      if (response.status === 200 || response.status === 201) {
+        dispatch({
+          type: "like",
+          payload: {
+            updatedCountry,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Like error", error);
+    }
   };
 
   const handleCreateCard = async (
@@ -88,7 +110,6 @@ const DestinationsPage: React.FC = () => {
     formDataObject: CardFormStateObj,
   ) => {
     event.preventDefault();
-    const uniqueId = Math.floor(Date.now() + Math.random() * 1000);
     const {
       countryName,
       population,
@@ -101,7 +122,7 @@ const DestinationsPage: React.FC = () => {
       flagURL,
     } = formDataObject;
 
-    const newCard: CountryInterface = {
+    const newCard: Partial<CountryInterface> = {
       countryName: countryName || "",
       population: population || 0,
       capitalCity: capitalCity || "",
@@ -114,7 +135,6 @@ const DestinationsPage: React.FC = () => {
       isDeleted: false,
       imgUrl: [],
       likes: 0,
-      id: uniqueId.toString(),
     };
 
     try {
@@ -122,7 +142,7 @@ const DestinationsPage: React.FC = () => {
         "http://localhost:3000/countries",
         newCard,
       );
-      if (response.status === 200 || response.status === 201) {
+      if (response.status === 201) {
         const newCardPostRequestResult = response.data;
         dispatch({ type: "create", payload: { newCardPostRequestResult } });
       } else {

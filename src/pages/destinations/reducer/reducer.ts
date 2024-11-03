@@ -2,7 +2,7 @@ import { CardReducerInitialState, CountryInterface } from "@/types/types";
 
 export type CardReducerAction =
   | { type: "set_countries"; payload: { country_data: CountryInterface[] } }
-  | { type: "like"; payload: { id: string } }
+  | { type: "like"; payload: { updatedCountry: CountryInterface } }
   | { type: "sort"; payload: null }
   | {
       type: "create";
@@ -38,22 +38,14 @@ export const cardReducer = (
     };
   }
   if (action.type === "like") {
-    const handleCardLike = (
-      countryData: CardReducerInitialState,
-      countryId: string,
-    ) => {
-      return countryData.country_data.map((country: CountryInterface) => {
-        if (country.id === countryId) {
-          return { ...country, likes: country.likes + 1 };
-        }
-        return country;
-      });
-    };
-
-    const updatedCountryData = handleCardLike(countryData, action.payload.id!);
+    const updatedCountryArray = countryData.country_data.map((country) =>
+      country.id === action.payload.updatedCountry.id
+        ? action.payload.updatedCountry
+        : country,
+    );
     return {
       ...countryData,
-      country_data: updatedCountryData,
+      country_data: updatedCountryArray,
     };
   }
   if (action.type === "create") {
