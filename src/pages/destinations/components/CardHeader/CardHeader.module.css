@@ -1,7 +1,10 @@
 .card_country_name {
   font-weight: 700;
-  font-size: 22px;
+  font-size: 20px;
   padding: 5px 0 15px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .card_flag {
   height: 100px;
@@ -9,4 +12,10 @@
   padding: 3px;
   border-radius: 5px;
   border: 3px solid rgb(255, 255, 255, 0.2);
+}
+.country_name_container {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -10,7 +10,9 @@
     "ts-check": "tsc -b",
     "format": "prettier . --write",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db": "npx json-server database.json",
+    "seed-db": "node src/data/seed.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",

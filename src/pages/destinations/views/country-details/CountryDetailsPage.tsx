@@ -4,7 +4,7 @@ import CardContent from "../../components/CardContent/CardContent";
 import CardFooter from "../../components/CardFooter/CardFooter";
 import { CountryInterface } from "@/types/types";
 import styles from "./CountryDetailsPage.module.css";
-import PhotoGallery from "./components/PhotoGallery";
+// import PhotoGallery from "./components/PhotoGallery";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -56,7 +56,7 @@ const CountryDetailsPage = () => {
       .catch(() => {
         navigate(-1);
       });
-  }, [id, countryObj, navigate]);
+  }, [id, setCountryObj, navigate]);
 
   console.log(countryObj);
 
@@ -82,7 +82,7 @@ const CountryDetailsPage = () => {
             // topAttractions={country.topAttractions}
           />
         </div>
-        <PhotoGallery country={countryObj} />
+        {/* <PhotoGallery country={countryObj} /> */}
         <button>Book now</button>
       </div>
     </div>

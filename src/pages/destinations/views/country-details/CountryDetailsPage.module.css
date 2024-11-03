@@ -16,3 +16,6 @@
   justify-content: space-between;
   color: black;
 }
+.card_details_container > button {
+  margin-top: 50px;
+}
