@@ -19,9 +19,7 @@ const initialCountryObj = {
   area: "",
   currency: "",
   currencyKa: "",
-  imgUrl: [],
   likes: 0,
-  isDeleted: false,
 };
 
 const CountryDetailsPage = () => {

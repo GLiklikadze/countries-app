@@ -10,7 +10,6 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   countryId,
   handleLikeClick,
   handleCardDelete,
-  isDeleted,
   handleCardEdit,
 }) => {
   const { lang } = useParams();
@@ -52,7 +51,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
             onClick={(event) => {
               handleCardDelete(event, countryId);
             }}
-            title={!isDeleted ? "Delete Card" : "Retrive Card"}
+            title="Delete Card"
           >
             {deleteRetriveToggleButtonIcon}
           </button>

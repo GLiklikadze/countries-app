@@ -158,7 +158,25 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({
     }
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    if (
+    if (countryName.length < 1) {
+      event.preventDefault();
+      setCardFormErrorState((prevErrors) => ({
+        ...prevErrors,
+        countryNameError: "Please fill Country Name",
+      }));
+    } else if (capitalCity.length < 1) {
+      event.preventDefault();
+      setCardFormErrorState((prevErrors) => ({
+        ...prevErrors,
+        capitalCityError: "Please fill Capital City",
+      }));
+    } else if (currency.length < 1) {
+      event.preventDefault();
+      setCardFormErrorState((prevErrors) => ({
+        ...prevErrors,
+        currencyError: "Please fill Currency",
+      }));
+    } else if (
       Object.values(cardFormErrorState).every((value) => value === "") &&
       toggleVerificationCode.isVerified
     ) {
@@ -457,7 +475,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({
             <div className={styles.input_box}>
               <label htmlFor="country-flag-url">{flagUrlLabel}</label>
               <input
-                // required
+                required
                 type="file"
                 name="imgInput"
                 className={styles.card_file_input}

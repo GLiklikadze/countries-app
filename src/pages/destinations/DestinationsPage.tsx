@@ -1,5 +1,5 @@
 import Card from "./components/Card/Card";
-import Hero from "@/components/Hero/Hero";
+import styles from "./DestinationPage.module.css";
 import CardList from "./components/CardList/CardList";
 import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
@@ -27,8 +27,10 @@ const DestinationsPage: React.FC = () => {
   const [cardFormState, setCardFormState] =
     useState<CardFormStateObj>(formInitialObj);
   const [isEditingCard, setIsEditingCard] = useState<boolean>(false);
-  console.log("DATA:", countryData);
-  console.log("FORM:", cardFormState);
+
+  // console.log("DATA:", countryData);
+  // console.log("FORM:", cardFormState);
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/countries")
@@ -112,13 +114,13 @@ const DestinationsPage: React.FC = () => {
     event.preventDefault();
     const {
       countryName,
+      countryNameKa,
       population,
       capitalCity,
-      currency,
-      area,
       capitalCityKa,
-      countryNameKa,
+      currency,
       currencyKa,
+      area,
       flagURL,
     } = formDataObject;
 
@@ -132,8 +134,6 @@ const DestinationsPage: React.FC = () => {
       countryNameKa: countryNameKa || "",
       currencyKa: currencyKa || "",
       flagURL: flagURL || "",
-      isDeleted: false,
-      imgUrl: [],
       likes: 0,
     };
 
@@ -142,7 +142,7 @@ const DestinationsPage: React.FC = () => {
         "http://localhost:3000/countries",
         newCard,
       );
-      if (response.status === 201) {
+      if (response.status === 200 || response.status === 201) {
         const newCardPostRequestResult = response.data;
         dispatch({ type: "create", payload: { newCardPostRequestResult } });
       } else {
@@ -219,10 +219,9 @@ const DestinationsPage: React.FC = () => {
           type: "edit",
           payload: {
             id: id,
-            updatedCountry: updatedCountry,
+            updatedCountry: editRequestResult,
           },
         });
-        console.log(editRequestResult);
       } else {
         console.error(response.statusText);
       }
@@ -246,13 +245,15 @@ const DestinationsPage: React.FC = () => {
     <FontAwesomeIcon icon={faArrowUpWideShort} />
   );
   const sortButton = lang === "en" ? "Sort" : "სორტირება";
+  const showSortButton = countryData.country_data.length > 0 && (
+    <button onClick={handleCardSortClick}>
+      <span>{sortButton}</span>
+      {sortButtonIconToggle}
+    </button>
+  );
   return (
     <>
-      <Hero>
-        <button onClick={handleCardSortClick}>
-          <span>{sortButton}</span>
-          {sortButtonIconToggle}
-        </button>
+      <div className={styles.destination_page_container}>
         <CreateCardForm
           onSubmit={handleCreateCard}
           cardFormState={cardFormState}
@@ -260,42 +261,50 @@ const DestinationsPage: React.FC = () => {
           isEditingCard={isEditingCard}
           handleEditClick={handleEditClick}
         />
+        {showSortButton}
         <CardList>
-          {countryData.country_data.map((country: CountryInterface) => (
-            <Link to={`${country.id}`} key={country.id}>
-              <Card key={country.id} isDeleted={country.isDeleted}>
-                <CardHeader
-                  countryName={
-                    lang === "en" ? country.countryName : country.countryNameKa
-                  }
-                  flagURL={country.flagURL}
-                />
-                <CardContent
-                  population={country.population}
-                  capitalCity={
-                    lang === "en" ? country.capitalCity : country.capitalCityKa
-                  }
-                  area={country.area}
-                />
-                <CardFooter
-                  // topAttractions={country.topAttractions}
-                  currency={
-                    lang === "en" ? country.currency : country.currencyKa
-                  }
-                />
-                <CardLikesBox
-                  likes={country.likes}
-                  countryId={country.id}
-                  handleLikeClick={handleLikeClick}
-                  handleCardDelete={handleCardDelete}
-                  handleCardEdit={handleCardEdit}
-                  isDeleted={country.isDeleted}
-                />
-              </Card>
-            </Link>
-          ))}
+          {countryData.country_data.length > 0 ? (
+            countryData.country_data.map((country: CountryInterface) => (
+              <Link to={`${country.id}`} key={country.id}>
+                <Card key={country.id}>
+                  <CardHeader
+                    countryName={
+                      lang === "en"
+                        ? country.countryName
+                        : country.countryNameKa
+                    }
+                    flagURL={country.flagURL}
+                  />
+                  <CardContent
+                    population={country.population}
+                    capitalCity={
+                      lang === "en"
+                        ? country.capitalCity
+                        : country.capitalCityKa
+                    }
+                    area={country.area}
+                  />
+                  <CardFooter
+                    // topAttractions={country.topAttractions}
+                    currency={
+                      lang === "en" ? country.currency : country.currencyKa
+                    }
+                  />
+                  <CardLikesBox
+                    likes={country.likes}
+                    countryId={country.id}
+                    handleLikeClick={handleLikeClick}
+                    handleCardDelete={handleCardDelete}
+                    handleCardEdit={handleCardEdit}
+                  />
+                </Card>
+              </Link>
+            ))
+          ) : (
+            <p>Please Wait, Loading Destinations From Server...</p>
+          )}
         </CardList>
-      </Hero>
+      </div>
     </>
   );
 };

@@ -1,5 +1,4 @@
 import axios from "axios";
-// import fs from "fs";
 
 async function seedData() {
   try {
@@ -16,21 +15,25 @@ async function seedData() {
       area: country.area || 0,
       currency: Object.keys(country.currencies || {})[0] || "Unknown",
       currencyKa: Object.keys(country.currencies || {})[0] || "Unknown",
-      imgUrl: [],
       likes: 0,
-      isDeleted: false,
     }));
 
     for (const country of formattedData) {
       await axios.post("http://localhost:3000/countries", country);
     }
     console.log("Data successfully updated");
-    // const readData = fs.readFileSync("database.json", "utf-8");
-    // const database = JSON.parse(readData);
-    // database.countries = formattedData;
-    // fs.writeFileSync("database.json", JSON.stringify(database, null, 2));
   } catch (error) {
-    console.error("Error fetching data", error);
+    if (error.response) {
+      console.error(
+        "Error response:",
+        error.response.status,
+        error.response.data,
+      );
+    } else if (error.request) {
+      console.error("Error request:", error.request);
+    } else {
+      console.error(error.message);
+    }
   }
 }
 seedData();

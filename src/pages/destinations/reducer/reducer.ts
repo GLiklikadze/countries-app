@@ -22,18 +22,12 @@ export const cardReducer = (
     };
   }
   if (action.type === "sort") {
-    const filterDeletedCards = countryData.country_data.filter(
-      (country) => !country.isDeleted,
-    );
-    const deletedCards = countryData.country_data.filter(
-      (country) => country.isDeleted,
-    );
-    const sortedCards = [...filterDeletedCards].sort((a, b) => {
+    const sortedCards = countryData.country_data.sort((a, b) => {
       return countryData.toggleSort ? b.likes - a.likes : a.likes - b.likes;
     });
     return {
       ...countryData,
-      country_data: [...sortedCards, ...deletedCards],
+      country_data: sortedCards,
       toggleSort: !countryData.toggleSort,
     };
   }

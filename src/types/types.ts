@@ -7,12 +7,9 @@ export interface CountryInterface {
   capitalCity: string;
   capitalCityKa: string;
   area: string | number;
-  // topAttractions: string[];
   currency: string;
   currencyKa: string;
-  imgUrl: string[];
   likes: number;
-  isDeleted: boolean;
 }
 
 export interface CardReducerInitialState {
@@ -39,7 +36,6 @@ export type PhotoGalleryProps = {
 
 export type CardProps = {
   children: React.ReactNode;
-  isDeleted: boolean;
 };
 
 export type CardLikesBoxProps = {
@@ -53,7 +49,6 @@ export type CardLikesBoxProps = {
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
   ) => void;
-  isDeleted: boolean;
   handleCardEdit: (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
