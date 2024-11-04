@@ -12,6 +12,8 @@ export const useLabelsAndMessages = () => {
 
   const destinationCreateBtn =
     lang === "en" ? "Create Destination" : "მიმართულების დამატება";
+  const destinationEdit =
+    lang === "en" ? "Edit Destination" : "მიმართულების რედაქტირება";
   const formClassName = `${styles.country_form} ${
     lang === "ka" ? styles.lang_ka : ""
   }`;
@@ -21,6 +23,17 @@ export const useLabelsAndMessages = () => {
     lang === "ka"
       ? "დასაშვებია JPG ან PNG ფორმატის ფოტო"
       : "File must be a JPG or PNG image.";
+  const verifyCodeSendText =
+    lang == "en"
+      ? "Send Verification Code*"
+      : "დამადასტურებელი კოდის გაგზავნა*";
+  const verifyLabel =
+    lang == "en" ? "Please Enter Code" : "გთხოვთ შეიყვანეთ კოდი";
+  const verifyButtonText = lang == "en" ? "Check" : "შემოწმება";
+  const verifyConfirmText =
+    lang === "en" ? "Code Is Verified" : "შეყვანილი კოდი დადასტურებულია";
+  const verifyErrorText =
+    lang === "en" ? "Code Is Incorrect" : "კოდი არასწორია";
 
   return {
     countryLabel,
@@ -34,6 +47,12 @@ export const useLabelsAndMessages = () => {
     inputToggleButtonsTextGeo,
     inputToggleButtonsTextEng,
     flagUploadError,
+    verifyLabel,
+    verifyButtonText,
+    verifyCodeSendText,
+    verifyConfirmText,
+    verifyErrorText,
+    destinationEdit,
   };
 };
 

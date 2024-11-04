@@ -1,5 +1,5 @@
 export interface CountryInterface {
-  id: number;
+  id: string;
   countryName: string;
   countryNameKa: string;
   flagURL: string;
@@ -7,12 +7,9 @@ export interface CountryInterface {
   capitalCity: string;
   capitalCityKa: string;
   area: string | number;
-  // topAttractions: string[];
   currency: string;
   currencyKa: string;
-  imgUrl: string[];
   likes: number;
-  isDeleted: boolean;
 }
 
 export interface CardReducerInitialState {
@@ -39,31 +36,40 @@ export type PhotoGalleryProps = {
 
 export type CardProps = {
   children: React.ReactNode;
-  isDeleted: boolean;
 };
 
 export type CardLikesBoxProps = {
   likes: number;
-  countryId: number;
+  countryId: string;
   handleLikeClick: (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number,
+    id: string,
   ) => void;
-
   handleCardDelete: (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number,
+    id: string,
   ) => void;
-  isDeleted: boolean;
+  handleCardEdit: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+  ) => void;
 };
 export type CreateCardFormProps = {
+  cardFormState: CardFormStateObj;
   onSubmit: (
     event: React.FormEvent<HTMLFormElement>,
     formDataObject: CardFormStateObj,
   ) => void;
+  isEditingCard: boolean;
+  handleEditClick: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+  ) => void;
+  setCardFormState: React.Dispatch<React.SetStateAction<CardFormStateObj>>;
 };
 
 export interface CardFormStateObj {
+  id: string;
   countryName: string;
   countryNameKa: string;
   population: number | string;

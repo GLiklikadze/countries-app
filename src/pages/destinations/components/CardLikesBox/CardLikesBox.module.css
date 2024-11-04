@@ -1,4 +1,8 @@
 .likes_container {
+  padding-block: 5px;
+  font-weight: 600;
+}
+.buttons_container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,25 +10,24 @@
   height: 40px;
   padding: 10px 5px;
 }
-.likes_container > span {
+.buttons_container > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  font-weight: 600;
+  gap: 30px;
 }
 .like_count {
   color: rgb(238, 200, 10);
   font-weight: 700;
 }
-.likes_container button {
-  background-color: transparent;
+.buttons_container button {
+  background-color: rgb(238, 200, 10, 0.11);
   height: 50%;
-  padding: 5px 15px;
-  border: 0.5px solid rgb(238, 200, 10);
+  padding: 4px 18px;
+  border: 2px solid rgb(238, 200, 10, 0.7);
   color: rgb(238, 200, 10);
 }
-.likes_container button:hover {
-  background-color: rgba(105, 93, 24, 0.4);
+.buttons_container button:hover {
+  background-color: rgba(105, 93, 24, 0.7);
   border: 2px solid rgb(238, 200, 10);
 }

@@ -1,6 +1,6 @@
-import { CardFormStateObj, CreateCardFormProps } from "@/types/types";
+import { CreateCardFormProps } from "@/types/types";
 import styles from "./CreateCardForm.module.css";
-import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FocusEvent, FormEvent, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   formErrorInitialMsg,
@@ -9,17 +9,35 @@ import {
 } from "./initialStates";
 import { validateInput } from "./validateFormInputs";
 import useLabelsAndMessages from "./useLabelsAndMessages";
+import OtpInput, { OtpInputRef } from "./OtpInput";
 
-const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
-  const [cardFormstate, setCardFormState] =
-    useState<CardFormStateObj>(formInitialObj);
-
+const CreateCardForm: React.FC<CreateCardFormProps> = ({
+  onSubmit,
+  cardFormState,
+  setCardFormState,
+  isEditingCard,
+  handleEditClick,
+}) => {
   const [cardFormErrorState, setCardFormErrorState] =
     useState(formErrorInitialMsg);
 
   const [inputsToggleState, setInputsToggleState] = useState(
     inputToggleInitialObj,
   );
+  const [toggleVerificationCode, setToggleVerificationCode] = useState<{
+    toggleCodeInput: boolean;
+    isVerified: boolean;
+    errorText: boolean;
+  }>({
+    toggleCodeInput: true,
+    isVerified: false,
+    errorText: false,
+  });
+
+  const inputRefs = useRef<OtpInputRef | null>(null);
+
+  const verifyCode = 1234;
+
   const {
     countryLabel,
     populationLabel,
@@ -32,6 +50,12 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     inputToggleButtonsTextGeo,
     inputToggleButtonsTextEng,
     flagUploadError,
+    verifyLabel,
+    verifyButtonText,
+    verifyCodeSendText,
+    verifyConfirmText,
+    verifyErrorText,
+    destinationEdit,
   } = useLabelsAndMessages();
 
   const { lang } = useParams();
@@ -44,7 +68,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     area,
     currency,
     currencyKa,
-  } = cardFormstate;
+    id,
+  } = cardFormState;
 
   const {
     countryNameError,
@@ -87,8 +112,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
         console.error("File must be a JPG or PNG image.");
       }
     } else {
-      setCardFormState((prevCardFormSate) => {
-        return { ...prevCardFormSate, [name]: value };
+      setCardFormState((prevCardFormState) => {
+        return { ...prevCardFormState, [name]: value };
       });
     }
   };
@@ -97,7 +122,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name } = event.target;
-    validateInput(name, cardFormstate, setCardFormErrorState, lang ?? "ka");
+    validateInput(name, cardFormState, setCardFormErrorState, lang ?? "ka");
   };
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     const { name } = event.target;
@@ -106,11 +131,63 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
     });
   };
 
+  const handleCodeCheck = () => {
+    if (inputRefs.current) {
+      const enteredCode = Object.values(inputRefs?.current?.inputRefs.current)
+        .map((input) => input?.value)
+        .join("");
+      if (Number(enteredCode) === verifyCode) {
+        setToggleVerificationCode((prevToggle) => ({
+          ...prevToggle,
+          isVerified: !prevToggle.isVerified,
+        }));
+      } else {
+        setToggleVerificationCode((prevToggle) => ({
+          ...prevToggle,
+          errorText: true,
+        }));
+      }
+    }
+  };
+  const handleVerificationToggle = () => {
+    if (toggleVerificationCode.toggleCodeInput) {
+      setToggleVerificationCode((prevToggle) => ({
+        ...prevToggle,
+        toggleCodeInput: !prevToggle.toggleCodeInput,
+      }));
+    }
+  };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    if (Object.values(cardFormErrorState).every((value) => value === "")) {
-      onSubmit(event, cardFormstate);
+    if (countryName.length < 1) {
+      event.preventDefault();
+      setCardFormErrorState((prevErrors) => ({
+        ...prevErrors,
+        countryNameError: "Please fill Country Name",
+      }));
+    } else if (capitalCity.length < 1) {
+      event.preventDefault();
+      setCardFormErrorState((prevErrors) => ({
+        ...prevErrors,
+        capitalCityError: "Please fill Capital City",
+      }));
+    } else if (currency.length < 1) {
+      event.preventDefault();
+      setCardFormErrorState((prevErrors) => ({
+        ...prevErrors,
+        currencyError: "Please fill Currency",
+      }));
+    } else if (
+      Object.values(cardFormErrorState).every((value) => value === "") &&
+      toggleVerificationCode.isVerified
+    ) {
+      onSubmit(event, cardFormState);
       setCardFormState(formInitialObj);
       setCardFormErrorState(formErrorInitialMsg);
+      setToggleVerificationCode((prevToggle) => ({
+        ...prevToggle,
+        isVerified: !prevToggle.isVerified,
+        toggleCodeInput: !prevToggle.toggleCodeInput,
+      }));
     } else {
       event.preventDefault();
     }
@@ -135,9 +212,11 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
       currencyInput: !inputsToggleState.currencyInput,
     }));
   };
+
   let countryInputBox;
   let capitalCityInputBox;
   let currencyInputBox;
+  let otpContainer;
 
   if (inputsToggleState.countryInput) {
     countryInputBox = (
@@ -171,7 +250,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           id="country-name-ka"
           placeholder="საქართველო"
           className={styles.card_form_input}
-          required
         />
       </div>
     );
@@ -227,7 +305,6 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           className={styles.card_form_input}
           id="country-currency"
           placeholder="Gel"
-          required
         />
       </div>
     );
@@ -245,15 +322,36 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           className={styles.card_form_input}
           id="country-currency"
           placeholder="ლარი"
-          required
         />
+      </div>
+    );
+  }
+  if (toggleVerificationCode.toggleCodeInput) {
+    otpContainer = <p> {verifyCodeSendText} </p>;
+  } else {
+    otpContainer = (
+      <div className={styles.otp_box}>
+        {!toggleVerificationCode.isVerified ? (
+          <>
+            <p>{verifyLabel}</p>
+            <OtpInput otpInputNum={4} ref={inputRefs} />
+            <button type="button" onClick={handleCodeCheck}>
+              {verifyButtonText}
+            </button>
+            <p className={styles.verify_error_text}>
+              {!toggleVerificationCode.errorText ? "" : `${verifyErrorText}`}
+            </p>
+          </>
+        ) : (
+          <p>{verifyConfirmText}</p>
+        )}
       </div>
     );
   }
   return (
     <form className={formClassName} onSubmit={handleSubmit}>
-      <div>
-        <div>
+      <div className={styles.country_form_main}>
+        <div className={styles.country_form_column}>
           <>
             <div className={styles.input_toggle_box}>
               <div
@@ -298,7 +396,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
             <p className={styles.input_error_msg}>{populationError}</p>
           </>
         </div>
-        <div>
+        <div className={styles.country_form_column}>
           <>
             <div className={styles.input_toggle_box}>
               <div
@@ -345,7 +443,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
             <p className={styles.input_error_msg}>{areaError}</p>
           </>
         </div>
-        <div>
+        <div className={styles.country_form_column}>
           <>
             <div className={styles.input_toggle_box}>
               <div
@@ -388,9 +486,22 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({ onSubmit }) => {
           </>
         </div>
       </div>
-      <button type="submit" title="Create New Destination">
-        {destinationCreateBtn}
-      </button>
+      <div className={styles.otp_container} onClick={handleVerificationToggle}>
+        {otpContainer}
+      </div>
+      {!isEditingCard ? (
+        <button type="submit" title="Create New Destination">
+          {destinationCreateBtn}
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={(event) => handleEditClick(event, id)}
+          title="Edit Destination"
+        >
+          {destinationEdit}
+        </button>
+      )}
     </form>
   );
 };

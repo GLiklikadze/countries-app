@@ -1,13 +1,10 @@
 .country_form {
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  transform: translate(-50%, 0);
+  margin: 30px auto 0;
   display: flex;
   flex-direction: column;
   max-width: 960px;
   font-family: "Exo 2", sans-serif;
-  gap: 20px;
+  gap: 10px;
   padding: 30px;
   background: linear-gradient(
     90deg,
@@ -38,7 +35,7 @@
   border: 3px solid rgb(150, 92, 34);
 }
 
-.country_form > div {
+.country_form_main {
   width: 100%;
   display: flex;
   gap: 30px;
@@ -46,7 +43,7 @@
   justify-content: space-between;
 }
 
-.country_form > div > div {
+.country_form_column {
   justify-content: space-between;
   width: 100%;
   display: flex;
@@ -62,7 +59,7 @@
   gap: 20px;
   justify-content: space-between;
 }
-.country_form button {
+.country_form > button {
   margin: 0 auto;
   max-width: 270px;
   font-weight: 600;
@@ -115,7 +112,43 @@
   border: 1px solid rgb(238, 200, 10, 0.5);
   color: rgb(238, 200, 10, 0.8);
 }
-
+.otp_container > p {
+  cursor: pointer;
+}
+.otp_container {
+  background-color: rgba(6, 67, 58, 0.5);
+  border-radius: 10px;
+  height: 40px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.otp_container > p {
+  font-weight: 600;
+}
+.otp_container > p:hover {
+  color: rgb(238, 200, 10, 0.8);
+}
+.otp_box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.otp_box > button {
+  max-width: 110px;
+  margin: 0;
+  font-weight: 600;
+  border: 1px solid hsl(0, 0%, 100%, 0.5);
+  background-color: rgba(6, 67, 58, 0.7);
+  color: hsl(0, 0%, 100%);
+}
+.verify_error_text {
+  width: 125px;
+  color: rgb(238, 200, 10, 0.8);
+}
 @media only screen and (max-width: 992px) {
   .country_form > div {
     flex-direction: column;

@@ -4,7 +4,9 @@ import styles from "./CardHeader.module.css";
 const CardHeader: React.FC<CardHeaderProps> = ({ countryName, flagURL }) => {
   return (
     <>
-      <h1 className={styles.card_country_name}>{countryName}</h1>
+      <div className={styles.country_name_container}>
+        <h1 className={styles.card_country_name}>{countryName}</h1>
+      </div>
       <img
         src={flagURL}
         className={styles.card_flag}

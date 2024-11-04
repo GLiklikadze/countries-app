@@ -2,6 +2,7 @@
   height: 150vh;
   position: absolute;
   width: 100%;
+  height: 100%;
 }
 .hero_section_info {
   position: absolute;
@@ -24,23 +25,6 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.5;
-}
-.hero_section > button {
-  position: absolute;
-  top: 300px;
-  left: 50px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background-color: rgb(181, 171, 153, 0.7);
-  border: 1px solid rgb(6, 67, 58);
-  color: rgb(6, 67, 58);
-  height: 30px;
-}
-.hero_section > button:active {
-  background-color: rgb(6, 67, 58, 0.7);
-  color: rgb(181, 171, 153);
-  border-color: inherit;
 }
 .lang_ka {
   font-family: "Noto Sans Georgian", sans-serif;
