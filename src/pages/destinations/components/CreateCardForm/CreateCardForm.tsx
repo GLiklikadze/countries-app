@@ -17,6 +17,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({
   setCardFormState,
   isEditingCard,
   handleEditClick,
+  isPendingCreate,
 }) => {
   const [cardFormErrorState, setCardFormErrorState] =
     useState(formErrorInitialMsg);
@@ -490,7 +491,11 @@ const CreateCardForm: React.FC<CreateCardFormProps> = ({
         {otpContainer}
       </div>
       {!isEditingCard ? (
-        <button type="submit" title="Create New Destination">
+        <button
+          type="submit"
+          disabled={isPendingCreate}
+          title="Create New Destination"
+        >
           {destinationCreateBtn}
         </button>
       ) : (

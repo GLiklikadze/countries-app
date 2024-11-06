@@ -53,6 +53,7 @@ export type CardLikesBoxProps = {
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
   ) => void;
+  isPendingLike: boolean;
 };
 export type CreateCardFormProps = {
   cardFormState: CardFormStateObj;
@@ -66,6 +67,7 @@ export type CreateCardFormProps = {
     id: string,
   ) => void;
   setCardFormState: React.Dispatch<React.SetStateAction<CardFormStateObj>>;
+  isPendingCreate: boolean;
 };
 
 export interface CardFormStateObj {

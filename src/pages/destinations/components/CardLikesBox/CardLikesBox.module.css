@@ -31,3 +31,7 @@
   background-color: rgba(105, 93, 24, 0.7);
   border: 2px solid rgb(238, 200, 10);
 }
+.buttons_container button:disabled {
+  color: rgb(166, 159, 159);
+  border-color: rgb(166, 159, 159);
+}

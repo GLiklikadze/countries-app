@@ -11,6 +11,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   handleLikeClick,
   handleCardDelete,
   handleCardEdit,
+  isPendingLike,
 }) => {
   const { lang } = useParams();
   const deleteRetriveToggleButtonIcon = (
@@ -28,13 +29,11 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
       </div>
       <div className={styles.buttons_container}>
         <div>
-          {/* <span>
-            {likesLabel}: <span className={styles.like_count}>{likes}</span>
-          </span> */}
           <button
             onClick={(event) => {
               handleLikeClick(event, countryId);
             }}
+            disabled={isPendingLike}
             title="Like"
           >
             <FontAwesomeIcon icon={faThumbsUp} size="xl" />
