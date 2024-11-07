@@ -53,7 +53,9 @@ const DestinationsPage: React.FC = () => {
       console.log(destinationsData);
       dispatch({
         type: "set_countries",
-        payload: { country_data: destinationsData },
+        payload: {
+          country_data: Array.isArray(destinationsData) ? destinationsData : [],
+        },
       });
     }
   }, [isSuccess, destinationsData, dispatch]);
