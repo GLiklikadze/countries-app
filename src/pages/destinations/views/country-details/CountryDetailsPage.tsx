@@ -6,7 +6,8 @@ import { CountryInterface } from "@/types/types";
 import styles from "./CountryDetailsPage.module.css";
 // import PhotoGallery from "./components/PhotoGallery";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { getDestinationDetails } from "@/api/destinations/httpDestinationDetails";
 
 const initialCountryObj = {
   id: "-1",
@@ -41,30 +42,39 @@ const CountryDetailsPage = () => {
   const { lang, id } = useParams();
 
   const navigate = useNavigate();
+
+  const { data, isLoading, isError, isSuccess, error } = useQuery({
+    queryKey: ["destination-details", id],
+    queryFn: () => getDestinationDetails(id as string),
+  });
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/countries/${id}`)
-      .then((response) => {
-        if (response.data) {
-          setCountryObj(response.data);
-        } else {
-          navigate(-1);
-        }
-      })
-      .catch(() => {
-        navigate(-1);
-      });
-  }, [id, setCountryObj, navigate]);
+    if (isSuccess) {
+      setCountryObj(data as CountryInterface);
+    }
+  }, [isSuccess, data, navigate]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3000/countries/${id}`)
+  //     .then((response) => {
+  //       if (response.data) {
+  //         setCountryObj(response.data);
+  //       } else {
+  //         navigate(-1);
+  //       }
+  //     })
+  //     .catch(() => {
+  //       navigate(-1);
+  //     });
+  // }, [id, setCountryObj, navigate]);
 
   console.log(countryObj);
 
-  if (!countryObj) {
-    return <p>Loading...</p>;
-  }
-
-  return (
-    <div className={styles.country_details_container}>
-      <div className={styles.card_details_container}>
+  let cardDetails;
+  if (isLoading) {
+    cardDetails = <p>Loading Country Details...</p>;
+  } else if (isSuccess) {
+    cardDetails = (
+      <>
         <div className={styles.card_details_box}>
           <CardHeader
             countryName={lang === "en" ? countryName : countryNameKa}
@@ -75,14 +85,18 @@ const CountryDetailsPage = () => {
             capitalCity={lang === "en" ? capitalCity : capitalCityKa}
             population={population}
           />
-          <CardFooter
-            currency={lang === "en" ? currency : currencyKa}
-            // topAttractions={country.topAttractions}
-          />
+          <CardFooter currency={lang === "en" ? currency : currencyKa} />
         </div>
-        {/* <PhotoGallery country={countryObj} /> */}
         <button>Book now</button>
-      </div>
+      </>
+    );
+  } else if (isError) {
+    cardDetails = <p>{error.message}</p>;
+  }
+
+  return (
+    <div className={styles.country_details_container}>
+      <div className={styles.card_details_container}>{cardDetails}</div>;
     </div>
   );
 };

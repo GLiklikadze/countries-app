@@ -8,13 +8,13 @@
   max-width: 90vw;
   margin: 5vh auto 0;
   padding: 50px 50px;
+  color: black;
 }
 .card_details_box {
   border-radius: 12px 12px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: black;
 }
 .card_details_container > button {
   margin-top: 50px;
