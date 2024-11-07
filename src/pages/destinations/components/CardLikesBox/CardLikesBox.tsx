@@ -12,6 +12,8 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
   handleCardDelete,
   handleCardEdit,
   isPendingLike,
+  isPendingEdit,
+  isPendingDelete,
 }) => {
   const { lang } = useParams();
   const deleteRetriveToggleButtonIcon = (
@@ -43,6 +45,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
               handleCardEdit(event, countryId);
             }}
             title="edit"
+            disabled={isPendingEdit}
           >
             {editButton}
           </button>
@@ -51,6 +54,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
               handleCardDelete(event, countryId);
             }}
             title="Delete Card"
+            disabled={isPendingDelete}
           >
             {deleteRetriveToggleButtonIcon}
           </button>

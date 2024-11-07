@@ -54,6 +54,8 @@ export type CardLikesBoxProps = {
     id: string,
   ) => void;
   isPendingLike: boolean;
+  isPendingEdit: boolean;
+  isPendingDelete: boolean;
 };
 export type CreateCardFormProps = {
   cardFormState: CardFormStateObj;

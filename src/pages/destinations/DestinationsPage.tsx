@@ -34,15 +34,13 @@ const DestinationsPage: React.FC = () => {
   const [cardFormState, setCardFormState] =
     useState<CardFormStateObj>(formInitialObj);
   const [isEditingCard, setIsEditingCard] = useState<boolean>(false);
-
-  console.log("DATA:", countryData);
-  // console.log("FORM:", cardFormState);
+  const { lang } = useParams();
+  // console.log("DATA:", countryData);
 
   const {
     data: destinationsData,
     isLoading: isLoadingDestinationsList,
     isError: isErrorDestinations,
-    refetch: reFetchDestinationsData,
     isSuccess,
   } = useQuery({
     queryKey: ["destinations-list"],
@@ -52,6 +50,7 @@ const DestinationsPage: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log(destinationsData);
       dispatch({
         type: "set_countries",
         payload: { country_data: destinationsData },
@@ -59,33 +58,21 @@ const DestinationsPage: React.FC = () => {
     }
   }, [isSuccess, destinationsData, dispatch]);
 
-  // useEffect(() => {
-  //   getDestinations()
-  //     .then((countries) =>
-  //       dispatch({
-  //         type: "set_countries",
-  //         payload: { country_data: countries },
-  //       }),
-  //     )
-  //     .catch((error) => console.error("Error fetching countries", error));
-  //   }, []);
-
-  // .get("http://localhost:3000/countries")
-  // .then((response) =>
-  //   dispatch({
-  //     type: "set_countries",
-  //     payload: { country_data: response.data },
-  //   }),
-  // )
-
-  const { lang } = useParams();
-
-  const handleCardSortClick = () => {
-    dispatch({ type: "sort", payload: null });
-  };
-  const { mutate: mutateDelete } = useMutation({
+  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationKey: ["delete-destination"],
     mutationFn: deleteDestination,
+  });
+  const { mutate: mutateLike, isPending: isPendingLike } = useMutation({
+    mutationKey: ["like-destination"],
+    mutationFn: likeDestination,
+  });
+  const { mutate: mutateCreate, isPending: isPendingCreate } = useMutation({
+    mutationKey: ["create-destination"],
+    mutationFn: createDestination,
+  });
+  const { mutate: mutateEdit, isPending: isPendingEdit } = useMutation({
+    mutationKey: ["edit-destination"],
+    mutationFn: editDestination,
   });
   const handleCardDelete = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -93,33 +80,12 @@ const DestinationsPage: React.FC = () => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
-
     mutateDelete(id, {
       onSuccess: () => {
-        // reFetchDestinationsData();
         dispatch({ type: "delete", payload: { id } });
       },
     });
-    // try {
-    //   const response = await axios.delete(
-    //     `http://localhost:3000/countries/${id}`,
-    //   );
-
-    //   if (response.status === 200 || response.status === 201) {
-    //     dispatch({ type: "delete", payload: { id } });
-    //   }
-    // } catch (error) {
-    //   if (error instanceof Error) {
-    //     console.error("Error deleting card:", error.message);
-    //   } else {
-    //     console.error("An unknown error occurred:", error);
-    //   }
-    // }
   };
-  const { mutate: mutateLike, isPending: isPendingLike } = useMutation({
-    mutationKey: ["like-destination"],
-    mutationFn: likeDestination,
-  });
 
   const handleLikeClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -130,15 +96,12 @@ const DestinationsPage: React.FC = () => {
     const needToUpdateCountry = countryData.country_data.find(
       (country: CountryInterface) => country.id === id,
     );
-
     if (needToUpdateCountry) {
       const newLikes = needToUpdateCountry.likes + 1;
-
       mutateLike(
         { id, payload: { likes: newLikes } },
         {
           onSuccess: () => {
-            // reFetchDestinationsData();
             dispatch({
               type: "like",
               payload: {
@@ -148,29 +111,9 @@ const DestinationsPage: React.FC = () => {
           },
         },
       );
-
-      // try {
-      //   const response = await axios.patch(
-      //     `http://localhost:3000/countries/${id}`,
-      //     { likes: newLikes },
-      //   );
-      //   if (response.status === 200 || response.status === 201) {
-      //     dispatch({
-      //       type: "like",
-      //       payload: {
-      //         id,
-      //       },
-      //     });
-      //   }
-      // } catch (error) {
-      //   console.error("Like error", error);
-      // }
     }
   };
-  const { mutate: mutateCreate, isPending: isPendingCreate } = useMutation({
-    mutationKey: ["create-destination"],
-    mutationFn: createDestination,
-  });
+
   const handleCreateCard = async (
     event: FormEvent<HTMLFormElement>,
     formDataObject: CardFormStateObj,
@@ -205,25 +148,6 @@ const DestinationsPage: React.FC = () => {
         dispatch({ type: "create", payload: { newCardPostRequestResult } });
       },
     });
-
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:3000/countries",
-    //     newCard,
-    //   );
-    //   if (response.status === 200 || response.status === 201) {
-    //     const newCardPostRequestResult = response.data;
-    //     dispatch({ type: "create", payload: { newCardPostRequestResult } });
-    //   } else {
-    //     console.error(response.statusText);
-    //   }
-    // } catch (error) {
-    //   if (error instanceof Error) {
-    //     console.error("Error creating card:", error.message);
-    //   } else {
-    //     console.error("An unknown error occurred:", error);
-    //   }
-    // }
   };
 
   const handleCardEdit = (
@@ -247,7 +171,6 @@ const DestinationsPage: React.FC = () => {
       currencyKa,
       flagURL,
     } = selectedCard[0];
-
     setCardFormState((prevCardFormState) => ({
       ...prevCardFormState,
       countryName,
@@ -263,11 +186,6 @@ const DestinationsPage: React.FC = () => {
     }));
   };
 
-  const { mutate: mutateEdit, isPending: isPendingEdit } = useMutation({
-    mutationKey: ["edit-destination"],
-    mutationFn: editDestination,
-  });
-
   const handleEditClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
@@ -280,7 +198,6 @@ const DestinationsPage: React.FC = () => {
       (country) => country.id === id,
     );
     const updatedCountry = updatedCountryArray[0];
-
     setIsEditingCard((prevIsEditingCard) => !prevIsEditingCard);
 
     mutateEdit(
@@ -301,37 +218,11 @@ const DestinationsPage: React.FC = () => {
         },
       },
     );
-    // try {
-    //   const response = await axios.put(
-    //     `http://localhost:3000/countries/${id}`,
-    //     updatedCountry,
-    //   );
-    //   if (response.status === 200 || response.status === 201) {
-    //     const editRequestResult = response.data;
-    //     dispatch({
-    //       type: "edit",
-    //       payload: {
-    //         id: id,
-    //         updatedCountry: editRequestResult,
-    //       },
-    //     });
-    //   } else {
-    //     console.error(response.statusText);
-    //   }
-
-    //   setCardFormState((prevCardFormState) => ({
-    //     ...prevCardFormState,
-    //     ...formInitialObj,
-    //   }));
-    // } catch (error) {
-    //   if (error instanceof Error) {
-    //     console.error("Error creating card:", error.message);
-    //   } else {
-    //     console.error("An unknown error occurred:", error);
-    //   }
-    // }
   };
 
+  const handleCardSortClick = () => {
+    dispatch({ type: "sort", payload: null });
+  };
   const sortButtonIconToggle = countryData.toggleSort ? (
     <FontAwesomeIcon icon={faArrowDownShortWide} />
   ) : (
@@ -344,6 +235,7 @@ const DestinationsPage: React.FC = () => {
       {sortButtonIconToggle}
     </button>
   );
+
   return (
     <>
       <div className={styles.destination_page_container}>
@@ -383,7 +275,6 @@ const DestinationsPage: React.FC = () => {
                     area={country.area}
                   />
                   <CardFooter
-                    // topAttractions={country.topAttractions}
                     currency={
                       lang === "en" ? country.currency : country.currencyKa
                     }
@@ -391,10 +282,12 @@ const DestinationsPage: React.FC = () => {
                   <CardLikesBox
                     likes={country.likes}
                     countryId={country.id}
-                    isPendingLike={isPendingLike}
                     handleLikeClick={handleLikeClick}
                     handleCardDelete={handleCardDelete}
                     handleCardEdit={handleCardEdit}
+                    isPendingLike={isPendingLike}
+                    isPendingEdit={isPendingEdit}
+                    isPendingDelete={isPendingDelete}
                   />
                 </Card>
               </Link>
