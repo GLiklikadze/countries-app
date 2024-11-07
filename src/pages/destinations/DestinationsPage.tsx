@@ -15,8 +15,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cardReducer } from "./reducer/reducer";
 import CreateCardForm from "./components/CreateCardForm/CreateCardForm";
-import axios from "axios";
 import { formInitialObj } from "./components/CreateCardForm/initialStates";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createDestination,
+  deleteDestination,
+  editDestination,
+  getDestinations,
+  likeDestination,
+} from "@/api/destinations/httpDestinations";
 
 const initialState = {
   country_data: [],
@@ -27,83 +34,83 @@ const DestinationsPage: React.FC = () => {
   const [cardFormState, setCardFormState] =
     useState<CardFormStateObj>(formInitialObj);
   const [isEditingCard, setIsEditingCard] = useState<boolean>(false);
-
+  const { lang } = useParams();
   // console.log("DATA:", countryData);
-  // console.log("FORM:", cardFormState);
+
+  const {
+    data: destinationsData,
+    isLoading: isLoadingDestinationsList,
+    isError: isErrorDestinations,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["destinations-list"],
+    queryFn: getDestinations,
+    retry: 0,
+  });
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/countries")
-      .then((response) =>
-        dispatch({
-          type: "set_countries",
-          payload: { country_data: response.data },
-        }),
-      )
-      .catch((error) => console.error("Error fetching countries", error));
-  }, []);
+    if (isSuccess) {
+      console.log(destinationsData);
+      dispatch({
+        type: "set_countries",
+        payload: { country_data: destinationsData },
+      });
+    }
+  }, [isSuccess, destinationsData, dispatch]);
 
-  const { lang } = useParams();
-
-  const handleCardSortClick = () => {
-    dispatch({ type: "sort", payload: null });
-  };
-
+  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
+    mutationKey: ["delete-destination"],
+    mutationFn: deleteDestination,
+  });
+  const { mutate: mutateLike, isPending: isPendingLike } = useMutation({
+    mutationKey: ["like-destination"],
+    mutationFn: likeDestination,
+  });
+  const { mutate: mutateCreate, isPending: isPendingCreate } = useMutation({
+    mutationKey: ["create-destination"],
+    mutationFn: createDestination,
+  });
+  const { mutate: mutateEdit, isPending: isPendingEdit } = useMutation({
+    mutationKey: ["edit-destination"],
+    mutationFn: editDestination,
+  });
   const handleCardDelete = async (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    try {
-      const response = await axios.delete(
-        `http://localhost:3000/countries/${id}`,
-      );
-
-      if (response.status === 200 || response.status === 201) {
+    mutateDelete(id, {
+      onSuccess: () => {
         dispatch({ type: "delete", payload: { id } });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error deleting card:", error.message);
-      } else {
-        console.error("An unknown error occurred:", error);
-      }
-    }
+      },
+    });
   };
+
   const handleLikeClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    const updatedCountryLike = countryData.country_data.map(
-      (country: CountryInterface) => {
-        if (country.id === id) {
-          return { ...country, likes: country.likes + 1 };
-        }
-        return country;
-      },
+    const needToUpdateCountry = countryData.country_data.find(
+      (country: CountryInterface) => country.id === id,
     );
-    const updatedCountryArray = updatedCountryLike.filter(
-      (country) => country.id === id,
-    );
-    const updatedCountry = updatedCountryArray[0];
-    try {
-      const response = await axios.put(
-        `http://localhost:3000/countries/${id}`,
-        updatedCountry,
-      );
-      if (response.status === 200 || response.status === 201) {
-        dispatch({
-          type: "like",
-          payload: {
-            updatedCountry,
+    if (needToUpdateCountry) {
+      const newLikes = needToUpdateCountry.likes + 1;
+      mutateLike(
+        { id, payload: { likes: newLikes } },
+        {
+          onSuccess: () => {
+            dispatch({
+              type: "like",
+              payload: {
+                id,
+              },
+            });
           },
-        });
-      }
-    } catch (error) {
-      console.error("Like error", error);
+        },
+      );
     }
   };
 
@@ -136,26 +143,13 @@ const DestinationsPage: React.FC = () => {
       flagURL: flagURL || "",
       likes: 0,
     };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/countries",
-        newCard,
-      );
-      if (response.status === 200 || response.status === 201) {
-        const newCardPostRequestResult = response.data;
+    mutateCreate(newCard, {
+      onSuccess: (newCardPostRequestResult: CountryInterface) => {
         dispatch({ type: "create", payload: { newCardPostRequestResult } });
-      } else {
-        console.error(response.statusText);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error creating card:", error.message);
-      } else {
-        console.error("An unknown error occurred:", error);
-      }
-    }
+      },
+    });
   };
+
   const handleCardEdit = (
     event: React.MouseEvent<HTMLButtonElement>,
     id: string,
@@ -177,7 +171,6 @@ const DestinationsPage: React.FC = () => {
       currencyKa,
       flagURL,
     } = selectedCard[0];
-
     setCardFormState((prevCardFormState) => ({
       ...prevCardFormState,
       countryName,
@@ -191,7 +184,6 @@ const DestinationsPage: React.FC = () => {
       flagURL,
       id,
     }));
-    console.log(isEditingCard);
   };
 
   const handleEditClick = async (
@@ -206,51 +198,44 @@ const DestinationsPage: React.FC = () => {
       (country) => country.id === id,
     );
     const updatedCountry = updatedCountryArray[0];
-
     setIsEditingCard((prevIsEditingCard) => !prevIsEditingCard);
-    try {
-      const response = await axios.put(
-        `http://localhost:3000/countries/${id}`,
-        updatedCountry,
-      );
-      if (response.status === 200 || response.status === 201) {
-        const editRequestResult = response.data;
-        dispatch({
-          type: "edit",
-          payload: {
-            id: id,
-            updatedCountry: editRequestResult,
-          },
-        });
-      } else {
-        console.error(response.statusText);
-      }
 
-      setCardFormState((prevCardFormState) => ({
-        ...prevCardFormState,
-        ...formInitialObj,
-      }));
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error creating card:", error.message);
-      } else {
-        console.error("An unknown error occurred:", error);
-      }
-    }
+    mutateEdit(
+      { id, updatedCountry },
+      {
+        onSuccess: (data) => {
+          dispatch({
+            type: "edit",
+            payload: {
+              id: id,
+              updatedCountry: data,
+            },
+          });
+          setCardFormState((prevCardFormState) => ({
+            ...prevCardFormState,
+            ...formInitialObj,
+          }));
+        },
+      },
+    );
   };
 
+  const handleCardSortClick = () => {
+    dispatch({ type: "sort", payload: null });
+  };
   const sortButtonIconToggle = countryData.toggleSort ? (
     <FontAwesomeIcon icon={faArrowDownShortWide} />
   ) : (
     <FontAwesomeIcon icon={faArrowUpWideShort} />
   );
   const sortButton = lang === "en" ? "Sort" : "სორტირება";
-  const showSortButton = countryData.country_data.length > 0 && (
+  const showSortButton = !isLoadingDestinationsList && (
     <button onClick={handleCardSortClick}>
       <span>{sortButton}</span>
       {sortButtonIconToggle}
     </button>
   );
+
   return (
     <>
       <div className={styles.destination_page_container}>
@@ -260,10 +245,15 @@ const DestinationsPage: React.FC = () => {
           setCardFormState={setCardFormState}
           isEditingCard={isEditingCard}
           handleEditClick={handleEditClick}
+          isPendingCreate={isPendingCreate}
         />
-        {showSortButton}
+        {isErrorDestinations ? (
+          <p>Failed to load data from server. Please try again later.</p>
+        ) : (
+          showSortButton
+        )}
         <CardList>
-          {countryData.country_data.length > 0 ? (
+          {!isLoadingDestinationsList ? (
             countryData.country_data.map((country: CountryInterface) => (
               <Link to={`${country.id}`} key={country.id}>
                 <Card key={country.id}>
@@ -285,7 +275,6 @@ const DestinationsPage: React.FC = () => {
                     area={country.area}
                   />
                   <CardFooter
-                    // topAttractions={country.topAttractions}
                     currency={
                       lang === "en" ? country.currency : country.currencyKa
                     }
@@ -296,6 +285,9 @@ const DestinationsPage: React.FC = () => {
                     handleLikeClick={handleLikeClick}
                     handleCardDelete={handleCardDelete}
                     handleCardEdit={handleCardEdit}
+                    isPendingLike={isPendingLike}
+                    isPendingEdit={isPendingEdit}
+                    isPendingDelete={isPendingDelete}
                   />
                 </Card>
               </Link>

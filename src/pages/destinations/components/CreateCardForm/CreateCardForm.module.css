@@ -70,6 +70,9 @@
 .country_form button:hover {
   background-color: rgb(6, 56, 50);
 }
+.country_form > button:disabled {
+  background-color: rgb(166, 159, 159);
+}
 .input_error_msg {
   height: 18px;
   font-size: 10px;

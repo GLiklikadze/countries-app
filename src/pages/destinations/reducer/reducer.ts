@@ -2,7 +2,7 @@ import { CardReducerInitialState, CountryInterface } from "@/types/types";
 
 export type CardReducerAction =
   | { type: "set_countries"; payload: { country_data: CountryInterface[] } }
-  | { type: "like"; payload: { updatedCountry: CountryInterface } }
+  | { type: "like"; payload: { id: string } }
   | { type: "sort"; payload: null }
   | {
       type: "create";
@@ -33,10 +33,11 @@ export const cardReducer = (
   }
   if (action.type === "like") {
     const updatedCountryArray = countryData.country_data.map((country) =>
-      country.id === action.payload.updatedCountry.id
-        ? action.payload.updatedCountry
+      country.id === action.payload.id
+        ? { ...country, likes: country.likes + 1 }
         : country,
     );
+
     return {
       ...countryData,
       country_data: updatedCountryArray,
