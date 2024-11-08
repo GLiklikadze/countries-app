@@ -22,12 +22,12 @@ export const cardReducer = (
     };
   }
   if (action.type === "sort") {
-    const sortedCards = countryData.country_data.sort((a, b) => {
-      return countryData.toggleSort ? b.likes - a.likes : a.likes - b.likes;
-    });
+    // const sortedCards = countryData.country_data.sort((a, b) => {
+    //   return countryData.toggleSort ? b.likes - a.likes : a.likes - b.likes;
+    // });
     return {
       ...countryData,
-      country_data: sortedCards,
+      // country_data: sortedCards,
       toggleSort: !countryData.toggleSort,
     };
   }

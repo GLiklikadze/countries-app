@@ -4,7 +4,7 @@ import CardList from "./components/CardList/CardList";
 import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { FormEvent, useEffect, useReducer, useState } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CardFormStateObj, CountryInterface } from "@/types/types";
@@ -35,6 +35,7 @@ const DestinationsPage: React.FC = () => {
     useState<CardFormStateObj>(formInitialObj);
   const [isEditingCard, setIsEditingCard] = useState<boolean>(false);
   const { lang } = useParams();
+  const [sortSearchParams, setSortSearchParams] = useSearchParams();
   // console.log("DATA:", countryData);
 
   const {
@@ -42,15 +43,17 @@ const DestinationsPage: React.FC = () => {
     isLoading: isLoadingDestinationsList,
     isError: isErrorDestinations,
     isSuccess,
+    refetch: refetchDestinations,
   } = useQuery({
-    queryKey: ["destinations-list"],
-    queryFn: getDestinations,
+    queryKey: ["destinations-list", sortSearchParams.toString()],
+    queryFn: () => getDestinations(sortSearchParams),
     retry: 0,
+    gcTime: 1000 * 60,
+    staleTime: 1000 * 60,
   });
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(destinationsData);
       dispatch({
         type: "set_countries",
         payload: {
@@ -223,20 +226,25 @@ const DestinationsPage: React.FC = () => {
   };
 
   const handleCardSortClick = () => {
-    dispatch({ type: "sort", payload: null });
+    setSortSearchParams({
+      _sort: sortSearchParams.get("_sort") === "likes" ? "-likes" : "likes",
+    });
+    refetchDestinations();
   };
   const sortButtonIconToggle = countryData.toggleSort ? (
     <FontAwesomeIcon icon={faArrowDownShortWide} />
   ) : (
     <FontAwesomeIcon icon={faArrowUpWideShort} />
   );
+
   const sortButton = lang === "en" ? "Sort" : "სორტირება";
-  const showSortButton = !isLoadingDestinationsList && (
-    <button onClick={handleCardSortClick}>
-      <span>{sortButton}</span>
-      {sortButtonIconToggle}
-    </button>
-  );
+  const showSortButton = !isLoadingDestinationsList &&
+    countryData.country_data.length > 0 && (
+      <button onClick={handleCardSortClick}>
+        <span>{sortButton}</span>
+        {sortButtonIconToggle}
+      </button>
+    );
 
   return (
     <>

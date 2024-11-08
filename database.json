@@ -10,21 +10,8 @@
       "area": 3903,
       "currency": "SHP",
       "currencyKa": "SHP",
-      "likes": 0,
+      "likes": 2,
       "id": "0"
-    },
-    {
-      "countryName": "Grenada",
-      "countryNameKa": "Grenada",
-      "flagURL": "https://flagcdn.com/w320/gd.png",
-      "population": 112519,
-      "capitalCity": "St. George's",
-      "capitalCityKa": "St. George's",
-      "area": 344,
-      "currency": "XCD",
-      "currencyKa": "XCD",
-      "likes": 0,
-      "id": "1"
     },
     {
       "countryName": "Swiss Confederation",
@@ -36,7 +23,7 @@
       "area": 41284,
       "currency": "CHF",
       "currencyKa": "CHF",
-      "likes": 0,
+      "likes": 4,
       "id": "2"
     },
     {
@@ -49,7 +36,7 @@
       "area": 71740,
       "currency": "SLL",
       "currencyKa": "SLL",
-      "likes": 0,
+      "likes": 3,
       "id": "3"
     },
     {
@@ -114,7 +101,7 @@
       "area": 47,
       "currency": "NZD",
       "currencyKa": "NZD",
-      "likes": 0,
+      "likes": 8,
       "id": "8"
     },
     {
@@ -140,7 +127,7 @@
       "area": 163610,
       "currency": "TND",
       "currencyKa": "TND",
-      "likes": 0,
+      "likes": 4,
       "id": "10"
     },
     {
@@ -179,7 +166,7 @@
       "area": 1904569,
       "currency": "IDR",
       "currencyKa": "IDR",
-      "likes": 0,
+      "likes": 1,
       "id": "13"
     },
     {
@@ -192,7 +179,7 @@
       "area": 4033,
       "currency": "CVE",
       "currencyKa": "CVE",
-      "likes": 0,
+      "likes": 3,
       "id": "14"
     },
     {
@@ -231,7 +218,7 @@
       "area": 328,
       "currency": "USD",
       "currencyKa": "USD",
-      "likes": 0,
+      "likes": 1,
       "id": "17"
     },
     {
@@ -257,7 +244,7 @@
       "area": 468,
       "currency": "EUR",
       "currencyKa": "EUR",
-      "likes": 0,
+      "likes": 2,
       "id": "19"
     },
     {
@@ -272,19 +259,6 @@
       "currencyKa": "BIF",
       "likes": 0,
       "id": "20"
-    },
-    {
-      "countryName": "Republic of South Africa",
-      "countryNameKa": "Republic of South Africa",
-      "flagURL": "https://flagcdn.com/w320/za.png",
-      "population": 59308690,
-      "capitalCity": "Pretoria",
-      "capitalCityKa": "Pretoria",
-      "area": 1221037,
-      "currency": "ZAR",
-      "currencyKa": "ZAR",
-      "likes": 0,
-      "id": "21"
     },
     {
       "countryName": "French Republic",
@@ -324,19 +298,6 @@
       "currencyKa": "MXN",
       "likes": 0,
       "id": "24"
-    },
-    {
-      "countryName": "Gabonese Republic",
-      "countryNameKa": "Gabonese Republic",
-      "flagURL": "https://flagcdn.com/w320/ga.png",
-      "population": 2225728,
-      "capitalCity": "Libreville",
-      "capitalCityKa": "Libreville",
-      "area": 267668,
-      "currency": "XAF",
-      "currencyKa": "XAF",
-      "likes": 0,
-      "id": "25"
     },
     {
       "countryName": "Commonwealth of the Northern Mariana Islands",

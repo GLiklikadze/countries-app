@@ -1,25 +1,26 @@
 import { CountryInterface } from "@/types/types";
 import { axiosHttpClient } from "../http";
-import { AxiosResponse } from "axios";
 
-export const getDestinations = async (): Promise<CountryInterface[]> => {
+export const getDestinations = async (sortSearchParams: URLSearchParams) => {
+  let sortParams = "";
+  if (sortSearchParams.has("_sort")) {
+    sortParams = `?${sortSearchParams.toString()}`;
+  }
   try {
-    const response: AxiosResponse<CountryInterface[]> =
-      await axiosHttpClient.get("/countries");
-    const data = response.data;
+    const { data } = await axiosHttpClient.get<CountryInterface[]>(
+      `/countries${sortParams}`,
+    );
     return data;
   } catch (error) {
     console.error("Error fetching destinations", error);
     throw new Error("Failed to fetch destinations");
   }
 };
-
-export const deleteDestination = async (
-  id: string,
-): Promise<Partial<CountryInterface>> => {
+export const deleteDestination = async (id: string) => {
   try {
-    const response: AxiosResponse<Partial<CountryInterface>> =
-      await axiosHttpClient.delete(`/countries/${id}`);
+    const response = await axiosHttpClient.delete<Partial<CountryInterface>>(
+      `/countries/${id}`,
+    );
     return response.data;
   } catch (error) {
     console.log("Error Deleting destination", error);
@@ -35,10 +36,12 @@ interface likeDestinationParams {
 export const likeDestination = async ({
   id,
   payload,
-}: likeDestinationParams): Promise<Partial<CountryInterface>> => {
+}: likeDestinationParams) => {
   try {
-    const response: AxiosResponse<CountryInterface> =
-      await axiosHttpClient.patch(`/countries/${id}`, payload);
+    const response = await axiosHttpClient.patch<CountryInterface>(
+      `/countries/${id}`,
+      payload,
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -49,10 +52,12 @@ export const likeDestination = async ({
 
 export const createDestination = async (
   newDestination: Partial<CountryInterface>,
-): Promise<CountryInterface> => {
+) => {
   try {
-    const response: AxiosResponse<CountryInterface> =
-      await axiosHttpClient.post("/countries", newDestination);
+    const response = await axiosHttpClient.post<CountryInterface>(
+      "/countries",
+      newDestination,
+    );
     return response.data;
   } catch (error) {
     console.error("Destination Creating error", error);
@@ -67,9 +72,9 @@ interface editDestinationParams {
 export const editDestination = async ({
   id,
   updatedCountry,
-}: editDestinationParams): Promise<CountryInterface> => {
+}: editDestinationParams) => {
   try {
-    const response: AxiosResponse<CountryInterface> = await axiosHttpClient.put(
+    const response = await axiosHttpClient.put<CountryInterface>(
       `/countries/${id}`,
       updatedCountry,
     );
