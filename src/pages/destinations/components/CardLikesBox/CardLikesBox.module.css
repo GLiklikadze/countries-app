@@ -1,3 +1,10 @@
+.card_likes_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
 .likes_container {
   padding-block: 5px;
   font-weight: 600;
@@ -7,14 +14,15 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  height: 40px;
   padding: 10px 5px;
 }
 .buttons_container > div {
+  height: 80%;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 30px;
+  gap: 15px;
 }
 .like_count {
   color: rgb(238, 200, 10);

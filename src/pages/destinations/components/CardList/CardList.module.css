@@ -1,14 +1,12 @@
 .country_info {
-  /* position: absolute;
-  top: 370px;
-  left: 50px; */
-  max-width: 100%;
+  /* max-width: 100%;
   margin: 35px 0 0 70px;
   display: flex;
   flex-direction: row;
   gap: 30px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
   font-family: "Exo 2", sans-serif;
+  /* height: 700px; */
 }
 .lang_ka {
   font-family: "Noto Sans Georgian", sans-serif;

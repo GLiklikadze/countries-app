@@ -5,7 +5,7 @@ import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { FormEvent, useEffect, useReducer, useState } from "react";
+import { FormEvent, useEffect, useReducer, useRef, useState } from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CardFormStateObj, CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,6 +24,7 @@ import {
   getDestinations,
   likeDestination,
 } from "@/api/destinations/httpDestinations";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 const initialState = {
   country_data: [],
@@ -37,6 +38,17 @@ const DestinationsPage: React.FC = () => {
   const { lang } = useParams();
   const [sortSearchParams, setSortSearchParams] = useSearchParams();
   // console.log("DATA:", countryData);
+  const parentRef = useRef(null);
+
+  const rowVirtualizer = useVirtualizer({
+    count: countryData.country_data.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 150,
+    overscan: 4,
+    gap: 25,
+    paddingStart: 20,
+    paddingEnd: 100,
+  });
 
   const {
     data: destinationsData,
@@ -247,67 +259,99 @@ const DestinationsPage: React.FC = () => {
     );
 
   return (
-    <>
-      <div className={styles.destination_page_container}>
-        <CreateCardForm
-          onSubmit={handleCreateCard}
-          cardFormState={cardFormState}
-          setCardFormState={setCardFormState}
-          isEditingCard={isEditingCard}
-          handleEditClick={handleEditClick}
-          isPendingCreate={isPendingCreate}
-        />
-        {isErrorDestinations ? (
-          <p>Failed to load data from server. Please try again later.</p>
-        ) : (
-          showSortButton
-        )}
-        <CardList>
+    <div
+      className={styles.destination_page_container}
+      ref={parentRef}
+      style={{
+        overflowY: "auto",
+        height: "90vh",
+        width: "100%",
+      }}
+    >
+      <CreateCardForm
+        onSubmit={handleCreateCard}
+        cardFormState={cardFormState}
+        setCardFormState={setCardFormState}
+        isEditingCard={isEditingCard}
+        handleEditClick={handleEditClick}
+        isPendingCreate={isPendingCreate}
+      />
+      {isErrorDestinations ? (
+        <p>Failed to load data from server. Please try again later.</p>
+      ) : (
+        showSortButton
+      )}
+
+      <CardList>
+        <div
+          className={styles.virtualizer_large_inner_element}
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            position: "relative",
+          }}
+        >
           {!isLoadingDestinationsList ? (
-            countryData.country_data.map((country: CountryInterface) => (
-              <Link to={`${country.id}`} key={country.id}>
-                <Card key={country.id}>
-                  <CardHeader
-                    countryName={
-                      lang === "en"
-                        ? country.countryName
-                        : country.countryNameKa
-                    }
-                    flagURL={country.flagURL}
-                  />
-                  <CardContent
-                    population={country.population}
-                    capitalCity={
-                      lang === "en"
-                        ? country.capitalCity
-                        : country.capitalCityKa
-                    }
-                    area={country.area}
-                  />
-                  <CardFooter
-                    currency={
-                      lang === "en" ? country.currency : country.currencyKa
-                    }
-                  />
-                  <CardLikesBox
-                    likes={country.likes}
-                    countryId={country.id}
-                    handleLikeClick={handleLikeClick}
-                    handleCardDelete={handleCardDelete}
-                    handleCardEdit={handleCardEdit}
-                    isPendingLike={isPendingLike}
-                    isPendingEdit={isPendingEdit}
-                    isPendingDelete={isPendingDelete}
-                  />
-                </Card>
-              </Link>
-            ))
+            rowVirtualizer.getVirtualItems().map((virtualItem) => {
+              const country = countryData.country_data[virtualItem.index];
+              if (!country) {
+                return null;
+              }
+              return (
+                <Link
+                  to={`${country.id}`}
+                  key={virtualItem.index}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
+                    width: "85%",
+                    height: `${virtualItem.size}px`,
+                    transform: `translateX(-50%) translateY(${virtualItem.start}px)`,
+                  }}
+                >
+                  <Card>
+                    <CardHeader
+                      countryName={
+                        lang === "en"
+                          ? country.countryName
+                          : country.countryNameKa
+                      }
+                      flagURL={country.flagURL}
+                    />
+                    <CardContent
+                      population={country.population}
+                      capitalCity={
+                        lang === "en"
+                          ? country.capitalCity
+                          : country.capitalCityKa
+                      }
+                      area={country.area}
+                    />
+                    <CardFooter
+                      currency={
+                        lang === "en" ? country.currency : country.currencyKa
+                      }
+                    />
+                    <CardLikesBox
+                      likes={country.likes}
+                      countryId={country.id}
+                      handleLikeClick={handleLikeClick}
+                      handleCardDelete={handleCardDelete}
+                      handleCardEdit={handleCardEdit}
+                      isPendingLike={isPendingLike}
+                      isPendingEdit={isPendingEdit}
+                      isPendingDelete={isPendingDelete}
+                    />
+                  </Card>
+                </Link>
+              );
+            })
           ) : (
             <p>Please Wait, Loading Destinations From Server...</p>
           )}
-        </CardList>
-      </div>
-    </>
+        </div>
+      </CardList>
+    </div>
   );
 };
 

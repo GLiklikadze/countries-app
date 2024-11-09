@@ -3,7 +3,7 @@ import styles from "./CardHeader.module.css";
 
 const CardHeader: React.FC<CardHeaderProps> = ({ countryName, flagURL }) => {
   return (
-    <>
+    <div className={styles.country_header_container}>
       <div className={styles.country_name_container}>
         <h1 className={styles.card_country_name}>{countryName}</h1>
       </div>
@@ -12,7 +12,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({ countryName, flagURL }) => {
         className={styles.card_flag}
         alt={`${countryName}-flag`}
       />
-    </>
+    </div>
   );
 };
 

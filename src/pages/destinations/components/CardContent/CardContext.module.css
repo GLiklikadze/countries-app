@@ -1,0 +1,15 @@
+.card_content_container {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  gap: 10px;
+  width: 16%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+@media only screen and (max-width: 1300px) {
+  .card_content_container {
+    align-items: left;
+  }
+}

@@ -6,22 +6,13 @@ const CardFooter: React.FC<CardFooterProps> = ({
   currency,
 }) => {
   const { lang } = useParams();
-  // const topAttractionsList = (
-  //   <p>
-  //     Top Attractions:&nbsp;
-  //     {topAttractions.map((item, id) => (
-  //       <span key={id}>{`${item},`}</span>
-  //     ))}
-  //   </p>
-  // );
   const currencyLabel = lang === "en" ? "Currency" : "ვალუტა";
   return (
-    <>
-      {/* {topAttractionsList} */}
+    <div>
       <p>
         {currencyLabel}: {currency}
       </p>
-    </>
+    </div>
   );
 };
 

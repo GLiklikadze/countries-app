@@ -51,27 +51,35 @@ const CountryDetailsPage = () => {
       setCountryObj(data as CountryInterface);
     }
   }, [isSuccess, data]);
-
+  const populationLabel = lang === "en" ? "Population" : "მოსახლეობა";
+  const capitalCityLabel = lang === "en" ? "Capital City" : "დედაქალაქი";
+  const areaLabel = lang === "en" ? "Country Area km²" : "ფართობი კმ²";
   let cardDetails;
   if (isLoading) {
     cardDetails = <p>Loading Country Details...</p>;
   } else if (isSuccess) {
     cardDetails = (
-      <>
+      <div>
         <div className={styles.card_details_box}>
           <CardHeader
             countryName={lang === "en" ? countryName : countryNameKa}
             flagURL={flagURL}
           />
-          <CardContent
-            area={area}
-            capitalCity={lang === "en" ? capitalCity : capitalCityKa}
-            population={population}
-          />
+          <div className={styles.card_content_container}>
+            <p>
+              {populationLabel}: {Number(population).toLocaleString()}
+            </p>
+            <p>
+              {capitalCityLabel}: {capitalCity}
+            </p>
+            <p>
+              {areaLabel}: {Number(area).toLocaleString()}
+            </p>
+          </div>
           <CardFooter currency={lang === "en" ? currency : currencyKa} />
         </div>
         <button>Book now</button>
-      </>
+      </div>
     );
   } else if (isError) {
     cardDetails = <p>{error.message}</p>;

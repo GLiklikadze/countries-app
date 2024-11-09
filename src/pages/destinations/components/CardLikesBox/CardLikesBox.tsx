@@ -25,7 +25,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
 
   const likesLabel = lang === "en" ? "Likes" : "მოწონება";
   return (
-    <>
+    <div className={styles.card_likes_container}>
       <div className={styles.likes_container}>
         {likesLabel}: <span className={styles.like_count}>{likes}</span>
       </div>
@@ -60,7 +60,7 @@ const CardLikesBox: React.FC<CardLikesBoxProps> = ({
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

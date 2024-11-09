@@ -1,5 +1,6 @@
 import { CardContentProps } from "@/types/types";
 import { useParams } from "react-router-dom";
+import styles from "./CardContext.module.css";
 
 const CardContent: React.FC<CardContentProps> = ({
   population,
@@ -11,7 +12,7 @@ const CardContent: React.FC<CardContentProps> = ({
   const capitalCityLabel = lang === "en" ? "Capital City" : "დედაქალაქი";
   const areaLabel = lang === "en" ? "Country Area km²" : "ფართობი კმ²";
   return (
-    <>
+    <div className={styles.card_content_container}>
       <p>
         {populationLabel}: {Number(population).toLocaleString()}
       </p>
@@ -21,7 +22,7 @@ const CardContent: React.FC<CardContentProps> = ({
       <p>
         {areaLabel}: {Number(area).toLocaleString()}
       </p>
-    </>
+    </div>
   );
 };
 
