@@ -1,32 +1,6 @@
 {
   "countries": [
     {
-      "countryName": "South Georgia and the South Sandwich Islands",
-      "countryNameKa": "South Georgia and the South Sandwich Islands",
-      "flagURL": "https://flagcdn.com/w320/gs.png",
-      "population": 30,
-      "capitalCity": "King Edward Point",
-      "capitalCityKa": "King Edward Point",
-      "area": 3903,
-      "currency": "SHP",
-      "currencyKa": "SHP",
-      "likes": 2,
-      "id": "0"
-    },
-    {
-      "countryName": "Swiss Confederation",
-      "countryNameKa": "Swiss Confederation",
-      "flagURL": "https://flagcdn.com/w320/ch.png",
-      "population": 8654622,
-      "capitalCity": "Bern",
-      "capitalCityKa": "Bern",
-      "area": 41284,
-      "currency": "CHF",
-      "currencyKa": "CHF",
-      "likes": 4,
-      "id": "2"
-    },
-    {
       "countryName": "Republic of Sierra Leone",
       "countryNameKa": "Republic of Sierra Leone",
       "flagURL": "https://flagcdn.com/w320/sl.png",
@@ -38,19 +12,6 @@
       "currencyKa": "SLL",
       "likes": 3,
       "id": "3"
-    },
-    {
-      "countryName": "Hungary",
-      "countryNameKa": "Hungary",
-      "flagURL": "https://flagcdn.com/w320/hu.png",
-      "population": 9749763,
-      "capitalCity": "Budapest",
-      "capitalCityKa": "Budapest",
-      "area": 93028,
-      "currency": "HUF",
-      "currencyKa": "HUF",
-      "likes": 0,
-      "id": "4"
     },
     {
       "countryName": "Republic of China (Taiwan)",

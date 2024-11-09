@@ -59,9 +59,9 @@ const DestinationsPage: React.FC = () => {
   } = useQuery({
     queryKey: ["destinations-list", sortSearchParams.toString()],
     queryFn: () => getDestinations(sortSearchParams),
-    retry: 0,
-    gcTime: 1000 * 60,
-    staleTime: 1000 * 60,
+    retry: 1,
+    // gcTime: 1000 * 60,
+    // staleTime: 1000 * 60,
   });
 
   useEffect(() => {

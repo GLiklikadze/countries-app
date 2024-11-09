@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import CardHeader from "../../components/CardHeader/CardHeader";
-import CardContent from "../../components/CardContent/CardContent";
 import CardFooter from "../../components/CardFooter/CardFooter";
 import { CountryInterface } from "@/types/types";
 import styles from "./CountryDetailsPage.module.css";
@@ -54,6 +53,7 @@ const CountryDetailsPage = () => {
   const populationLabel = lang === "en" ? "Population" : "მოსახლეობა";
   const capitalCityLabel = lang === "en" ? "Capital City" : "დედაქალაქი";
   const areaLabel = lang === "en" ? "Country Area km²" : "ფართობი კმ²";
+  const capCity = lang === "en" ? capitalCity : capitalCityKa;
   let cardDetails;
   if (isLoading) {
     cardDetails = <p>Loading Country Details...</p>;
@@ -70,7 +70,7 @@ const CountryDetailsPage = () => {
               {populationLabel}: {Number(population).toLocaleString()}
             </p>
             <p>
-              {capitalCityLabel}: {capitalCity}
+              {capitalCityLabel}: {capCity}
             </p>
             <p>
               {areaLabel}: {Number(area).toLocaleString()}

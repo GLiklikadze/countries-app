@@ -1,7 +1,7 @@
 import axios, { CreateAxiosDefaults } from "axios";
 
 const axiosConfig: CreateAxiosDefaults = {
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
 };
 const axiosRestCountriesConfig: CreateAxiosDefaults = {
   baseURL: import.meta.env.VITE_SEED_URL,
