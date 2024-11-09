@@ -299,7 +299,7 @@ const DestinationsPage: React.FC = () => {
               return (
                 <Link
                   to={`${country.id}`}
-                  key={virtualItem.index}
+                  key={country.id}
                   style={{
                     position: "absolute",
                     top: 0,
