@@ -15,7 +15,6 @@ export const getDestinations = async (
     : `?${offsetParam}`;
 
   try {
-    console.log(queryParams);
     const { data } = await axiosHttpClient.get<CountryInterface[]>(
       `/countries${queryParams}`,
     );
@@ -56,7 +55,6 @@ export const likeDestination = async ({
       `/countries/${id}`,
       payload,
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log("Error to Like destination", error);
