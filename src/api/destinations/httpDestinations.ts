@@ -1,21 +1,52 @@
 import { CountryInterface } from "@/types/types";
 import { axiosHttpClient } from "../http";
 
-export const getDestinations = async (sortSearchParams: URLSearchParams) => {
+// export const getDestinations = async (sortSearchParams: URLSearchParams) => {
+//   let sortParams = "";
+//   if (sortSearchParams.has("_sort")) {
+//     sortParams = `?${sortSearchParams.toString()}`;
+//   }
+//   try {
+//     const { data } = await axiosHttpClient.get<CountryInterface[]>(
+//       `/countries${sortParams}`,
+//     );
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching destinations", error);
+//     throw new Error("Failed to fetch destinations");
+//   }
+// };
+
+export const getDestinations = async (
+  offset: number = 0,
+  sortSearchParams: URLSearchParams,
+) => {
   let sortParams = "";
   if (sortSearchParams.has("_sort")) {
-    sortParams = `?${sortSearchParams.toString()}`;
+    sortParams = `${sortSearchParams.toString()}`;
   }
+  const offsetParam = `_page=${offset}`;
+  const queryParams = sortParams
+    ? `?${sortParams}&${offsetParam}`
+    : `?${offsetParam}`;
+
   try {
+    console.log(queryParams);
     const { data } = await axiosHttpClient.get<CountryInterface[]>(
-      `/countries${sortParams}`,
+      `/countries${queryParams}`,
     );
-    return data;
+    console.log("Fetched data: ", data);
+
+    return {
+      data,
+      nextOffset: offset + 1,
+    };
   } catch (error) {
-    console.error("Error fetching destinations", error);
-    throw new Error("Failed to fetch destinations");
+    console.error("Error fetching destination details", error);
+    return { data: [], nextOffset: undefined };
   }
 };
+
 export const deleteDestination = async (id: string) => {
   try {
     const response = await axiosHttpClient.delete<Partial<CountryInterface>>(

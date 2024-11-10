@@ -5,7 +5,14 @@ import CardHeader from "./components/CardHeader/CardHeader";
 import CardContent from "./components/CardContent/CardContent";
 import CardFooter from "./components/CardFooter/CardFooter";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { FormEvent, useEffect, useReducer, useRef, useState } from "react";
+import {
+  FormEvent,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import CardLikesBox from "./components/CardLikesBox/CardLikesBox";
 import { CardFormStateObj, CountryInterface } from "@/types/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +23,7 @@ import {
 import { cardReducer } from "./reducer/reducer";
 import CreateCardForm from "./components/CreateCardForm/CreateCardForm";
 import { formInitialObj } from "./components/CreateCardForm/initialStates";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import {
   createDestination,
   deleteDestination,
@@ -38,10 +45,30 @@ const DestinationsPage: React.FC = () => {
   const { lang } = useParams();
   const [sortSearchParams, setSortSearchParams] = useSearchParams();
   // console.log("DATA:", countryData);
+
   const parentRef = useRef(null);
+  const {
+    data,
+    isSuccess,
+    isLoading: isLoadingDestinationsList,
+    isError: isErrorDestinations,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["destinations", sortSearchParams.toString()],
+    queryFn: ({ pageParam = 0 }) =>
+      getDestinations(pageParam, sortSearchParams),
+    getNextPageParam: (lastGroup) => lastGroup.nextOffset,
+    initialPageParam: 0,
+  });
+
+  const allRows = useMemo(() => {
+    return data ? data.pages.flatMap((d) => d.data) : [];
+  }, [data]);
 
   const rowVirtualizer = useVirtualizer({
-    count: countryData.country_data.length,
+    count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 150,
     overscan: 4,
@@ -50,30 +77,52 @@ const DestinationsPage: React.FC = () => {
     paddingEnd: 100,
   });
 
-  const {
-    data: destinationsData,
-    isLoading: isLoadingDestinationsList,
-    isError: isErrorDestinations,
-    isSuccess,
-    refetch: refetchDestinations,
-  } = useQuery({
-    queryKey: ["destinations-list", sortSearchParams.toString()],
-    queryFn: () => getDestinations(sortSearchParams),
-    retry: 1,
-    // gcTime: 1000 * 60,
-    // staleTime: 1000 * 60,
-  });
+  // const {
+  //   data: destinationsData,
+  //   isLoading: isLoadingDestinationsList,
+  //   isError: isErrorDestinations,
+  //   isSuccess,
+  //   // refetch: refetchDestinations,
+  // } = useQuery({
+  //   queryKey: ["destinations-list", sortSearchParams.toString()],
+  //   queryFn: () => getDestinations(sortSearchParams),
+  //   retry: 1,
+  //   // gcTime: 1000 * 60,
+  //   // staleTime: 1000 * 60,
+  // });
 
   useEffect(() => {
     if (isSuccess) {
       dispatch({
         type: "set_countries",
         payload: {
-          country_data: Array.isArray(destinationsData) ? destinationsData : [],
+          country_data: allRows,
         },
       });
     }
-  }, [isSuccess, destinationsData, dispatch]);
+  }, [isSuccess, allRows, dispatch]);
+
+  useEffect(() => {
+    const virtualItems = rowVirtualizer.getVirtualItems();
+    const [lastItem] = [...virtualItems].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+    if (
+      lastItem.index >= allRows.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    rowVirtualizer,
+  ]);
 
   const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationKey: ["delete-destination"],
@@ -238,10 +287,14 @@ const DestinationsPage: React.FC = () => {
   };
 
   const handleCardSortClick = () => {
+    const currentOrder = sortSearchParams.get("_order");
+    const newOrder = currentOrder === "asc" ? "desc" : "asc";
+
     setSortSearchParams({
-      _sort: sortSearchParams.get("_sort") === "likes" ? "-likes" : "likes",
+      ...sortSearchParams,
+      _sort: "likes",
+      _order: newOrder,
     });
-    refetchDestinations();
   };
   const sortButtonIconToggle = countryData.toggleSort ? (
     <FontAwesomeIcon icon={faArrowDownShortWide} />
@@ -293,58 +346,68 @@ const DestinationsPage: React.FC = () => {
           {!isLoadingDestinationsList ? (
             rowVirtualizer.getVirtualItems().map((virtualItem) => {
               const country = countryData.country_data[virtualItem.index];
+              const isLoaderRow = virtualItem.index > allRows.length - 1;
+              // const country = allRows[virtualItem.index];
               if (!country) {
                 return null;
               }
-              return (
-                <Link
-                  to={`${country.id}`}
-                  key={country.id}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: "50%",
-                    width: "85%",
-                    height: `${virtualItem.size}px`,
-                    transform: `translateX(-50%) translateY(${virtualItem.start}px)`,
-                  }}
-                >
-                  <Card>
-                    <CardHeader
-                      countryName={
-                        lang === "en"
-                          ? country.countryName
-                          : country.countryNameKa
-                      }
-                      flagURL={country.flagURL}
-                    />
-                    <CardContent
-                      population={country.population}
-                      capitalCity={
-                        lang === "en"
-                          ? country.capitalCity
-                          : country.capitalCityKa
-                      }
-                      area={country.area}
-                    />
-                    <CardFooter
-                      currency={
-                        lang === "en" ? country.currency : country.currencyKa
-                      }
-                    />
-                    <CardLikesBox
-                      likes={country.likes}
-                      countryId={country.id}
-                      handleLikeClick={handleLikeClick}
-                      handleCardDelete={handleCardDelete}
-                      handleCardEdit={handleCardEdit}
-                      isPendingLike={isPendingLike}
-                      isPendingEdit={isPendingEdit}
-                      isPendingDelete={isPendingDelete}
-                    />
-                  </Card>
-                </Link>
-              );
+              if (isLoaderRow) {
+                if (hasNextPage) {
+                  return "Loading more...";
+                } else {
+                  return "Nothing more to load";
+                }
+              } else {
+                return (
+                  <Link
+                    to={`${country.id}`}
+                    key={virtualItem.key}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: "50%",
+                      width: "85%",
+                      height: `${virtualItem.size}px`,
+                      transform: `translateX(-50%) translateY(${virtualItem.start}px)`,
+                    }}
+                  >
+                    <Card>
+                      <CardHeader
+                        countryName={
+                          lang === "en"
+                            ? country.countryName
+                            : country.countryNameKa
+                        }
+                        flagURL={country.flagURL}
+                      />
+                      <CardContent
+                        population={country.population}
+                        capitalCity={
+                          lang === "en"
+                            ? country.capitalCity
+                            : country.capitalCityKa
+                        }
+                        area={country.area}
+                      />
+                      <CardFooter
+                        currency={
+                          lang === "en" ? country.currency : country.currencyKa
+                        }
+                      />
+                      <CardLikesBox
+                        likes={country.likes}
+                        countryId={country.id}
+                        handleLikeClick={handleLikeClick}
+                        handleCardDelete={handleCardDelete}
+                        handleCardEdit={handleCardEdit}
+                        isPendingLike={isPendingLike}
+                        isPendingEdit={isPendingEdit}
+                        isPendingDelete={isPendingDelete}
+                      />
+                    </Card>
+                  </Link>
+                );
+              }
             })
           ) : (
             <p>Please Wait, Loading Destinations From Server...</p>
