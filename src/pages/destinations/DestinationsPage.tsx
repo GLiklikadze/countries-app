@@ -65,8 +65,6 @@ const DestinationsPage: React.FC = () => {
     initialPageParam: 0,
     retry: 1,
   });
-
-  console.log("hasNextPage:", hasNextPage);
   const allRows = useMemo(() => {
     return data ? data.pages.flatMap((d) => d.data) : [];
   }, [data]);
@@ -257,7 +255,6 @@ const DestinationsPage: React.FC = () => {
     );
     const updatedCountry = updatedCountryArray[0];
     setIsEditingCard((prevIsEditingCard) => !prevIsEditingCard);
-
     mutateEdit(
       { id, updatedCountry },
       {
@@ -281,7 +278,6 @@ const DestinationsPage: React.FC = () => {
   const handleCardSortClick = () => {
     const currentOrder = sortSearchParams.get("_order");
     const newOrder = currentOrder === "asc" ? "desc" : "asc";
-
     setSortSearchParams({
       ...sortSearchParams,
       _sort: "likes",
@@ -302,7 +298,6 @@ const DestinationsPage: React.FC = () => {
         {sortButtonIconToggle}
       </button>
     );
-
   return (
     <div
       className={styles.destination_page_container}
@@ -326,7 +321,6 @@ const DestinationsPage: React.FC = () => {
       ) : (
         showSortButton
       )}
-
       <CardList>
         <div
           className={styles.virtualizer_large_inner_element}
@@ -337,17 +331,13 @@ const DestinationsPage: React.FC = () => {
         >
           {!isLoadingDestinationsList ? (
             rowVirtualizer.getVirtualItems().map((virtualItem) => {
-              const country = countryData.country_data[virtualItem.index];
-              const isLoaderRow = virtualItem.index > allRows.length - 1;
-              // const country = allRows[virtualItem.index];
-              if (!country) {
-                return null;
-              }
+              const country = countryData.country_data[virtualItem.index] || [];
+              const isLoaderRow = virtualItem.index > allRows.length + 1;
               if (isLoaderRow) {
                 if (hasNextPage) {
-                  return "Loading more...";
+                  return <p>Loading more...</p>;
                 } else {
-                  return "Nothing more to load";
+                  return <p>Nothing more to load</p>;
                 }
               } else {
                 return (

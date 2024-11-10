@@ -1,22 +1,6 @@
 import { CountryInterface } from "@/types/types";
 import { axiosHttpClient } from "../http";
 
-// export const getDestinations = async (sortSearchParams: URLSearchParams) => {
-//   let sortParams = "";
-//   if (sortSearchParams.has("_sort")) {
-//     sortParams = `?${sortSearchParams.toString()}`;
-//   }
-//   try {
-//     const { data } = await axiosHttpClient.get<CountryInterface[]>(
-//       `/countries${sortParams}`,
-//     );
-//     return data;
-//   } catch (error) {
-//     console.error("Error fetching destinations", error);
-//     throw new Error("Failed to fetch destinations");
-//   }
-// };
-
 export const getDestinations = async (
   offset: number = 0,
   sortSearchParams: URLSearchParams,
@@ -36,7 +20,6 @@ export const getDestinations = async (
       `/countries${queryParams}`,
     );
     console.log("Fetched data: ", data);
-
     return {
       data,
       nextOffset: offset + 1,
