@@ -59,10 +59,14 @@ const DestinationsPage: React.FC = () => {
     queryKey: ["destinations", sortSearchParams.toString()],
     queryFn: ({ pageParam = 0 }) =>
       getDestinations(pageParam, sortSearchParams),
-    getNextPageParam: (lastGroup) => lastGroup.nextOffset,
+    getNextPageParam: (lastGroup) => {
+      return lastGroup.data.length > 0 ? lastGroup.nextOffset : undefined;
+    },
     initialPageParam: 0,
+    retry: 1,
   });
 
+  console.log("hasNextPage:", hasNextPage);
   const allRows = useMemo(() => {
     return data ? data.pages.flatMap((d) => d.data) : [];
   }, [data]);
@@ -76,20 +80,6 @@ const DestinationsPage: React.FC = () => {
     paddingStart: 20,
     paddingEnd: 100,
   });
-
-  // const {
-  //   data: destinationsData,
-  //   isLoading: isLoadingDestinationsList,
-  //   isError: isErrorDestinations,
-  //   isSuccess,
-  //   // refetch: refetchDestinations,
-  // } = useQuery({
-  //   queryKey: ["destinations-list", sortSearchParams.toString()],
-  //   queryFn: () => getDestinations(sortSearchParams),
-  //   retry: 1,
-  //   // gcTime: 1000 * 60,
-  //   // staleTime: 1000 * 60,
-  // });
 
   useEffect(() => {
     if (isSuccess) {
@@ -121,6 +111,8 @@ const DestinationsPage: React.FC = () => {
     fetchNextPage,
     allRows.length,
     isFetchingNextPage,
+    // eslint-disable-next-line
+    rowVirtualizer.getVirtualItems(),
     rowVirtualizer,
   ]);
 
